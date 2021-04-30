@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/bloc/movie_bloc.dart';
+import 'package:flutter_app/bloc/movie_state.dart';
 // import 'package:flutter_movi_demo/bloc/block_provider.dart';
 // import 'package:flutter_movi_demo/bloc/fetch_movie_bloc.dart';
 import 'package:flutter_app/ui/home_page_screen.dart';
@@ -13,7 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'New Movie',
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(title: 'New Movie')
+      home: BlocProvider(create: (BuildContext context) => MovieBloc(AnotherPageState(pageNumber: 1)),
+          child: HomeScreen(title: 'New Movie'))
     );
   }
 

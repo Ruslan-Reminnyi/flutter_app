@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_details_model.dart';
 import 'package:flutter_app/data/movie_genres_model.dart';
@@ -38,11 +39,12 @@ class _MovieContainerState extends State<MovieContainer> {
 
   @override
   Widget build(BuildContext context) {
+    var isLoading = true;
     return GestureDetector(
       onTap: () {
 
           Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text("Details Screen"),
+            content: Text("Details Screen ${widget.movieModel?.genres}"),
           ));
 
         // Navigator.push(
@@ -71,7 +73,9 @@ class _MovieContainerState extends State<MovieContainer> {
                     height: 5,
                   ),
                   Text(
-                    '${widget.movieModel?.original_title}',
+                    widget.movieModel?.original_title != null
+                        ? '${widget.movieModel?.original_title}'
+                        : '${widget.movieModel?.original_name}',
                     style: TextStyle(
                         fontSize: 18,
                         color: Colors.white
@@ -80,14 +84,16 @@ class _MovieContainerState extends State<MovieContainer> {
                   SizedBox(
                     height: 15,
                   ),
-                  Expanded(
-                    child: ClipRRect(
+                  Stack(
+                    children: [
+                    ClipRRect(
                       borderRadius: BorderRadius.circular(5.0),
                       child: Image.network(
                         "https://image.tmdb.org/t/p/original${widget.movieModel?.backdrop_path}",
                         fit: BoxFit.cover,
                       ),
                     ),
+                    ],
                   ),
                 ],
               ),
@@ -148,27 +154,13 @@ class _MovieContainerState extends State<MovieContainer> {
                             future: _api.getGenresOfMovies(),
                             builder: (ctx, snapshot) {
                               if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                                var genresNumbersOfCurrentMovie = widget.movieModel?.genres?.length as num;
-                                var genresNumbers = snapshot.data?.genres?.length as num;
-                                var buffer = StringBuffer();
-                                String separator = ", ";
-                                String? genresNames;
 
-                                for (var i = 0; i < genresNumbersOfCurrentMovie; i++) {
-                                  for (var j = 0; j < genresNumbers; j++) {
+                                final allGenresList = snapshot.data?.genres;
+                                final genresOfCurrentMovie = widget.movieModel?.genres;
 
-                                    if(widget.movieModel?.genres?[i]  ==
-                                        snapshot.data?.genres?[j].id) {
-                                      buffer.write(snapshot?.data?.genres?[j]?.name);
-                                      if(i != genresNumbersOfCurrentMovie-1) {
-                                        buffer.write(separator);
-                                      }
-                                      }
-
-                                  }
-                                }
-
-                                genresNames = buffer.toString();
+                                var genresNames = allGenresList?.where((item)
+                                => genresOfCurrentMovie!.contains(item.id))
+                                    .map((e) => e.name).join(", ");
 
                                 return Text(
                                     "$genresNames",
@@ -188,8 +180,7 @@ class _MovieContainerState extends State<MovieContainer> {
                     ),
                   ),
             ],
-          ),
-      ),
-        );
+          )));
+
   }
 }

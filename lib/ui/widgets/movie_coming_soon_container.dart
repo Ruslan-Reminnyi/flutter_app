@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/networking/api.dart';
 import 'package:flutter_app/networking/response/list_genres_response.dart';
@@ -32,7 +33,7 @@ class _MovieComingSoonContainerState extends State<MovieComingSoonContainer> {
     return GestureDetector(
       onTap: () {
         Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text("Details Screen"),
+          content: Text("Details Screen ${widget.movieModel?.genres}"),
         ));
         // Navigator.push(
         //   context,
@@ -76,27 +77,13 @@ class _MovieComingSoonContainerState extends State<MovieComingSoonContainer> {
                           future: _api.getGenresOfMovies(),
                           builder: (ctx, snapshot) {
                             if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                              var genresNumbersOfCurrentMovie = widget.movieModel?.genres?.length as num;
-                              var allGenresNumbers = snapshot.data?.genres?.length as num;
-                              var buffer = StringBuffer();
-                              String separator = ", ";
-                              String? genresNames;
 
-                              for (var i = 0; i < genresNumbersOfCurrentMovie; i++) {
-                                for (var j = 0; j < allGenresNumbers; j++) {
+                              final allGenresList = snapshot.data?.genres;
+                              final genresOfCurrentMovie = widget.movieModel?.genres;
 
-                                  if(widget.movieModel?.genres?[i]  ==
-                                      snapshot.data?.genres?[j].id) {
-                                    buffer.write(snapshot?.data?.genres?[j]?.name);
-                                    if(i != genresNumbersOfCurrentMovie-1) {
-                                      buffer.write(separator);
-                                    }
-                                  }
-
-                                }
-                              }
-
-                              genresNames = buffer.toString();
+                              var genresNames = allGenresList?.where((item)
+                              => genresOfCurrentMovie!.contains(item.id))
+                                  .map((e) => e.name).join(", ");
 
                               return Text(
                                 "$genresNames",
