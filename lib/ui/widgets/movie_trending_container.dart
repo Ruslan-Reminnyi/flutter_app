@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_details_model.dart';
 import 'package:flutter_app/data/movie_genres_model.dart';
@@ -84,16 +83,14 @@ class _MovieContainerState extends State<MovieContainer> {
                   SizedBox(
                     height: 15,
                   ),
-                  Stack(
-                    children: [
-                    ClipRRect(
+                  Expanded(
+                    child: ClipRRect(
                       borderRadius: BorderRadius.circular(5.0),
                       child: Image.network(
                         "https://image.tmdb.org/t/p/original${widget.movieModel?.backdrop_path}",
                         fit: BoxFit.cover,
                       ),
                     ),
-                    ],
                   ),
                 ],
               ),
