@@ -6,178 +6,136 @@ import 'package:flutter_app/networking/api.dart';
 import 'package:flutter_app/networking/response/list_genres_response.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class MovieContainer extends StatefulWidget {
-  final MovieModel? movieModel;
-  final int number;
+class MovieContainer extends StatelessWidget {
 
-  const MovieContainer({
+  final int number;
+  final MovieModel? movieModel;
+  final String? genres;
+  final String? tagline;
+
+  MovieContainer({
     Key? key,
     required this.number,
     required this.movieModel,
+    required this.genres,
+    required this.tagline,
   }) : super(key: key);
 
   @override
-  _MovieContainerState createState() => _MovieContainerState();
-}
-
-class _MovieContainerState extends State<MovieContainer> {
-
-  late int? movieId;
-
-  late Api _api;
-
-  @override
-  void initState() {
-
-  _api = Api();
-
-  movieId = widget.movieModel?.id;
-
-  super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var isLoading = true;
+
     return GestureDetector(
-      onTap: () {
+        onTap: () {
 
           Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text("Details Screen ${widget.movieModel?.genres}"),
+            content: Text("Details Screen ${movieModel?.genres}"),
           ));
 
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (ctx) => DetailsScreen(id: snapshot.id),
-        //   ),
-        // );
-      },
-      child: Container(
-          width: 335,
-          margin: EdgeInsets.fromLTRB(0, 5, 10, 0),
-          child: Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    widget.number < 10 ? '0${widget.number}' : '${widget.number}',
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    widget.movieModel?.original_title != null
-                        ? '${widget.movieModel?.original_title}'
-                        : '${widget.movieModel?.original_name}',
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5.0),
-                      child: Image.network(
-                        "https://image.tmdb.org/t/p/original${widget.movieModel?.backdrop_path}",
-                        fit: BoxFit.cover,
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (ctx) => DetailsScreen(id: snapshot.id),
+          //   ),
+          // );
+        },
+        child: Container(
+            width: 335,
+            margin: EdgeInsets.fromLTRB(0, 5, 10, 0),
+            child: Stack(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      number < 10 ? '0${number}' : '${number}',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey
                       ),
                     ),
-                  ),
-                ],
-              ),
-                  Positioned(
-                    bottom: 10,
-                    left: 10,
-                    child: Container(
-                      width: 325,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              RatingBarIndicator(
-                                rating: widget.movieModel?.rating ?? 0.0,
-                                itemBuilder: (context, index) => Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                                itemCount: 10,
-                                itemSize: 8.0,
-                                unratedColor: Colors.amber.withAlpha(50),
-                                direction: Axis.horizontal,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                "${widget.movieModel?.rating}/10 IMDb",
-                                style: TextStyle(fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          FutureBuilder<MovieDetailsModel>(
-                            future: _api.getDetailsOfMovies(movieId),
-                            builder: (ctx, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                                return Text(
-                                    "${snapshot.data?.tagline}",
-                                    style: TextStyle(fontSize: 14, color: Colors.white),
-                                );
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            },
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          FutureBuilder<ListGenresResponse>(
-                            future: _api.getGenresOfMovies(),
-                            builder: (ctx, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-
-                                final allGenresList = snapshot.data?.genres;
-                                final genresOfCurrentMovie = widget.movieModel?.genres;
-
-                                var genresNames = allGenresList?.where((item)
-                                => genresOfCurrentMovie!.contains(item.id))
-                                    .map((e) => e.name).join(", ");
-
-                                return Text(
-                                    "$genresNames",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10),
-                                );
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            },
-                          ),
-                        ],
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      movieModel?.original_title != null
+                          ? '${movieModel?.original_title}'
+                          : '${movieModel?.original_name}',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white
                       ),
                     ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5.0),
+                        child: Image.network(
+                          "https://image.tmdb.org/t/p/original${movieModel?.backdrop_path}",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  bottom: 10,
+                  left: 10,
+                  child: Container(
+                    width: 325,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            RatingBarIndicator(
+                              rating: movieModel?.rating ?? 0.0,
+                              itemBuilder: (context, index) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 10,
+                              itemSize: 8.0,
+                              unratedColor: Colors.amber.withAlpha(50),
+                              direction: Axis.horizontal,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "${movieModel?.rating}/10 IMDb",
+                              style: TextStyle(fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "$tagline",
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "$genres",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                      ],
+                    ),
                   ),
-            ],
-          )));
+                ),
+              ],
+            )));
 
   }
 }

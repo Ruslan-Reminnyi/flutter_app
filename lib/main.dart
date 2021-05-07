@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/bloc/movie_bloc.dart';
+import 'package:flutter_app/bloc/upcoming_movie_bloc.dart';
+import 'package:flutter_app/bloc/trending_movie_bloc.dart';
+import 'package:flutter_app/bloc/movie_event.dart';
 import 'package:flutter_app/bloc/movie_state.dart';
+import 'package:flutter_app/networking/api.dart';
+import 'package:flutter_app/networking/response/list_response.dart';
 // import 'package:flutter_movi_demo/bloc/block_provider.dart';
 // import 'package:flutter_movi_demo/bloc/fetch_movie_bloc.dart';
 import 'package:flutter_app/ui/home_page_screen.dart';
@@ -15,8 +19,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'New Movie',
       debugShowCheckedModeBanner: false,
-      home: BlocProvider(create: (BuildContext context) => MovieBloc(AnotherPageState(pageNumber: 1)),
-          child: HomeScreen(title: 'New Movie'))
+      home: MultiBlocProvider(
+        providers: [
+            BlocProvider<TrendingMovieBloc>(
+              create: (BuildContext context) => TrendingMovieBloc()..add(LoadedTrendingPageEvent()),
+            ),
+            BlocProvider<UpcomingMovieBloc>(
+              create: (BuildContext context) => UpcomingMovieBloc()..add(LoadedUpcomingPageEvent()),
+            ),
+          ],
+          child: HomeScreen(title: 'New Movie')),
+
     );
   }
 
