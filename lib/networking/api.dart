@@ -1,8 +1,10 @@
 import 'dart:convert';
-import 'package:flutter_app/data/movie_details_model.dart';
+import 'package:flutter_app/networking/response/credits_response.dart';
+import 'package:flutter_app/networking/response/movie_details_response.dart';
 import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/networking/response/list_genres_response.dart';
+import 'package:flutter_app/networking/response/list_photo_response.dart';
 import 'package:flutter_app/networking/response/list_response.dart';
 import 'package:http/http.dart' as http;
 // import 'package:movie_db/models/moviemodel.dart';
@@ -55,15 +57,51 @@ class Api {
 
   }
 
-  Future<MovieDetailsModel> getDetailsOfMovies(int? movie_id) async {
+  Future<ListPhotoResponse> getPhotosOfMovies(int? movie_id) async {
+
+    final response = await http.get(Uri.parse('$url/movie/$movie_id/images?api_key=$apiKey'));
+
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body);
+      return ListPhotoResponse.fromJson(parsed);
+    }
+    return ListPhotoResponse(id: 0, backdrops: [], posters: []);
+
+  }
+
+  Future<MovieDetailsResponse> getDetailsOfMovies(int? movie_id) async {
 
     final response = await http.get(Uri.parse('$url/movie/$movie_id?api_key=$apiKey'));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
-      return MovieDetailsModel.fromJson(parsed);
+      return MovieDetailsResponse.fromJson(parsed);
     }
-    return MovieDetailsModel(tagline: "");
+    return MovieDetailsResponse(tagline: "");
+
+  }
+
+  Future<CreditsResponse> getCreditsOfMovies(int? movie_id) async {
+
+    final response = await http.get(Uri.parse('$url/movie/$movie_id/credits?api_key=$apiKey'));
+
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body);
+      return CreditsResponse.fromJson(parsed);
+    }
+    return CreditsResponse(id: 0, cast: [], crew: []);
+
+  }
+
+  Future<ListResponse> getSimilarMovies(int? movie_id) async {
+
+    final response = await http.get(Uri.parse('$url/movie/$movie_id/similar?api_key=$apiKey'));
+
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body);
+      return ListResponse.fromJson(parsed);
+    }
+    return ListResponse(page: 0, totalPages: 0, totalResults: 0, movies: []);
 
   }
 

@@ -1,15 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'movie_details_model.dart';
+part of 'photo_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-MovieDetailsModel _$MovieDetailsModelFromJson(Map<String, dynamic> json) {
-  return MovieDetailsModel(
-    tagline: json['tagline'] as String?,
-    imdb_id: json['imdb_id'] as String?,
+PhotoModel _$PhotoModelFromJson(Map<String, dynamic> json) {
+  return PhotoModel(
     id: json['id'] as int?,
+    path: json['file_path'] as String?,
   );
 }

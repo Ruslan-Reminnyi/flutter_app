@@ -6,3 +6,4 @@ class LoadedTrendingPageEvent extends MovieEvent {}
 
 class LoadedUpcomingPageEvent extends MovieEvent {}
 
+class LoadedPhotoPageEvent extends MovieEvent {}

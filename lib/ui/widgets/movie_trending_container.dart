@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/data/movie_details_model.dart';
+import 'package:flutter_app/data/product_companies_model.dart';
+import 'package:flutter_app/networking/response/credits_response.dart';
+import 'package:flutter_app/networking/response/list_response.dart';
+import 'package:flutter_app/networking/response/movie_details_response.dart';
 import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/movie_model.dart';
+import 'package:flutter_app/data/photo_model.dart';
 import 'package:flutter_app/networking/api.dart';
 import 'package:flutter_app/networking/response/list_genres_response.dart';
+import 'package:flutter_app/networking/response/list_photo_response.dart';
+import 'package:flutter_app/ui/screens/another_screen.dart';
+import 'package:flutter_app/ui/screens/details_page_screen.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieContainer extends StatelessWidget {
@@ -12,6 +19,11 @@ class MovieContainer extends StatelessWidget {
   final MovieModel? movieModel;
   final String? genres;
   final String? tagline;
+  final ListPhotoResponse? photos;
+  final MovieDetailsResponse movieDetailsResponse;
+  final CreditsResponse creditsResponse;
+  final ListResponse listResponseSimilarMovies;
+  // final List<String?> listGenresOfSimilarMovies;
 
   MovieContainer({
     Key? key,
@@ -19,6 +31,11 @@ class MovieContainer extends StatelessWidget {
     required this.movieModel,
     required this.genres,
     required this.tagline,
+    required this.photos,
+    required this.movieDetailsResponse,
+    required this.creditsResponse,
+    required this.listResponseSimilarMovies,
+    // required this.listGenresOfSimilarMovies,
   }) : super(key: key);
 
   @override
@@ -31,12 +48,21 @@ class MovieContainer extends StatelessWidget {
             content: Text("Details Screen ${movieModel?.genres}"),
           ));
 
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (ctx) => DetailsScreen(id: snapshot.id),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (ctx) => DetailsScreen(
+                movieModel: movieModel,
+                genres: genres,
+                photos: photos,
+                movieDetailsResponse: movieDetailsResponse,
+                creditsResponse: creditsResponse,
+                listResponseSimilarMovies: listResponseSimilarMovies,
+                // listGenresOfSimilarMovies: listGenresOfSimilarMovies,
+              ),
+              // builder: (ctx) => AnotherScreen(photos: photos,),
+            ),
+          );
         },
         child: Container(
             width: 335,
@@ -134,8 +160,6 @@ class MovieContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            )));
-
+              ])));
   }
 }

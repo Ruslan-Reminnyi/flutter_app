@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/upcoming_movie_bloc.dart';
 import 'package:flutter_app/bloc/trending_movie_bloc.dart';
 import 'package:flutter_app/bloc/movie_state.dart';
-import 'package:flutter_app/data/movie_details_model.dart';
+import 'package:flutter_app/data/product_companies_model.dart';
+import 'package:flutter_app/networking/response/credits_response.dart';
+import 'package:flutter_app/networking/response/movie_details_response.dart';
 import 'package:flutter_app/data/movie_genres_model.dart';
 // import 'package:flutter_app/bloc/bloc_provider.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/networking/api.dart';
 import 'package:flutter_app/networking/response/list_genres_response.dart';
+import 'package:flutter_app/networking/response/list_photo_response.dart';
 import 'package:flutter_app/networking/response/list_response.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_app/ui/widgets/movie_coming_soon_container.dart';
@@ -57,7 +60,10 @@ class HomeScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height / 2.5,
             child: BlocBuilder<TrendingMovieBloc, MovieState>(builder: (context, state) {
               if (state is LoadedTrendingMoviesState) {
-                return _listWidgetsTrendingMovies(state.numbers, state.response, state.genres, state.tagline);
+                return _listWidgetsTrendingMovies(state.numbers, state.response, state.genres, state.tagline
+                    , state.listPhotosResponse, state.listDetailsResponse, state.creditsResponse, state.responseSimilarMovies
+                    // , state.listGenresOfSimilarMovies
+                );
               }
               return LoadingWidget();
             }
@@ -94,7 +100,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _listWidgetsTrendingMovies(List<int> numbers, ListResponse listResponse, List<String?> genres, List<String?> taglines) {
+  Widget _listWidgetsTrendingMovies(List<int> numbers, ListResponse listResponse, List<String?> genres, List<String?> taglines
+      , List<ListPhotoResponse> listPhotoResponse, List<MovieDetailsResponse> listMovieDetailsResponse, List<CreditsResponse> listCreditsResponse
+      , List<ListResponse> listSimilarMoviesResponse
+      // , List<List<String?>> listGenresOfSimilarMovies
+      ) {
     return Expanded(
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -104,6 +114,11 @@ class HomeScreen extends StatelessWidget {
             movieModel: listResponse?.movies?[index],
             genres: genres[index],
             tagline: taglines[index],
+            photos: listPhotoResponse[index],
+            movieDetailsResponse: listMovieDetailsResponse[index],
+            creditsResponse: listCreditsResponse[index],
+            listResponseSimilarMovies: listSimilarMoviesResponse[index],
+            // listGenresOfSimilarMovies: listGenresOfSimilarMovies[index],
           );
         },
       ),
