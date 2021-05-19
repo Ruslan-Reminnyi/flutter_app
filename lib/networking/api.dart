@@ -16,15 +16,10 @@ class Api {
 
   static const url = "https://api.themoviedb.org/3";
   static const apiKey = "c69eb1bac817427a01cf0ea4e1bedeb8";
-
-  //REVIEW there is really no need to define it as constant you use it once in oneplace
-  static const trendingMovies = "trending/all/day";
-  static const upcomingMovies = "movie/upcoming";
-  static const genresOfMovies = "genre/movie/list";
-
+  
   Future<ListResponse> getTrendingMovies(int pageNumber) async {
 
-    final response = await http.get(Uri.parse('$url/${trendingMovies}?api_key=$apiKey&page=$pageNumber'));
+    final response = await http.get(Uri.parse('$url/trending/movie/day?api_key=$apiKey&page=$pageNumber'));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
@@ -36,7 +31,7 @@ class Api {
 
   Future<ListResponse> getUpcomingMovies(int pageNumber) async {
 
-    final response = await http.get(Uri.parse('$url/${upcomingMovies}?api_key=$apiKey&page=$pageNumber'));
+    final response = await http.get(Uri.parse('$url/movie/upcoming?api_key=$apiKey&page=$pageNumber'));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
@@ -48,7 +43,7 @@ class Api {
 
   Future<ListGenresResponse> getGenresOfMovies() async {
 
-    final response = await http.get(Uri.parse('$url/${genresOfMovies}?api_key=$apiKey'));
+    final response = await http.get(Uri.parse('$url/genre/movie/list?api_key=$apiKey'));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
