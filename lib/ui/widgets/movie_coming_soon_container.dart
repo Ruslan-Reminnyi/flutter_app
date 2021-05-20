@@ -39,7 +39,7 @@ class MovieComingSoonContainer extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child: Image.network(
-                  "https://image.tmdb.org/t/p/original${movieModel?.poster_path}",
+                  "https://image.tmdb.org/t/p/original${movieModel?.posterPath}",
                   fit: BoxFit.cover,
                 ),
               ),
@@ -50,7 +50,7 @@ class MovieComingSoonContainer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    movieModel?.original_title ?? '',
+                    movieModel?.originalTitle ?? '',
                     maxLines: 2,
                     style: TextStyle(
                       color: Colors.white,

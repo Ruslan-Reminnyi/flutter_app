@@ -1,9 +1,6 @@
 import 'package:flutter_app/bloc/movie_event.dart';
 import 'package:flutter_app/bloc/movie_state.dart';
-import 'package:flutter_app/networking/response/movie_details_response.dart';
-import 'package:flutter_app/data/photo_model.dart';
 import 'package:flutter_app/networking/api.dart';
-import 'package:flutter_app/networking/response/list_genres_response.dart';
 import 'package:flutter_app/networking/response/list_photo_response.dart';
 import 'package:flutter_app/networking/response/list_response.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

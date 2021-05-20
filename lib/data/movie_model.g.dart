@@ -13,11 +13,11 @@ MovieModel _$MovieModelFromJson(Map<String, dynamic> json) {
     genres:
         (json['genre_ids'] as List<dynamic>?)?.map((e) => e as int).toList(),
     run_time: json['run_time'] as int?,
-    original_title: json['original_title'] as String?,
-    original_name: json['original_name'] as String?,
+    originalTitle: json['original_title'] as String?,
+    originalName: json['original_name'] as String?,
     overview: json['overview'] as String?,
-    poster_path: json['poster_path'] as String?,
-    backdrop_path: json['backdrop_path'] as String?,
+    posterPath: json['poster_path'] as String?,
+    backdropPath: json['backdrop_path'] as String?,
     id: json['id'] as int?,
   );
 }

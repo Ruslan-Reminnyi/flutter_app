@@ -54,7 +54,7 @@ class DetailsScreen extends StatelessWidget {
               Container(
                 height: 430,
                 child: Image.network(
-                  "https://image.tmdb.org/t/p/original${movieModel?.backdrop_path}",
+                  "https://image.tmdb.org/t/p/original${movieModel?.backdropPath}",
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -87,7 +87,7 @@ class DetailsScreen extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(5.0),
                       child: Image.network(
-                        "https://image.tmdb.org/t/p/original${movieModel?.poster_path}",
+                        "https://image.tmdb.org/t/p/original${movieModel?.posterPath}",
                         fit: BoxFit.fitHeight,
                       ),
                     ),
@@ -99,9 +99,9 @@ class DetailsScreen extends StatelessWidget {
                                   padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
                                   child:
                                   Text(
-                                      movieModel?.original_title != null
-                                          ? '${movieModel?.original_title}'
-                                          : '${movieModel?.original_name}',
+                                      movieModel?.originalTitle != null
+                                          ? '${movieModel?.originalTitle}'
+                                          : '${movieModel?.originalName}',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
@@ -121,7 +121,7 @@ class DetailsScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(0.0, 60.0, 20.0, 0.0),
                           child: Image.network(
-                            "https://image.tmdb.org/t/p/original${movieDetailsResponse?.production_companies?[0].logo_path}",
+                            "https://image.tmdb.org/t/p/original${movieDetailsResponse?.production_companies?[0].logoPath}",
                             // fit: BoxFit.fitHeight,
                           ),
                         ),
@@ -376,7 +376,7 @@ class DetailsScreen extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(7.0),
                   child: Image.network(
-                    "https://image.tmdb.org/t/p/original${listResponseSimilarMovies?.movies?[index].poster_path}",
+                    "https://image.tmdb.org/t/p/original${listResponseSimilarMovies?.movies?[index].posterPath}",
                     // fit: BoxFit.contain,
                   ),
                 ),
@@ -387,7 +387,7 @@ class DetailsScreen extends StatelessWidget {
                 width: 150,
                 margin: EdgeInsets.only(top: 15),
                 child: Text(
-                  listResponseSimilarMovies.movies?[index].original_title ?? '',
+                  listResponseSimilarMovies.movies?[index].originalTitle ?? '',
                   maxLines: 2,
                   style: TextStyle(
                     color: Colors.white,
@@ -412,7 +412,7 @@ class DetailsScreen extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(right: 18.0),
           child: Text(
-            listResponseSimilarMovies.movies?[index].original_title ?? '',
+            listResponseSimilarMovies.movies?[index].originalTitle ?? '',
             maxLines: 2,
             style: TextStyle(
               color: Colors.white,

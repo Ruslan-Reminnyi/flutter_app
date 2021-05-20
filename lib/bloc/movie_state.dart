@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_app/data/product_companies_model.dart';
 import 'package:flutter_app/networking/response/credits_response.dart';
-import 'package:flutter_app/networking/response/list_genres_response.dart';
 import 'package:flutter_app/networking/response/list_photo_response.dart';
 import 'package:flutter_app/networking/response/list_response.dart';
 import 'package:flutter_app/networking/response/movie_details_response.dart';

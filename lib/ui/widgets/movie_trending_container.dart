@@ -83,9 +83,9 @@ class MovieContainer extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      movieModel?.original_title != null
-                          ? '${movieModel?.original_title}'
-                          : '${movieModel?.original_name}',
+                      movieModel?.originalTitle != null
+                          ? '${movieModel?.originalTitle}'
+                          : '${movieModel?.originalName}',
                       style: TextStyle(
                           fontSize: 18,
                           color: Colors.white
@@ -98,7 +98,7 @@ class MovieContainer extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(5.0),
                         child: Image.network(
-                          "https://image.tmdb.org/t/p/original${movieModel?.backdrop_path}",
+                          "https://image.tmdb.org/t/p/original${movieModel?.backdropPath}",
                           fit: BoxFit.cover,
                         ),
                       ),
