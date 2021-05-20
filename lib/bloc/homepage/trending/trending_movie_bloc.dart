@@ -1,18 +1,18 @@
 import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/networking/api.dart';
-import 'package:flutter_app/networking/response/credits_response.dart';
-import 'package:flutter_app/networking/response/list_genres_response.dart';
-import 'package:flutter_app/networking/response/list_photo_response.dart';
-import 'package:flutter_app/networking/response/list_response.dart';
-import 'package:flutter_app/networking/response/movie_details_response.dart';
+import 'package:flutter_app/data/list_genres_response.dart';
+import 'package:flutter_app/data/list_response.dart';
+import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'trending_movie_event.dart';
+
 part 'trending_movie_state.dart';
 
 class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   Api _api = Api();
+
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
   TrendingMovieBloc() : super(MovieInitState());
@@ -25,11 +25,11 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   }
 
   //REVIEW I don't see any yeilds. This function is Future by nature too
-  Stream<TrendingMovieState> _loadedTrendingMovies(TrendingMovieEvent movieEvent) async* {
-
+  Stream<TrendingMovieState> _loadedTrendingMovies(
+      TrendingMovieEvent movieEvent) async* {
     yield LoadingState();
 
-    ListResponse listResponseTrending = await _api.getTrendingMovies(1);
+    ListResponse listResponseTrending = await _api.getTrendingMovies();
 
     List<String?> listTaglines = [];
 
@@ -53,10 +53,10 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
       _getGenres(listResponseTrending, allGenresList),
       listTaglines,
     );
-
   }
 
-  List<String?> _getGenres(ListResponse listResponse, List<MovieGenresModel>? allGenresList) {
+  List<String?> _getGenres(
+      ListResponse listResponse, List<MovieGenresModel>? allGenresList) {
     List<String?> genresNames = [];
 
     List<MovieModel>? listMovies = listResponse.movies;
@@ -74,7 +74,8 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     return currentTagline.tagline.toString();
   }
 
-  String? genresToList(MovieModel model, List<MovieGenresModel>? allGenresList) {
+  String? genresToList(
+      MovieModel model, List<MovieGenresModel>? allGenresList) {
     final genresOfCurrentMovie = model.genres;
 
     var names = allGenresList

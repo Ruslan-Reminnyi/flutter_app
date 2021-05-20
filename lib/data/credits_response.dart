@@ -7,13 +7,12 @@ part 'credits_response.g.dart';
 //REVIEW data and networking/response seems to be all DTO models. Why are they in different places?
 @JsonSerializable(createToJson: false)
 class CreditsResponse {
-
   final int? id;
   final List<CastModel>? cast;
   final List<CrewModel>? crew;
 
   CreditsResponse({this.id, this.cast, this.crew});
 
-  factory CreditsResponse.fromJson(Map<String, dynamic> json) => _$CreditsResponseFromJson(json);
-
+  factory CreditsResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreditsResponseFromJson(json);
 }

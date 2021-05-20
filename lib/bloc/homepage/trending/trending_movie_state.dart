@@ -1,7 +1,6 @@
 part of 'trending_movie_bloc.dart';
 
 abstract class TrendingMovieState {
-
   final List<int> numbers;
   final ListResponse response;
   final List<String?> genres;
@@ -22,34 +21,37 @@ abstract class TrendingMovieState {
 }
 
 class MovieInitState extends TrendingMovieState {
-  MovieInitState() : super(
-    numbers: [],
-    response: ListResponse(page: 0, totalPages: 0, totalResults: 0, movies: []),
-    genres: [],
-    tagline: [],
-  );
+  MovieInitState()
+      : super(
+          numbers: [],
+          response:
+              ListResponse(page: 0, totalPages: 0, totalResults: 0, movies: []),
+          genres: [],
+          tagline: [],
+        );
 }
 
 class LoadingState extends TrendingMovieState {
-  LoadingState() : super(
-      numbers: [],
-      response: ListResponse(page: 0, totalPages: 0, totalResults: 0, movies: []),
-      genres: [],
-      tagline: [],
-  );
+  LoadingState()
+      : super(
+          numbers: [],
+          response:
+              ListResponse(page: 0, totalPages: 0, totalResults: 0, movies: []),
+          genres: [],
+          tagline: [],
+        );
 }
 
 class LoadedTrendingMoviesState extends TrendingMovieState {
   LoadedTrendingMoviesState(
-      List<int> numbers,
-      ListResponse response,
-      List<String?> genres,
-      List<String?> tagline,
-      ) : super(
-      numbers: numbers,
-      response: response,
-      genres: genres,
-      tagline: tagline,
-  );
+    List<int> numbers,
+    ListResponse response,
+    List<String?> genres,
+    List<String?> tagline,
+  ) : super(
+          numbers: numbers,
+          response: response,
+          genres: genres,
+          tagline: tagline,
+        );
 }
-

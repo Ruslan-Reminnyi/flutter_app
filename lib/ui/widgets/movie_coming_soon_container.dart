@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_model.dart';
+import 'package:flutter_app/ui/screens/details_page_screen.dart';
 
 class MovieComingSoonContainer extends StatelessWidget {
   final MovieModel? movieModel;
@@ -15,9 +16,20 @@ class MovieComingSoonContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Scaffold.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Details Screen ${movieModel?.genres}"),
         ));
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              //REVIEW has a lot fo data passed in that it shouldn't have
+              builder: (ctx) {
+            return DetailsScreen(
+              id: movieModel?.id,
+            );
+          }),
+        );
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2.75,
@@ -29,7 +41,7 @@ class MovieComingSoonContainer extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child: Image.network(
-                  "https://image.tmdb.org/t/p/original${movieModel?.poster_path}",
+                  "https://image.tmdb.org/t/p/original${movieModel?.posterPath}",
                   fit: BoxFit.cover,
                 ),
               ),
@@ -40,7 +52,7 @@ class MovieComingSoonContainer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    movieModel?.original_title ?? '',
+                    movieModel?.originalTitle ?? '',
                     maxLines: 2,
                     style: TextStyle(
                       color: Colors.white,
