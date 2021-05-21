@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/detailspage/details_movie_bloc.dart';
-import 'package:flutter_app/ui/widgets/details_container.dart';
+import 'package:flutter_app/ui/containers/details_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailsScreen extends StatelessWidget {

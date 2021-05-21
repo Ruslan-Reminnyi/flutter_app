@@ -7,8 +7,6 @@ import 'package:flutter_app/data/list_response.dart';
 import 'package:http/http.dart' as http;
 
 class Api {
-  var httpClient = http.Client();
-
   static const url = "https://api.themoviedb.org/3";
   static const apiKey = "c69eb1bac817427a01cf0ea4e1bedeb8";
 
@@ -58,7 +56,7 @@ class Api {
 
   Future<MovieDetailsResponse> getDetailsOfMovies(int? movieId) async {
     final response =
-        await http.get(Uri.parse('$url/movie/$movieId?api_key=$apiKey'));
+        await http.get(Uri.parse('$url/movie/$movieId?api_key=$apiKey&append_to_response=similar,credits,images'));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);

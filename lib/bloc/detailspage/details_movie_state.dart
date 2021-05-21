@@ -1,7 +1,6 @@
 part of 'details_movie_bloc.dart';
 
 abstract class DetailsMovieState {
-  final String? genres;
   final ListPhotoResponse? photos;
   final MovieDetailsResponse movieDetailsResponse;
   final CreditsResponse creditsResponse;
@@ -9,8 +8,7 @@ abstract class DetailsMovieState {
   final List<String?> genresOfSimilarMovie;
 
   DetailsMovieState(
-      {this.genres,
-      this.photos,
+      {this.photos,
       required this.movieDetailsResponse,
       required this.creditsResponse,
       required this.listResponseSimilarMovies,
@@ -23,7 +21,6 @@ abstract class DetailsMovieState {
 class DetailsMovieInitState extends DetailsMovieState {
   DetailsMovieInitState()
       : super(
-            genres: '',
             photos: ListPhotoResponse(),
             movieDetailsResponse: MovieDetailsResponse(
               id: 0,
@@ -44,7 +41,6 @@ class DetailsMovieInitState extends DetailsMovieState {
 class DetailsLoadingState extends DetailsMovieState {
   DetailsLoadingState()
       : super(
-            genres: '',
             photos: ListPhotoResponse(),
             movieDetailsResponse: MovieDetailsResponse(
                 id: 0,
@@ -64,14 +60,12 @@ class DetailsLoadingState extends DetailsMovieState {
 
 class LoadedDetailsMoviesState extends DetailsMovieState {
   LoadedDetailsMoviesState(
-      String? genres,
       ListPhotoResponse? photos,
       MovieDetailsResponse movieDetailsResponse,
       CreditsResponse creditsResponse,
       ListResponse listResponseSimilarMovies,
       List<String?> genresOfSimilarMovie)
       : super(
-            genres: genres,
             photos: photos,
             movieDetailsResponse: movieDetailsResponse,
             creditsResponse: creditsResponse,

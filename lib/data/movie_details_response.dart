@@ -1,3 +1,4 @@
+import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/product_companies_model.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -6,7 +7,8 @@ part 'movie_details_response.g.dart';
 
 @JsonSerializable(createToJson: false)
 class MovieDetailsResponse {
-  final String? country;
+  @JsonKey(name: 'similar')
+  final ListResponse? listSimilarMovies;
   @JsonKey(name: 'vote_average')
   final double? rating;
   final List<MovieGenresModel>? genres;
@@ -23,8 +25,8 @@ class MovieDetailsResponse {
   final List<ProductionCompaniesModel>? productionCompanies;
   final int? id;
 
-  MovieDetailsResponse(
-      {this.country,
+  MovieDetailsResponse({
+      this.listSimilarMovies,
       this.rating,
       this.genres,
       this.originalTitle,

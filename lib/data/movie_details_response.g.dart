@@ -8,7 +8,6 @@ part of 'movie_details_response.dart';
 
 MovieDetailsResponse _$MovieDetailsResponseFromJson(Map<String, dynamic> json) {
   return MovieDetailsResponse(
-    country: json['country'] as String?,
     rating: (json['vote_average'] as num?)?.toDouble(),
     genres: (json['genres'] as List<dynamic>?)
         ?.map((e) => MovieGenresModel.fromJson(e as Map<String, dynamic>))

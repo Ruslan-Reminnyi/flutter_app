@@ -44,24 +44,11 @@ class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
         await _api.getSimilarMovies(movieEvent.id);
 
     yield LoadedDetailsMoviesState(
-        _getGenres(movieDetailsResponse, allGenresList),
         photoResponse,
         movieDetailsResponse,
         creditsResponse,
         currentListSimilarMovies,
         _getGenresForSimilarMovies(currentListSimilarMovies, allGenresList));
-  }
-
-  String? _getGenres(MovieDetailsResponse movieDetailsResponse,
-      List<MovieGenresModel>? allGenresList) {
-    final genresIds = movieDetailsResponse.genres?.map((e) => e.id);
-
-    var names = allGenresList
-        ?.where((item) => genresIds!.contains(item.id))
-        .map((e) => e.name)
-        .join(", ");
-
-    return names;
   }
 
   List<String?> _getGenresForSimilarMovies(

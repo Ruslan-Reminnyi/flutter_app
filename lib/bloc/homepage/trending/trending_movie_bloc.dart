@@ -68,12 +68,6 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     return genresNames;
   }
 
-  Future<String> getCurrentTagline(int? id) async {
-    MovieDetailsResponse currentTagline = await _api.getDetailsOfMovies(id);
-
-    return currentTagline.tagline.toString();
-  }
-
   String? genresToList(
       MovieModel model, List<MovieGenresModel>? allGenresList) {
     final genresOfCurrentMovie = model.genres;
