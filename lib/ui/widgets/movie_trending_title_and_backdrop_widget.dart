@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_model.dart';
+import 'package:flutter_app/utils.dart';
 
 class MovieTrendingTitleAndBackdropWidget extends StatelessWidget {
   MovieTrendingTitleAndBackdropWidget(
@@ -33,7 +34,7 @@ class MovieTrendingTitleAndBackdropWidget extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5.0),
             child: Image.network(
-              "https://image.tmdb.org/t/p/original${movieModel?.backdropPath}",
+              getImagePath(movieModel?.backdropPath),
               fit: BoxFit.cover,
             ),
           ),

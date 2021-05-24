@@ -9,7 +9,7 @@ class DetailsInfoWidget extends StatelessWidget {
       required this.creditsResponse});
 
   final MovieDetailsResponse movieDetailsResponse;
-  final CreditsResponse creditsResponse;
+  final CreditsResponse? creditsResponse;
 
   @override
   Widget build(BuildContext context) {
@@ -143,15 +143,15 @@ class DetailsInfoWidget extends StatelessWidget {
     return minutes != 0 ? "${hours}h ${minutes}m | " : "${hours}h | ";
   }
 
-  String? getNameOfDirector(CreditsResponse creditsResponse) {
-    var name = creditsResponse.crew
+  String? getNameOfDirector(CreditsResponse? creditsResponse) {
+    var name = creditsResponse?.crew
         ?.firstWhere((element) => element.job == "Director")
         .name;
     return "Director: $name";
   }
 
-  String? getNameOfWriter(CreditsResponse creditsResponse) {
-    var name = creditsResponse.crew
+  String? getNameOfWriter(CreditsResponse? creditsResponse) {
+    var name = creditsResponse?.crew
         ?.firstWhere((element) => element.department == "Writing")
         .name;
     return "Writer: $name";

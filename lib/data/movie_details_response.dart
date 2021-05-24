@@ -1,3 +1,5 @@
+import 'package:flutter_app/data/credits_response.dart';
+import 'package:flutter_app/data/list_photo_response.dart';
 import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/product_companies_model.dart';
@@ -7,6 +9,10 @@ part 'movie_details_response.g.dart';
 
 @JsonSerializable(createToJson: false)
 class MovieDetailsResponse {
+  @JsonKey(name: 'images')
+  final ListPhotoResponse? photoResponse;
+  @JsonKey(name: 'credits')
+  final CreditsResponse? creditsResponse;
   @JsonKey(name: 'similar')
   final ListResponse? listSimilarMovies;
   @JsonKey(name: 'vote_average')
@@ -26,6 +32,8 @@ class MovieDetailsResponse {
   final int? id;
 
   MovieDetailsResponse({
+      this.photoResponse,
+      this.creditsResponse,
       this.listSimilarMovies,
       this.rating,
       this.genres,

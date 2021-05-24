@@ -13,7 +13,6 @@ class MovieTrendingInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 325,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

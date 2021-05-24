@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/list_response.dart';
+import 'package:flutter_app/utils.dart';
 
 class SimilarMoviesWidget extends StatelessWidget {
   SimilarMoviesWidget(
@@ -8,30 +9,30 @@ class SimilarMoviesWidget extends StatelessWidget {
       required this.genresOfSimilarMovie});
 
   final BuildContext context;
-  final ListResponse listResponseSimilarMovies;
+  final ListResponse? listResponseSimilarMovies;
   final List<String?> genresOfSimilarMovie;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 20, top: 825),
-      height: 275,
-      width: 375,
+      margin: EdgeInsets.only(left: 20, top: 815),
+      height: MediaQuery.of(context).size.height / 2.75,
+      width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: listResponseSimilarMovies.movies?.length,
+        itemCount: listResponseSimilarMovies?.movies?.length,
         itemBuilder: (ctx, index) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 150,
+                width: MediaQuery.of(context).size.width / 2.62,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(7.0),
                     child: Image.network(
-                      "https://image.tmdb.org/t/p/original${listResponseSimilarMovies.movies?[index].posterPath}",
+                      getImagePath(listResponseSimilarMovies?.movies?[index].posterPath),
                       // fit: BoxFit.contain,
                     ),
                   ),
@@ -39,10 +40,10 @@ class SimilarMoviesWidget extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width / 2.62,
                   margin: EdgeInsets.only(top: 15),
                   child: Text(
-                    listResponseSimilarMovies.movies?[index].originalTitle ?? '',
+                    listResponseSimilarMovies?.movies?[index].originalTitle ?? '',
                     maxLines: 2,
                     style: TextStyle(
                       color: Colors.white,
@@ -53,7 +54,7 @@ class SimilarMoviesWidget extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width / 2.62,
                   margin: EdgeInsets.only(top: 5),
                   child: Text(
                     genresOfSimilarMovie[index] ?? '',

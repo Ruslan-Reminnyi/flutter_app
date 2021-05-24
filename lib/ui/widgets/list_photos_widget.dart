@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/list_photo_response.dart';
+import 'package:flutter_app/utils.dart';
 
 class ListPhotosWidget extends StatelessWidget {
   ListPhotosWidget({required this.photos});
@@ -9,21 +10,21 @@ class ListPhotosWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 20, top: 450),
-      height: 155,
-      width: 375,
+      margin: EdgeInsets.only(left: 20, top: 455),
+      height: MediaQuery.of(context).size.height / 5,
+      width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: photos?.backdrops?.length,
         itemBuilder: (ctx, index) {
           return Container(
-            width: 280,
+            width: MediaQuery.of(context).size.width / 1.4,
             child: Padding(
               padding: const EdgeInsets.only(right: 10.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Image.network(
-                  "https://image.tmdb.org/t/p/original${photos?.backdrops?[index].path}",
+                  getImagePath(photos?.backdrops?[index].path),
                   fit: BoxFit.contain,
                 ),
               ),

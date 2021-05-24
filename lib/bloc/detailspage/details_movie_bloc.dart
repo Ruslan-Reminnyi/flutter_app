@@ -1,9 +1,7 @@
 import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/networking/api.dart';
-import 'package:flutter_app/data/credits_response.dart';
 import 'package:flutter_app/data/list_genres_response.dart';
-import 'package:flutter_app/data/list_photo_response.dart';
 import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,28 +32,16 @@ class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
     ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
     List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
 
-    ListPhotoResponse? photoResponse =
-        await _api.getPhotosOfMovies(movieEvent.id);
-
-    CreditsResponse creditsResponse =
-        await _api.getCreditsOfMovies(movieEvent.id);
-
-    ListResponse currentListSimilarMovies =
-        await _api.getSimilarMovies(movieEvent.id);
-
     yield LoadedDetailsMoviesState(
-        photoResponse,
         movieDetailsResponse,
-        creditsResponse,
-        currentListSimilarMovies,
-        _getGenresForSimilarMovies(currentListSimilarMovies, allGenresList));
+        _getGenresForSimilarMovies(movieDetailsResponse.listSimilarMovies, allGenresList));
   }
 
   List<String?> _getGenresForSimilarMovies(
-      ListResponse listResponse, List<MovieGenresModel>? allGenresList) {
+      ListResponse? listResponse, List<MovieGenresModel>? allGenresList) {
     List<String?> genresNames = [];
 
-    List<MovieModel>? listMovies = listResponse.movies;
+    List<MovieModel>? listMovies = listResponse?.movies;
 
     listMovies?.forEach((element) {
       genresNames.add(genresToList(element, allGenresList));

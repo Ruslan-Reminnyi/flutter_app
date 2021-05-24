@@ -1,29 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
-import 'package:flutter_app/data/credits_response.dart';
-import 'package:flutter_app/data/list_photo_response.dart';
-import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_app/ui/widgets/details_category_name_widget.dart';
 import 'package:flutter_app/ui/widgets/details_info_widget.dart';
 import 'package:flutter_app/ui/widgets/list_credits_widget.dart';
 import 'package:flutter_app/ui/widgets/list_photos_widget.dart';
 import 'package:flutter_app/ui/widgets/similar_movies_widget.dart';
+import 'package:flutter_app/utils.dart';
 
 class DetailsStackWidget extends StatelessWidget {
   DetailsStackWidget(
       {required this.context,
-      this.photos,
       required this.movieDetailsResponse,
-      required this.creditsResponse,
-      required this.listResponseSimilarMovies,
       required this.genresOfSimilarMovie});
 
   final BuildContext context;
-  final ListPhotoResponse? photos;
   final MovieDetailsResponse movieDetailsResponse;
-  final CreditsResponse creditsResponse;
-  final ListResponse listResponseSimilarMovies;
   final List<String?> genresOfSimilarMovie;
 
   @override
@@ -31,17 +23,17 @@ class DetailsStackWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 430,
+          height: MediaQuery.of(context).size.height / 1.9,
           child: Image.network(
             //REVIEW should have all cases of image link construction as function not placed all over the place apply DRY principle
-            "https://image.tmdb.org/t/p/original${movieDetailsResponse.backdropPath}",
+            getImagePath(movieDetailsResponse.backdropPath),
             fit: BoxFit.fitHeight,
           ),
         ),
         Container(
-          height: 425,
+          height: MediaQuery.of(context).size.height / 2,
           //REVIEW magic numbers
-          width: 400,
+          width: MediaQuery.of(context).size.width,
           //REVIEW magic numbers
           margin: EdgeInsets.only(top: 30),
           padding: EdgeInsets.all(10.0),
@@ -66,14 +58,14 @@ class DetailsStackWidget extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(5.0),
                   child: Image.network(
-                    "https://image.tmdb.org/t/p/original${movieDetailsResponse.posterPath}",
+                    getImagePath(movieDetailsResponse.posterPath),
                     fit: BoxFit.fitHeight,
                   ),
                 ),
                 Expanded(
                   child: DetailsInfoWidget(
                     movieDetailsResponse: movieDetailsResponse,
-                    creditsResponse: creditsResponse,
+                    creditsResponse: movieDetailsResponse.creditsResponse,
                   ),
                 ),
                 Container(
@@ -81,7 +73,7 @@ class DetailsStackWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 60.0, 20.0, 0.0),
                     child: Image.network(
-                      "https://image.tmdb.org/t/p/original${movieDetailsResponse.productionCompanies?[0].logoPath}",
+                      getImagePath(movieDetailsResponse.productionCompanies?[0].logoPath),
                       // fit: BoxFit.fitHeight,
                     ),
                   ),
@@ -91,8 +83,8 @@ class DetailsStackWidget extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(left: 20, top: 348),
-          width: 350,
+          margin: EdgeInsets.only(left: 20, top: 338),
+          width: MediaQuery.of(context).size.width / 1.1,
           child: ShaderMask(
             shaderCallback: (_) => kLinearGradient.createShader(
               Rect.fromLTWH(0, 0, 0, 70),
@@ -111,21 +103,21 @@ class DetailsStackWidget extends StatelessWidget {
           category: 'Photos',
           marginTop: 420,
         ),
-        ListPhotosWidget(photos: photos),
+        ListPhotosWidget(photos: movieDetailsResponse.photoResponse),
         DetailsCategoryNameWidget(
           category: 'Cast',
           marginTop: 635,
         ),
         ListCreditsWidget(
-          creditsResponse: creditsResponse,
+          creditsResponse: movieDetailsResponse.creditsResponse,
         ),
         DetailsCategoryNameWidget(
           category: 'Similar Movies',
-          marginTop: 790,
+          marginTop: 775,
         ),
         SimilarMoviesWidget(
             context: context,
-            listResponseSimilarMovies: listResponseSimilarMovies,
+            listResponseSimilarMovies: movieDetailsResponse.listSimilarMovies,
             genresOfSimilarMovie: genresOfSimilarMovie),
       ],
     );

@@ -8,6 +8,15 @@ part of 'movie_details_response.dart';
 
 MovieDetailsResponse _$MovieDetailsResponseFromJson(Map<String, dynamic> json) {
   return MovieDetailsResponse(
+    photoResponse: json['images'] == null
+        ? null
+        : ListPhotoResponse.fromJson(json['images'] as Map<String, dynamic>),
+    creditsResponse: json['credits'] == null
+        ? null
+        : CreditsResponse.fromJson(json['credits'] as Map<String, dynamic>),
+    listSimilarMovies: json['similar'] == null
+        ? null
+        : ListResponse.fromJson(json['similar'] as Map<String, dynamic>),
     rating: (json['vote_average'] as num?)?.toDouble(),
     genres: (json['genres'] as List<dynamic>?)
         ?.map((e) => MovieGenresModel.fromJson(e as Map<String, dynamic>))

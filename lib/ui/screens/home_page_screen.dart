@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/homepage/upcoming/upcoming_movie_bloc.dart';
 import 'package:flutter_app/bloc/homepage/trending/trending_movie_bloc.dart';
-import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/ui/widgets/list_trending_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/list_upcoming_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
-import 'package:flutter_app/ui/containers/movie_coming_soon_container.dart';
-import 'package:flutter_app/ui/containers/movie_trending_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -73,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 290, //REVIEW magic numbers
+                height: MediaQuery.of(context).size.height / 2.75, //REVIEW magic numbers
                 child: BlocBuilder<UpcomingMovieBloc, UpcomingMovieState>(
                     builder: (context, state) {
                   if (state is LoadedUpcomingMoviesState) {

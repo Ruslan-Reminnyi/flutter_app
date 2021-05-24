@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
+import 'package:flutter_app/utils.dart';
 
 class MovieComingSoonContainer extends StatelessWidget {
   final MovieModel? movieModel;
@@ -41,7 +42,7 @@ class MovieComingSoonContainer extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child: Image.network(
-                  "https://image.tmdb.org/t/p/original${movieModel?.posterPath}",
+                  getImagePath(movieModel?.posterPath),
                   fit: BoxFit.cover,
                 ),
               ),

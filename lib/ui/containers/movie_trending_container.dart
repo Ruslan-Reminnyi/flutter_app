@@ -40,7 +40,7 @@ class MovieContainer extends StatelessWidget {
           );
         },
         child: Container(
-            width: 335,
+            width: MediaQuery.of(context).size.width / 1.17,
             margin: EdgeInsets.fromLTRB(0, 5, 10, 0),
             child: Stack(children: [
               MovieTrendingTitleAndBackdropWidget(

@@ -32,10 +32,7 @@ class DetailsContainer extends StatelessWidget {
         if (state is LoadedDetailsMoviesState) {
           return DetailsStackWidget(
             context: context,
-            photos: state.photos,
             movieDetailsResponse: state.movieDetailsResponse,
-            creditsResponse: state.creditsResponse,
-            listResponseSimilarMovies: state.listResponseSimilarMovies,
             genresOfSimilarMovie: state.genresOfSimilarMovie,
           );
         }
