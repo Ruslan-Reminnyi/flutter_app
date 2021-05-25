@@ -16,19 +16,17 @@ class ListTrendingMoviesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: listResponse.movies?.length,
-        itemBuilder: (ctx, index) {
-          return MovieContainer(
-            number: numbers[index],
-            movieModel: listResponse.movies?[index],
-            genres: genres[index],
-            tagline: taglines[index],
-          );
-        },
-      ),
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: listResponse.movies?.length,
+      itemBuilder: (ctx, index) {
+        return MovieContainer(
+          number: numbers[index],
+          movieModel: listResponse.movies?[index],
+          genres: genres[index],
+          tagline: taglines[index],
+        );
+      },
     );
   }
 }

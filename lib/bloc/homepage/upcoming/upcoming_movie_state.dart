@@ -5,9 +5,6 @@ abstract class UpcomingMovieState {
   final List<String?> genres;
 
   UpcomingMovieState({required this.response, required this.genres});
-
-  @override
-  List get props => [];
 }
 
 class UpcomingMovieInitState extends UpcomingMovieState {

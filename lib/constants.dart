@@ -7,3 +7,11 @@ const LinearGradient kLinearGradient = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
 );
+
+const kSimilarMoviesContainerHeight = 305.0;
+const kSimilarMoviesNamesContainerHeight = 35.0;
+const kListPhotosContainerHeight = 155.0;
+
+const photoDetailsMarginTop = 420.0;
+const castDetailsMarginTop = 635.0;
+const similarDetailsMarginTop = 775.0;

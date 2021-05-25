@@ -14,8 +14,6 @@ abstract class TrendingMovieState {
     required this.tagline,
   });
 
-  @override
-  List get props => [];
 //REVIEW this will cause issues with your state management. Since you don't override it for any decendants.
 //REVIEW Could you explain what is the purpose of using it in
 }

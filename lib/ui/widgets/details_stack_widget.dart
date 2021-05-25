@@ -101,19 +101,19 @@ class DetailsStackWidget extends StatelessWidget {
         ),
         DetailsCategoryNameWidget(
           category: 'Photos',
-          marginTop: 420,
+          marginTop: photoDetailsMarginTop,
         ),
         ListPhotosWidget(photos: movieDetailsResponse.photoResponse),
         DetailsCategoryNameWidget(
           category: 'Cast',
-          marginTop: 635,
+          marginTop: castDetailsMarginTop,
         ),
         ListCreditsWidget(
           creditsResponse: movieDetailsResponse.creditsResponse,
         ),
         DetailsCategoryNameWidget(
           category: 'Similar Movies',
-          marginTop: 775,
+          marginTop: similarDetailsMarginTop,
         ),
         SimilarMoviesWidget(
             context: context,

@@ -5,11 +5,7 @@ abstract class DetailsMovieState {
   final List<String?> genresOfSimilarMovie;
 
   DetailsMovieState(
-      {required this.movieDetailsResponse,
-      required this.genresOfSimilarMovie});
-
-  @override
-  List get props => [];
+      {required this.movieDetailsResponse, required this.genresOfSimilarMovie});
 }
 
 class DetailsMovieInitState extends DetailsMovieState {
@@ -45,8 +41,7 @@ class DetailsLoadingState extends DetailsMovieState {
 }
 
 class LoadedDetailsMoviesState extends DetailsMovieState {
-  LoadedDetailsMoviesState(
-      MovieDetailsResponse movieDetailsResponse,
+  LoadedDetailsMoviesState(MovieDetailsResponse movieDetailsResponse,
       List<String?> genresOfSimilarMovie)
       : super(
             movieDetailsResponse: movieDetailsResponse,

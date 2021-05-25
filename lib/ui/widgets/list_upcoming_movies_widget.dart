@@ -10,17 +10,15 @@ class ListUpcomingMoviesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: listResponse.movies?.length,
-        itemBuilder: (ctx, index) {
-          return MovieComingSoonContainer(
-            movieModel: listResponse.movies?[index],
-            genres: genres[index],
-          );
-        },
-      ),
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: listResponse.movies?.length,
+      itemBuilder: (ctx, index) {
+        return MovieComingSoonContainer(
+          movieModel: listResponse.movies?[index],
+          genres: genres[index],
+        );
+      },
     );
   }
 }

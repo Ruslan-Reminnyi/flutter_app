@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/list_photo_response.dart';
 import 'package:flutter_app/utils.dart';
 
@@ -11,7 +12,7 @@ class ListPhotosWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 20, top: 455),
-      height: MediaQuery.of(context).size.height / 5,
+      height: kListPhotosContainerHeight,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
