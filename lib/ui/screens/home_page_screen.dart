@@ -5,6 +5,7 @@ import 'package:flutter_app/ui/widgets/list_trending_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/list_upcoming_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_app/constants.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -33,7 +34,7 @@ class HomeScreen extends StatelessWidget {
         Container(
           margin: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
           child: SizedBox(
-            height: 30,
+            height: 20,
             child: Divider(
               color: Colors.grey,
             ),
@@ -42,7 +43,7 @@ class HomeScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 18),
           child: Container(
-            height: MediaQuery.of(context).size.height / 2.5,
+            height: kHomePageTrendingMovieContainerHeight,
             child: BlocBuilder<TrendingMovieBloc, TrendingMovieState>(
                 builder: (context, state) {
               if (state is LoadedTrendingMoviesState) {
@@ -70,7 +71,8 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height / 2.75, //REVIEW magic numbers
+                height:
+                    kHomePageComingSoonMovieContainerHeight, //REVIEW magic numbers
                 child: BlocBuilder<UpcomingMovieBloc, UpcomingMovieState>(
                     builder: (context, state) {
                   if (state is LoadedUpcomingMoviesState) {
