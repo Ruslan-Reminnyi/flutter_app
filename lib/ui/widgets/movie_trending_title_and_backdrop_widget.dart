@@ -4,7 +4,8 @@ import 'package:flutter_app/utils.dart';
 
 class MovieTrendingTitleAndBackdropWidget extends StatelessWidget {
   MovieTrendingTitleAndBackdropWidget(
-      {required this.movieModel, required this.number});
+      {Key? key, required this.movieModel, required this.number})
+      : super(key: key);
 
   final int number;
   final MovieModel? movieModel;

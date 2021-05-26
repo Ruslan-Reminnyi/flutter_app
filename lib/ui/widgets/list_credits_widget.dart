@@ -3,7 +3,8 @@ import 'package:flutter_app/data/credits_response.dart';
 import 'package:flutter_app/utils.dart';
 
 class ListCreditsWidget extends StatelessWidget {
-  ListCreditsWidget({required this.creditsResponse});
+  ListCreditsWidget({Key? key, required this.creditsResponse})
+      : super(key: key);
 
   final CreditsResponse? creditsResponse;
 

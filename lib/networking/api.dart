@@ -8,9 +8,9 @@ class Api {
   static const url = "https://api.themoviedb.org/3";
   static const apiKey = "c69eb1bac817427a01cf0ea4e1bedeb8";
 
-  Future<ListResponse> getTrendingMovies() async {
-    final response =
-        await http.get(Uri.parse('$url/trending/movie/day?api_key=$apiKey'));
+  Future<ListResponse> getTrendingMovies(int? pageNumber) async {
+    final response = await http.get(
+        Uri.parse('$url/trending/movie/day?api_key=$apiKey&page=$pageNumber'));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
@@ -19,7 +19,7 @@ class Api {
     return ListResponse(page: 0, totalPages: 0, totalResults: 0, movies: []);
   }
 
-  Future<ListResponse> getUpcomingMovies(int pageNumber) async {
+  Future<ListResponse> getUpcomingMovies(int? pageNumber) async {
     final response = await http
         .get(Uri.parse('$url/movie/upcoming?api_key=$apiKey&page=$pageNumber'));
 
@@ -42,8 +42,8 @@ class Api {
   }
 
   Future<MovieDetailsResponse> getDetailsOfMovies(int? movieId) async {
-    final response =
-        await http.get(Uri.parse('$url/movie/$movieId?api_key=$apiKey&append_to_response=similar,credits,images'));
+    final response = await http.get(Uri.parse(
+        '$url/movie/$movieId?api_key=$apiKey&append_to_response=similar,credits,images'));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
@@ -51,5 +51,4 @@ class Api {
     }
     return MovieDetailsResponse(tagline: "");
   }
-
 }

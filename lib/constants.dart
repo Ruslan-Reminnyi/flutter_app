@@ -15,3 +15,8 @@ const kListPhotosContainerHeight = 155.0;
 const photoDetailsMarginTop = 420.0;
 const castDetailsMarginTop = 635.0;
 const similarDetailsMarginTop = 775.0;
+
+const kMovieComingSoonTextContainerHeight = 70.0;
+
+const kHomePageTrendingMovieContainerHeight = 300.0;
+const kHomePageComingSoonMovieContainerHeight = 310.0;

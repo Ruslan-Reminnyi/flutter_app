@@ -31,8 +31,8 @@ class MovieDetailsResponse {
   final List<ProductionCompaniesModel>? productionCompanies;
   final int? id;
 
-  MovieDetailsResponse({
-      this.photoResponse,
+  MovieDetailsResponse(
+      {this.photoResponse,
       this.creditsResponse,
       this.listSimilarMovies,
       this.rating,

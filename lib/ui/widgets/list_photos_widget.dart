@@ -4,7 +4,7 @@ import 'package:flutter_app/data/list_photo_response.dart';
 import 'package:flutter_app/utils.dart';
 
 class ListPhotosWidget extends StatelessWidget {
-  ListPhotosWidget({required this.photos});
+  ListPhotosWidget({Key? key, required this.photos}) : super(key: key);
 
   final ListPhotoResponse? photos;
 

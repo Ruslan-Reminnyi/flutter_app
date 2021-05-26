@@ -10,9 +10,11 @@ import 'package:flutter_app/utils.dart';
 
 class DetailsStackWidget extends StatelessWidget {
   DetailsStackWidget(
-      {required this.context,
+      {Key? key,
+      required this.context,
       required this.movieDetailsResponse,
-      required this.genresOfSimilarMovie});
+      required this.genresOfSimilarMovie})
+      : super(key: key);
 
   final BuildContext context;
   final MovieDetailsResponse movieDetailsResponse;
@@ -73,7 +75,8 @@ class DetailsStackWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 60.0, 20.0, 0.0),
                     child: Image.network(
-                      getImagePath(movieDetailsResponse.productionCompanies?[0].logoPath),
+                      getImagePath(movieDetailsResponse
+                          .productionCompanies?[0].logoPath),
                       // fit: BoxFit.fitHeight,
                     ),
                   ),
@@ -90,7 +93,7 @@ class DetailsStackWidget extends StatelessWidget {
               Rect.fromLTWH(0, 0, 0, 70),
             ),
             child: Text(
-              '${movieDetailsResponse.overview}',
+              movieDetailsResponse.overview ?? '',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14,

@@ -24,10 +24,6 @@ class MovieContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Details Screen ${movieModel?.genres}"),
-          ));
-
           Navigator.push(
             context,
             MaterialPageRoute(

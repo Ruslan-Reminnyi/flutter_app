@@ -8,7 +8,7 @@ part 'upcoming_movie_event.dart';
 part 'upcoming_movie_state.dart';
 
 class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
-  Api _api = Api();
+  final Api _api = Api();
 
   //REVIEW don't store any intermidiate fields in bloc. They must be part of state
 
@@ -25,7 +25,8 @@ class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
       UpcomingMovieEvent movieEvent) async* {
     yield UpcomingLoadingState();
 
-    ListResponse listResponseUpcoming = await _api.getUpcomingMovies(1);
+    ListResponse listResponseUpcoming =
+        await _api.getUpcomingMovies(movieEvent.pageNumber);
     List<String?> listGenres = await _getGenres(listResponseUpcoming);
 
     yield LoadedUpcomingMoviesState(

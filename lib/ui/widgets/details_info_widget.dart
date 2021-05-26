@@ -5,8 +5,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DetailsInfoWidget extends StatelessWidget {
   DetailsInfoWidget(
-      {required this.movieDetailsResponse,
-      required this.creditsResponse});
+      {Key? key,
+      required this.movieDetailsResponse,
+      required this.creditsResponse})
+      : super(key: key);
 
   final MovieDetailsResponse movieDetailsResponse;
   final CreditsResponse? creditsResponse;
@@ -128,14 +130,12 @@ class DetailsInfoWidget extends StatelessWidget {
   }
 
   String? getGenres(MovieDetailsResponse movieDetailsResponse) {
-    return movieDetailsResponse.genres
-        ?.map((e) => e.name)
-        .join(", ");
+    return movieDetailsResponse.genres?.map((e) => e.name).join(", ");
   }
 
   String durationToHours(MovieDetailsResponse movieDetailsResponse) {
     int? runtime = movieDetailsResponse.runtime;
-    print(runtime);
+
     int? hours = runtime! ~/ 60;
 
     int? minutes = runtime % 60;

@@ -18,7 +18,7 @@ class DetailsContainer extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          '$kAppTitle',
+          kAppTitle,
           style: TextStyle(
             color: Colors.white,
             fontSize: 14,

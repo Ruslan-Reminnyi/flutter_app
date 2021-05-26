@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
 import 'package:flutter_app/utils.dart';
+import 'package:flutter_app/constants.dart';
 
 class MovieComingSoonContainer extends StatelessWidget {
   final MovieModel? movieModel;
@@ -17,10 +18,6 @@ class MovieComingSoonContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Details Screen ${movieModel?.genres}"),
-        ));
-
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -34,7 +31,7 @@ class MovieComingSoonContainer extends StatelessWidget {
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2.75,
-        margin: EdgeInsets.fromLTRB(0, 10, 10, 0),
+        margin: EdgeInsets.fromLTRB(0, 15, 10, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -48,6 +45,7 @@ class MovieComingSoonContainer extends StatelessWidget {
               ),
             ),
             Container(
+              height: kMovieComingSoonTextContainerHeight,
               margin: EdgeInsets.only(top: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +61,7 @@ class MovieComingSoonContainer extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
-                      "$genres",
+                      genres ?? '',
                       style: TextStyle(color: Colors.grey, fontSize: 10),
                     ),
                   ),

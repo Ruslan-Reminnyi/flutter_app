@@ -11,7 +11,7 @@ part 'trending_movie_event.dart';
 part 'trending_movie_state.dart';
 
 class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
-  Api _api = Api();
+  final Api _api = Api();
 
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
@@ -29,7 +29,8 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
       TrendingMovieEvent movieEvent) async* {
     yield LoadingState();
 
-    ListResponse listResponseTrending = await _api.getTrendingMovies();
+    ListResponse listResponseTrending =
+        await _api.getTrendingMovies(movieEvent.pageNumber);
 
     List<String?> listTaglines = [];
 

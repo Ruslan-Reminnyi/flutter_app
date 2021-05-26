@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DetailsCategoryNameWidget extends StatelessWidget {
-  DetailsCategoryNameWidget({this.category, required this.marginTop});
+  DetailsCategoryNameWidget({Key? key, this.category, required this.marginTop})
+      : super(key: key);
 
   final String? category;
   final double marginTop;
@@ -11,7 +12,7 @@ class DetailsCategoryNameWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 20, top: marginTop),
       child: Text(
-        '$category',
+        category ?? '',
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

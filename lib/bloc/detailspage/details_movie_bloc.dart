@@ -11,7 +11,7 @@ part 'details_movie_event.dart';
 part 'details_movie_state.dart';
 
 class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
-  Api _api = Api();
+  final Api _api = Api();
 
   DetailsMovieBloc() : super(DetailsMovieInitState());
 
@@ -34,7 +34,8 @@ class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
 
     yield LoadedDetailsMoviesState(
         movieDetailsResponse,
-        _getGenresForSimilarMovies(movieDetailsResponse.listSimilarMovies, allGenresList));
+        _getGenresForSimilarMovies(
+            movieDetailsResponse.listSimilarMovies, allGenresList));
   }
 
   List<String?> _getGenresForSimilarMovies(

@@ -5,9 +5,11 @@ import 'package:flutter_app/utils.dart';
 
 class SimilarMoviesWidget extends StatelessWidget {
   SimilarMoviesWidget(
-      {required this.context,
+      {Key? key,
+      required this.context,
       required this.listResponseSimilarMovies,
-      required this.genresOfSimilarMovie});
+      required this.genresOfSimilarMovie})
+      : super(key: key);
 
   final BuildContext context;
   final ListResponse? listResponseSimilarMovies;
@@ -33,7 +35,8 @@ class SimilarMoviesWidget extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(7.0),
                     child: Image.network(
-                      getImagePath(listResponseSimilarMovies?.movies?[index].posterPath),
+                      getImagePath(
+                          listResponseSimilarMovies?.movies?[index].posterPath),
                     ),
                   ),
                 ),
