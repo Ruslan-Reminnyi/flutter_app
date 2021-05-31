@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/credits_response.dart';
+import 'package:flutter_app/data/crew_model.dart';
 import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -101,7 +102,7 @@ class DetailsInfoWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Text(
-                getNameOfDirector(creditsResponse) ?? "Director: ",
+                getNameOfDirector(creditsResponse) ?? "",
                 style: TextStyle(
                   fontSize: 9,
                   color: Colors.white,
@@ -115,7 +116,7 @@ class DetailsInfoWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Text(
-                getNameOfWriter(creditsResponse) ?? "Writer: ",
+                getNameOfWriter(creditsResponse) ?? "",
                 style: TextStyle(
                   fontSize: 9,
                   color: Colors.white,
@@ -145,14 +146,16 @@ class DetailsInfoWidget extends StatelessWidget {
 
   String? getNameOfDirector(CreditsResponse? creditsResponse) {
     var name = creditsResponse?.crew
-        ?.firstWhere((element) => element.job == "Director")
+        ?.firstWhere((element) => element.job == "Director",
+            orElse: () => CrewModel(name: ""))
         .name;
     return "Director: $name";
   }
 
   String? getNameOfWriter(CreditsResponse? creditsResponse) {
     var name = creditsResponse?.crew
-        ?.firstWhere((element) => element.department == "Writing")
+        ?.firstWhere((element) => element.department == "Writing",
+            orElse: () => CrewModel(name: ""))
         .name;
     return "Writer: $name";
   }

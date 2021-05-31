@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
             height: kHomePageTrendingMovieContainerHeight,
             child: BlocBuilder<TrendingMovieBloc, TrendingMovieState>(
                 builder: (context, state) {
-              if (state is LoadedTrendingMoviesState) {
+              if (state.loading != true) {
                 return ListTrendingMoviesWidget(
                     numbers: state.numbers,
                     listResponse: state.response,

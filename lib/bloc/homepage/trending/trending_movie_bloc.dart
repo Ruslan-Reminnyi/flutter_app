@@ -15,7 +15,14 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
 
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
-  TrendingMovieBloc() : super(MovieInitState());
+  TrendingMovieBloc()
+      : super(TrendingMovieState(
+            numbers: [],
+            response: ListResponse(
+                page: 0, movies: [], totalPages: 1, totalResults: 1),
+            genres: [],
+            tagline: [],
+            loading: true));
 
   @override
   Stream<TrendingMovieState> mapEventToState(TrendingMovieEvent event) async* {
@@ -27,10 +34,22 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   //REVIEW I don't see any yeilds. This function is Future by nature too
   Stream<TrendingMovieState> _loadedTrendingMovies(
       TrendingMovieEvent movieEvent) async* {
-    yield LoadingState();
+    yield state.copyWith(loading: true);
 
     ListResponse listResponseTrending =
-        await _api.getTrendingMovies(movieEvent.pageNumber);
+        await _api.getTrendingMovies((state.response.page ?? 0) + 1);
+
+    //REVIEW fetch it only once
+    ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
+
+    List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
+
+    yield TrendingMovieState(
+        numbers: _getListOfNumbersOfTheMovies(listResponseTrending),
+        response: listResponseTrending,
+        genres: _getGenres(listResponseTrending, allGenresList),
+        tagline: [],
+        loading: false);
 
     List<String?> listTaglines = [];
 
@@ -43,55 +62,51 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
       listTaglines.add(currentTagline.tagline);
     }
 
-    //REVIEW fetch it only once
-    ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
+    yield state.copyWith(tagline: listTaglines);
 
-    List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
-
-    yield LoadedTrendingMoviesState(
-      _getListOfNumbersOfTheMovies(listResponseTrending),
-      listResponseTrending,
-      _getGenres(listResponseTrending, allGenresList),
-      listTaglines,
-    );
+    yield TrendingMovieState(
+        numbers: _getListOfNumbersOfTheMovies(listResponseTrending),
+        response: listResponseTrending,
+        genres: _getGenres(listResponseTrending, allGenresList),
+        tagline: listTaglines,
+        loading: false);
   }
+}
 
-  List<String?> _getGenres(
-      ListResponse listResponse, List<MovieGenresModel>? allGenresList) {
-    List<String?> genresNames = [];
+List<String?> _getGenres(
+    ListResponse listResponse, List<MovieGenresModel>? allGenresList) {
+  List<String?> genresNames = [];
 
-    List<MovieModel>? listMovies = listResponse.movies;
+  List<MovieModel>? listMovies = listResponse.movies;
 
-    listMovies?.forEach((element) {
-      genresNames.add(genresToList(element, allGenresList));
-    });
+  listMovies?.forEach((element) {
+    genresNames.add(genresToList(element, allGenresList));
+  });
 
-    return genresNames;
-  }
+  return genresNames;
+}
 
-  String? genresToList(
-      MovieModel model, List<MovieGenresModel>? allGenresList) {
-    final genresOfCurrentMovie = model.genres;
+String? genresToList(MovieModel model, List<MovieGenresModel>? allGenresList) {
+  final genresOfCurrentMovie = model.genres;
 
-    var names = allGenresList
-        ?.where((item) => genresOfCurrentMovie!.contains(item.id))
-        .map((e) => e.name)
-        .join(", ");
+  var names = allGenresList
+      ?.where((item) => genresOfCurrentMovie!.contains(item.id))
+      .map((e) => e.name)
+      .join(", ");
 
-    return names;
-  }
+  return names;
+}
 
-  int _getCurrentNumberOfTheMovie(int? trendingPageNumber, int index) {
-    return (trendingPageNumber! - 1) * 20 + index;
-  }
+int _getCurrentNumberOfTheMovie(int? trendingPageNumber, int index) {
+  return (trendingPageNumber! - 1) * 20 + index;
+}
 
-  List<int> _getListOfNumbersOfTheMovies(ListResponse listResponseTrending) {
-    var listIndexes = List<int>.generate(20, (index) => index + 1);
+List<int> _getListOfNumbersOfTheMovies(ListResponse listResponseTrending) {
+  var listIndexes = List<int>.generate(20, (index) => index + 1);
 
-    List<int> listNumbersOfTheMovies = listIndexes
-        .map((e) => _getCurrentNumberOfTheMovie(listResponseTrending.page, e))
-        .toList();
+  List<int> listNumbersOfTheMovies = listIndexes
+      .map((e) => _getCurrentNumberOfTheMovie(listResponseTrending.page, e))
+      .toList();
 
-    return listNumbersOfTheMovies;
-  }
+  return listNumbersOfTheMovies;
 }

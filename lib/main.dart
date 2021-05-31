@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       home: MultiBlocProvider(providers: [
         BlocProvider<TrendingMovieBloc>(
           create: (BuildContext context) =>
-              TrendingMovieBloc()..add(LoadTrendingPageEvent(1)),
+              TrendingMovieBloc()..add(LoadTrendingPageEvent()),
         ),
         BlocProvider<UpcomingMovieBloc>(
           create: (BuildContext context) =>

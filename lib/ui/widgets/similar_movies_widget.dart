@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/list_response.dart';
+import 'package:flutter_app/ui/screens/details_page_screen.dart';
 import 'package:flutter_app/utils.dart';
 
 class SimilarMoviesWidget extends StatelessWidget {
@@ -28,15 +29,27 @@ class SimilarMoviesWidget extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width / 2.62,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(7.0),
-                    child: Image.network(
-                      getImagePath(
-                          listResponseSimilarMovies?.movies?[index].posterPath),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (ctx) {
+                      return DetailsScreen(
+                        id: listResponseSimilarMovies?.movies?[index].id,
+                      );
+                    }),
+                  );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 2.62,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(7.0),
+                      child: Image.network(
+                        getImagePath(listResponseSimilarMovies
+                            ?.movies?[index].posterPath),
+                      ),
                     ),
                   ),
                 ),

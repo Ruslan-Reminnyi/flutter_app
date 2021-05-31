@@ -29,18 +29,10 @@ class ListTrendingMoviesWidget extends StatelessWidget {
         ..addListener(() {
           if (_trendingScrollController.position.pixels ==
               _trendingScrollController.position.maxScrollExtent) {
-            print("pageNumberOfTrending ${listResponse.page! + 1}");
+            print("pageNumberOfTrending ${listResponse.page!}");
 
             BlocProvider.of<TrendingMovieBloc>(context)
-                .add(LoadTrendingPageEvent(listResponse.page! + 1));
-          }
-          if (_trendingScrollController.position.pixels ==
-                  _trendingScrollController.position.minScrollExtent &&
-              listResponse.page != 1) {
-            print("pageNumberOfTrending ${listResponse.page! - 1}");
-
-            BlocProvider.of<TrendingMovieBloc>(context)
-                .add(LoadTrendingPageEvent(listResponse.page! - 1));
+                .add(LoadTrendingPageEvent());
           }
         }),
       itemBuilder: (ctx, index) {
@@ -48,7 +40,7 @@ class ListTrendingMoviesWidget extends StatelessWidget {
           number: numbers[index],
           movieModel: listResponse.movies?[index],
           genres: genres[index],
-          tagline: taglines[index],
+          tagline: taglines.isNotEmpty ? taglines[index] : '',
         );
       },
     );

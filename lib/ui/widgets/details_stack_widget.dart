@@ -24,13 +24,9 @@ class DetailsStackWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          height: MediaQuery.of(context).size.height / 1.9,
-          child: Image.network(
-            //REVIEW should have all cases of image link construction as function not placed all over the place apply DRY principle
-            getImagePath(movieDetailsResponse.backdropPath),
-            fit: BoxFit.fitHeight,
-          ),
+        Image.network(
+          //REVIEW should have all cases of image link construction as function not placed all over the place apply DRY principle
+          getImagePath(movieDetailsResponse.backdropPath),
         ),
         Container(
           height: MediaQuery.of(context).size.height / 2,
