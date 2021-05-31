@@ -9,14 +9,12 @@ class ListTrendingMoviesWidget extends StatelessWidget {
       {Key? key,
       required this.numbers,
       required this.listResponse,
-      required this.genres,
-      required this.taglines})
+      required this.genres})
       : super(key: key);
 
   final List<int> numbers;
   final ListResponse listResponse;
   final List<String?> genres;
-  final List<String?> taglines;
 
   final ScrollController _trendingScrollController = ScrollController();
 
@@ -29,7 +27,7 @@ class ListTrendingMoviesWidget extends StatelessWidget {
         ..addListener(() {
           if (_trendingScrollController.position.pixels ==
               _trendingScrollController.position.maxScrollExtent) {
-            print("pageNumberOfTrending ${listResponse.page!}");
+            print("pageNumberOfTrending ${listResponse.page}");
 
             BlocProvider.of<TrendingMovieBloc>(context)
                 .add(LoadTrendingPageEvent());
@@ -40,7 +38,6 @@ class ListTrendingMoviesWidget extends StatelessWidget {
           number: numbers[index],
           movieModel: listResponse.movies?[index],
           genres: genres[index],
-          tagline: taglines.isNotEmpty ? taglines[index] : '',
         );
       },
     );

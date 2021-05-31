@@ -6,13 +6,11 @@ class MovieTrendingInfoWidget extends StatelessWidget {
   MovieTrendingInfoWidget(
       {Key? key,
       required this.movieModel,
-      required this.genres,
-      required this.tagline})
+      required this.genres})
       : super(key: key);
 
   final MovieModel? movieModel;
   final String? genres;
-  final String? tagline;
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +41,6 @@ class MovieTrendingInfoWidget extends StatelessWidget {
                   color: Colors.white),
             ),
           ],
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Text(
-          tagline ?? '',
-          style: TextStyle(fontSize: 14, color: Colors.white),
         ),
         SizedBox(
           height: 5,

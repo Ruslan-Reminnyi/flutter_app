@@ -8,7 +8,6 @@ class MovieContainer extends StatelessWidget {
   final int number;
   final MovieModel? movieModel;
   final String? genres;
-  final String? tagline;
 
   //REVIEW introduce widgets for specific part of UI instead of all been in one file
 
@@ -17,7 +16,6 @@ class MovieContainer extends StatelessWidget {
     required this.number,
     required this.movieModel,
     required this.genres,
-    required this.tagline,
   }) : super(key: key);
 
   @override
@@ -45,7 +43,7 @@ class MovieContainer extends StatelessWidget {
                 bottom: 10,
                 left: 10,
                 child: MovieTrendingInfoWidget(
-                    movieModel: movieModel, genres: genres, tagline: tagline),
+                    movieModel: movieModel, genres: genres),
               ),
             ])));
   }

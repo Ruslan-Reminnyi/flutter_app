@@ -50,8 +50,7 @@ class HomeScreen extends StatelessWidget {
                 return ListTrendingMoviesWidget(
                     numbers: state.numbers,
                     listResponse: state.response,
-                    genres: state.genres,
-                    taglines: state.tagline);
+                    genres: state.genres);
               }
               return LoadingWidget();
             }),
