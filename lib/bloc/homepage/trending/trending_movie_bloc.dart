@@ -19,6 +19,8 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
       numbers: [],
       response: ListResponse(
           page: 0, movies: [], totalPages: 1, totalResults: 1),
+      listMovieModel: [],
+      allGenres: ListGenresResponse(),
       genres: [],
       loading: true));
 
@@ -26,6 +28,9 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   Stream<TrendingMovieState> mapEventToState(TrendingMovieEvent event) async* {
     if (event is LoadTrendingPageEvent) {
       yield* _loadedTrendingMovies(event);
+    }
+    if (event is LoadMoreTrendingPageEvent) {
+      yield* _loadedMoreTrendingMovies(event);
     }
   }
 
@@ -35,7 +40,7 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     yield state.copyWith(loading: true);
 
     ListResponse listResponseTrending =
-    await _api.getTrendingMovies((state.response.page ?? 0) + 1);
+    await _api.getTrendingMovies((state.response.page ?? 1) + 1);
 
     //REVIEW fetch it only once
     ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
@@ -45,7 +50,32 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     yield TrendingMovieState(
         numbers: _getListOfNumbersOfTheMovies(listResponseTrending),
         response: listResponseTrending,
+        listMovieModel: listResponseTrending.movies,
+        allGenres: listGenresResponse,
         genres: _getGenres(listResponseTrending, allGenresList),
+        loading: false);
+  }
+
+  Stream<TrendingMovieState> _loadedMoreTrendingMovies(
+      TrendingMovieEvent movieEvent) async* {
+    yield state.copyWith(loading: true);
+
+    ListResponse listResponseTrending =
+    await _api.getTrendingMovies((state.response.page ?? 1) + 1);
+
+    List<MovieGenresModel>? allGenresList = state.allGenres.genres;
+
+    List<int> numbers = state.numbers..addAll(_getListOfNumbersOfTheMovies(listResponseTrending));
+
+    List<MovieModel>? listMovieModel = state.listMovieModel?..addAll(listResponseTrending.movies!);
+
+    List<String?> genres = state.genres..addAll(_getGenres(listResponseTrending, allGenresList));
+
+    yield state.copyWith(
+        numbers: numbers,
+        response: listResponseTrending,
+        listMovieModel: listMovieModel,
+        genres: genres,
         loading: false);
   }
 
