@@ -1,11 +1,7 @@
 part of 'upcoming_movie_bloc.dart';
 
-abstract class UpcomingMovieEvent {
-  final int? pageNumber;
+abstract class UpcomingMovieEvent {}
 
-  UpcomingMovieEvent({required this.pageNumber});
-}
+class LoadUpcomingMoviesEvent extends UpcomingMovieEvent {}
 
-class LoadUpcomingPageEvent extends UpcomingMovieEvent {
-  LoadUpcomingPageEvent(int? pageNumber) : super(pageNumber: pageNumber);
-}
+class LoadMoreUpcomingMoviesEvent extends UpcomingMovieEvent {}

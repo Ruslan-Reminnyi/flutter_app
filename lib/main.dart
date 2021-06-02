@@ -18,11 +18,11 @@ class MyApp extends StatelessWidget {
       home: MultiBlocProvider(providers: [
         BlocProvider<TrendingMovieBloc>(
           create: (BuildContext context) =>
-              TrendingMovieBloc()..add(LoadTrendingPageEvent()),
+              TrendingMovieBloc()..add(LoadTrendingMoviesEvent()),
         ),
         BlocProvider<UpcomingMovieBloc>(
           create: (BuildContext context) =>
-              UpcomingMovieBloc()..add(LoadUpcomingPageEvent(1)),
+              UpcomingMovieBloc()..add(LoadUpcomingMoviesEvent()),
         ),
       ], child: HomeScreen(title: kAppTitle)),
     );

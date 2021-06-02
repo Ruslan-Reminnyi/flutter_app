@@ -1,30 +1,25 @@
 part of 'upcoming_movie_bloc.dart';
 
-abstract class UpcomingMovieState {
+class LoadingState {}
+
+class UpcomingMovieState {
   final ListResponse response;
-  final List<String?> genres;
+  final List<MovieModel>? listMovieModel;
+  final List<String?> currentGenres;
+  final bool loading;
 
-  UpcomingMovieState({required this.response, required this.genres});
-}
+  UpcomingMovieState(
+      {required this.response,
+      required this.listMovieModel,
+      required this.currentGenres,
+      required this.loading});
 
-class UpcomingMovieInitState extends UpcomingMovieState {
-  UpcomingMovieInitState()
-      : super(
-            genres: [],
-            response: ListResponse(
-                page: 0, totalPages: 0, totalResults: 0, movies: []));
-}
-
-class UpcomingLoadingState extends UpcomingMovieState {
-  UpcomingLoadingState()
-      : super(
-            genres: [],
-            response: ListResponse(
-                page: 0, totalPages: 0, totalResults: 0, movies: []));
-}
-
-//REVIEW this state is mutually exclusive from the LoadedTrendingMoviesState
-class LoadedUpcomingMoviesState extends UpcomingMovieState {
-  LoadedUpcomingMoviesState(ListResponse response, List<String?> genres)
-      : super(response: response, genres: genres);
+  UpcomingMovieState copyWith(
+      {response, listMovieModel, currentGenres, loading}) {
+    return UpcomingMovieState(
+        response: response ?? this.response,
+        listMovieModel: listMovieModel ?? this.listMovieModel,
+        currentGenres: currentGenres ?? this.currentGenres,
+        loading: loading ?? this.loading);
+  }
 }

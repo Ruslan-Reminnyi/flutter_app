@@ -16,20 +16,20 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
 
   TrendingMovieBloc()
       : super(TrendingMovieState(
-      numbers: [],
-      response: ListResponse(
-          page: 0, movies: [], totalPages: 1, totalResults: 1),
-      listMovieModel: [],
-      allGenres: ListGenresResponse(),
-      genres: [],
-      loading: true));
+            numbers: [],
+            response: ListResponse(
+                page: 0, movies: [], totalPages: 1, totalResults: 1),
+            listMovieModel: [],
+            allApiGenres: ListGenresResponse(),
+            currentGenres: [],
+            loading: true));
 
   @override
   Stream<TrendingMovieState> mapEventToState(TrendingMovieEvent event) async* {
-    if (event is LoadTrendingPageEvent) {
+    if (event is LoadTrendingMoviesEvent) {
       yield* _loadedTrendingMovies(event);
     }
-    if (event is LoadMoreTrendingPageEvent) {
+    if (event is LoadMoreTrendingMoviesEvent) {
       yield* _loadedMoreTrendingMovies(event);
     }
   }
@@ -40,7 +40,7 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     yield state.copyWith(loading: true);
 
     ListResponse listResponseTrending =
-    await _api.getTrendingMovies((state.response.page ?? 1) + 1);
+        await _api.getTrendingMovies((state.response.page ?? 1) + 1);
 
     //REVIEW fetch it only once
     ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
@@ -51,36 +51,37 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
         numbers: _getListOfNumbersOfTheMovies(listResponseTrending),
         response: listResponseTrending,
         listMovieModel: listResponseTrending.movies,
-        allGenres: listGenresResponse,
-        genres: _getGenres(listResponseTrending, allGenresList),
+        allApiGenres: listGenresResponse,
+        currentGenres: _getGenres(listResponseTrending, allGenresList),
         loading: false);
   }
 
   Stream<TrendingMovieState> _loadedMoreTrendingMovies(
       TrendingMovieEvent movieEvent) async* {
-    yield state.copyWith(loading: true);
-
     ListResponse listResponseTrending =
-    await _api.getTrendingMovies((state.response.page ?? 1) + 1);
+        await _api.getTrendingMovies((state.response.page ?? 1) + 1);
 
-    List<MovieGenresModel>? allGenresList = state.allGenres.genres;
+    List<MovieGenresModel>? allGenresList = state.allApiGenres.genres;
 
-    List<int> numbers = state.numbers..addAll(_getListOfNumbersOfTheMovies(listResponseTrending));
+    List<int> numbers = state.numbers
+      ..addAll(_getListOfNumbersOfTheMovies(listResponseTrending));
 
-    List<MovieModel>? listMovieModel = state.listMovieModel?..addAll(listResponseTrending.movies!);
+    List<MovieModel>? listMovieModel = state.listMovieModel
+      ?..addAll(listResponseTrending.movies ?? []);
 
-    List<String?> genres = state.genres..addAll(_getGenres(listResponseTrending, allGenresList));
+    List<String?> currentGenres = state.currentGenres
+      ..addAll(_getGenres(listResponseTrending, allGenresList));
 
     yield state.copyWith(
         numbers: numbers,
         response: listResponseTrending,
         listMovieModel: listMovieModel,
-        genres: genres,
+        currentGenres: currentGenres,
         loading: false);
   }
 
-  List<String?> _getGenres(ListResponse listResponse,
-      List<MovieGenresModel>? allGenresList) {
+  List<String?> _getGenres(
+      ListResponse listResponse, List<MovieGenresModel>? allGenresList) {
     List<String?> genresNames = [];
 
     List<MovieModel>? listMovies = listResponse.movies;
@@ -92,8 +93,8 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     return genresNames;
   }
 
-  String? genresToList(MovieModel model,
-      List<MovieGenresModel>? allGenresList) {
+  String? genresToList(
+      MovieModel model, List<MovieGenresModel>? allGenresList) {
     final genresOfCurrentMovie = model.genres;
 
     var names = allGenresList
@@ -117,5 +118,4 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
 
     return listNumbersOfTheMovies;
   }
-
 }

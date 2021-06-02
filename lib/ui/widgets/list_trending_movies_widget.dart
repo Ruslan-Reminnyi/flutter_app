@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/containers/movie_trending_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,13 +8,11 @@ class ListTrendingMoviesWidget extends StatelessWidget {
   ListTrendingMoviesWidget(
       {Key? key,
       required this.numbers,
-      required this.listResponse,
-        required this.listMovieModel,
+      required this.listMovieModel,
       required this.genres})
       : super(key: key);
 
   final List<int> numbers;
-  final ListResponse listResponse;
   final List<MovieModel>? listMovieModel;
   final List<String?> genres;
 
@@ -31,10 +28,8 @@ class ListTrendingMoviesWidget extends StatelessWidget {
         ..addListener(() {
           if (_trendingScrollController.position.pixels ==
               _trendingScrollController.position.maxScrollExtent) {
-            print("pageNumberOfTrending ${listResponse.page}");
-
             BlocProvider.of<TrendingMovieBloc>(context)
-                .add(LoadMoreTrendingPageEvent());
+                .add(LoadMoreTrendingMoviesEvent());
           }
         }),
       itemBuilder: (ctx, index) {

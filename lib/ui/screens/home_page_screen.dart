@@ -46,14 +46,13 @@ class HomeScreen extends StatelessWidget {
             height: kHomePageTrendingMovieContainerHeight,
             child: BlocBuilder<TrendingMovieBloc, TrendingMovieState>(
                 builder: (context, state) {
-              if (state.loading != true) {
-                return ListTrendingMoviesWidget(
-                    numbers: state.numbers,
-                    listResponse: state.response,
-                    listMovieModel: state.listMovieModel,
-                    genres: state.genres);
+              if (state.loading) {
+                return LoadingWidget();
               }
-              return LoadingWidget();
+              return ListTrendingMoviesWidget(
+                  numbers: state.numbers,
+                  listMovieModel: state.listMovieModel,
+                  genres: state.currentGenres);
             }),
           ),
         ),
@@ -75,11 +74,12 @@ class HomeScreen extends StatelessWidget {
                     kHomePageComingSoonMovieContainerHeight, //REVIEW magic numbers
                 child: BlocBuilder<UpcomingMovieBloc, UpcomingMovieState>(
                     builder: (context, state) {
-                  if (state is LoadedUpcomingMoviesState) {
-                    return ListUpcomingMoviesWidget(
-                        listResponse: state.response, genres: state.genres);
+                  if (state.loading) {
+                    return LoadingWidget();
                   }
-                  return LoadingWidget();
+                  return ListUpcomingMoviesWidget(
+                      listMovieModel: state.listMovieModel,
+                      genres: state.currentGenres);
                 }),
               ),
             ],

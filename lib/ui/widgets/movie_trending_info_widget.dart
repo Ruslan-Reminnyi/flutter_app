@@ -4,9 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieTrendingInfoWidget extends StatelessWidget {
   MovieTrendingInfoWidget(
-      {Key? key,
-      required this.movieModel,
-      required this.genres})
+      {Key? key, required this.movieModel, required this.genres})
       : super(key: key);
 
   final MovieModel? movieModel;

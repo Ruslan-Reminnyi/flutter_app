@@ -6,25 +6,32 @@ class TrendingMovieState {
   final List<int> numbers;
   final ListResponse response;
   final List<MovieModel>? listMovieModel;
-  final ListGenresResponse allGenres;
-  final List<String?> genres;
+  final ListGenresResponse allApiGenres;
+  final List<String?> currentGenres;
   final bool loading;
 
   TrendingMovieState(
       {required this.numbers,
       required this.response,
-        required this.listMovieModel,
-        required this.allGenres,
-      required this.genres,
+      required this.listMovieModel,
+      required this.allApiGenres,
+      required this.currentGenres,
       required this.loading});
 
-  TrendingMovieState copyWith({numbers, response, listMovieModel, allGenres, genres, tagline, loading}) {
+  TrendingMovieState copyWith(
+      {numbers,
+      response,
+      listMovieModel,
+      allApiGenres,
+      currentGenres,
+      tagline,
+      loading}) {
     return TrendingMovieState(
         numbers: numbers ?? this.numbers,
         response: response ?? this.response,
         listMovieModel: listMovieModel ?? this.listMovieModel,
-        allGenres: allGenres ?? this.allGenres,
-        genres: genres ?? this.genres,
+        allApiGenres: allApiGenres ?? this.allApiGenres,
+        currentGenres: currentGenres ?? this.currentGenres,
         loading: loading ?? this.loading);
   }
 }
