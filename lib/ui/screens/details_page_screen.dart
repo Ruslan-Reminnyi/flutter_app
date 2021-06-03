@@ -15,7 +15,7 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<DetailsMovieBloc>(
         create: (BuildContext context) =>
-            DetailsMovieBloc()..add(LoadDetailsPageEvent(id)),
+            DetailsMovieBloc()..add(LoadDetailsPageEvent(id: id)),
         child: DetailsContainer());
   }
 }

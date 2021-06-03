@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
+import 'package:flutter_app/ui/widgets/ComingSoonAndSimilarMoviesWidget.dart';
 import 'package:flutter_app/utils.dart';
 import 'package:flutter_app/constants.dart';
 
@@ -32,43 +33,9 @@ class MovieComingSoonContainer extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width / 2.75,
         margin: EdgeInsets.fromLTRB(0, 15, 10, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
-                child: Image.network(
-                  getImagePath(movieModel?.posterPath),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Container(
-              height: kMovieComingSoonTextContainerHeight,
-              margin: EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    movieModel?.originalTitle ?? '',
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Text(
-                      genres ?? '',
-                      style: TextStyle(color: Colors.grey, fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+        child: ComingSoonAndSimilarMoviesWidget(
+          movieModel: movieModel,
+          genres: genres,
         ),
       ),
     );

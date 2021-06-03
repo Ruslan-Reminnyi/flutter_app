@@ -13,18 +13,37 @@ part 'details_movie_state.dart';
 class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
   final Api _api = Api();
 
-  DetailsMovieBloc() : super(DetailsMovieInitState());
+  DetailsMovieBloc() : super(DetailsMovieState(
+      movieDetailsResponse: MovieDetailsResponse(
+        id: 0,
+        originalTitle: '',
+        tagline: '',
+        overview: '',
+        posterPath: '',
+        genres: [],
+        productionCompanies: [],
+        runtime: 0,
+      ),
+      genresOfSimilarMovie: [],
+  currentPageOfSimilarMovies: 1,
+  listSimilarMovies: [],
+  loading: false));
+
 
   @override
   Stream<DetailsMovieState> mapEventToState(DetailsMovieEvent event) async* {
     if (event is LoadDetailsPageEvent) {
       yield* _loadedDetails(event);
     }
+    if (event is LoadMoreDetailsPageEvent) {
+      yield* _loadedMoreSimilarMovies(event);
+    }
+
   }
 
   Stream<DetailsMovieState> _loadedDetails(
-      DetailsMovieEvent movieEvent) async* {
-    yield DetailsLoadingState();
+      LoadDetailsPageEvent movieEvent) async* {
+    yield state.copyWith(loading: true);
 
     MovieDetailsResponse movieDetailsResponse =
         await _api.getDetailsOfMovies(movieEvent.id);
@@ -32,10 +51,39 @@ class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
     ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
     List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
 
-    yield LoadedDetailsMoviesState(
-        movieDetailsResponse,
-        _getGenresForSimilarMovies(
-            movieDetailsResponse.listSimilarMovies, allGenresList));
+    yield DetailsMovieState(
+        movieDetailsResponse: movieDetailsResponse,
+        genresOfSimilarMovie: _getGenresForSimilarMovies(
+            movieDetailsResponse.listSimilarMovies, allGenresList),
+        currentPageOfSimilarMovies: movieDetailsResponse.listSimilarMovies?.page,
+        listSimilarMovies: movieDetailsResponse.listSimilarMovies?.movies,
+        loading: false
+        );
+  }
+
+  Stream<DetailsMovieState> _loadedMoreSimilarMovies(
+      DetailsMovieEvent movieEvent) async* {
+
+    int? currentPageOfSimilarMovies = (state.currentPageOfSimilarMovies ?? 1) + 1;
+
+    ListResponse? listSimilarMovies = await _api.getSimilarMovies(
+        state.movieDetailsResponse.id, currentPageOfSimilarMovies);
+
+    ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
+    List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
+
+    List<MovieModel>? currentListSimilarMovies = state.listSimilarMovies?..addAll(listSimilarMovies.movies!);
+
+    List<String?> currentGenresOfSimilarMovie = state.genresOfSimilarMovie..addAll(
+        _getGenresForSimilarMovies(listSimilarMovies, allGenresList)
+    );
+
+    yield state.copyWith(
+        genresOfSimilarMovie: currentGenresOfSimilarMovie,
+      currentPageOfSimilarMovies: currentPageOfSimilarMovies,
+      listSimilarMovies: currentListSimilarMovies,
+        loading: false
+    );
   }
 
   List<String?> _getGenresForSimilarMovies(

@@ -51,4 +51,16 @@ class Api {
     }
     return MovieDetailsResponse(tagline: "");
   }
+
+  Future<ListResponse> getSimilarMovies(int? movieId, int? page) async {
+    final response = await http.get(Uri.parse(
+        '$url/movie/$movieId/similar?api_key=$apiKey&page=$page'));
+
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body);
+      return ListResponse.fromJson(parsed);
+    }
+    return ListResponse(page: 0, totalPages: 0, totalResults: 0, movies: []);
+  }
+
 }

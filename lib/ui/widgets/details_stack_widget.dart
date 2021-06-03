@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/movie_details_response.dart';
+import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/widgets/details_category_name_widget.dart';
 import 'package:flutter_app/ui/widgets/details_info_widget.dart';
 import 'package:flutter_app/ui/widgets/list_credits_widget.dart';
@@ -13,11 +14,13 @@ class DetailsStackWidget extends StatelessWidget {
       {Key? key,
       required this.context,
       required this.movieDetailsResponse,
+        required this.listSimilarMovies,
       required this.genresOfSimilarMovie})
       : super(key: key);
 
   final BuildContext context;
   final MovieDetailsResponse movieDetailsResponse;
+  final List<MovieModel>? listSimilarMovies;
   final List<String?> genresOfSimilarMovie;
 
   @override
@@ -116,7 +119,7 @@ class DetailsStackWidget extends StatelessWidget {
         ),
         SimilarMoviesWidget(
             context: context,
-            listResponseSimilarMovies: movieDetailsResponse.listSimilarMovies,
+            listResponseSimilarMovies: listSimilarMovies,
             genresOfSimilarMovie: genresOfSimilarMovie),
       ],
     );

@@ -29,15 +29,17 @@ class DetailsContainer extends StatelessWidget {
       body: SingleChildScrollView(child:
           BlocBuilder<DetailsMovieBloc, DetailsMovieState>(
               builder: (context, state) {
-        if (state is LoadedDetailsMoviesState) {
-          return DetailsStackWidget(
-            context: context,
-            movieDetailsResponse: state.movieDetailsResponse,
-            genresOfSimilarMovie: state.genresOfSimilarMovie,
-          );
+        if (state.loading) {
+          return LoadingWidget();
         }
-        return LoadingWidget();
-      })),
+        return DetailsStackWidget(
+          context: context,
+          movieDetailsResponse: state.movieDetailsResponse,
+          listSimilarMovies: state.listSimilarMovies,
+          genresOfSimilarMovie: state.genresOfSimilarMovie,
+        );
+
+              })),
     );
   }
 }

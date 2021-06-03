@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/bloc/detailspage/details_movie_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/list_response.dart';
+import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
+import 'package:flutter_app/ui/widgets/ComingSoonAndSimilarMoviesWidget.dart';
 import 'package:flutter_app/utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SimilarMoviesWidget extends StatelessWidget {
   SimilarMoviesWidget(
@@ -13,8 +17,10 @@ class SimilarMoviesWidget extends StatelessWidget {
       : super(key: key);
 
   final BuildContext context;
-  final ListResponse? listResponseSimilarMovies;
+  final List<MovieModel>? listResponseSimilarMovies;
   final List<String?> genresOfSimilarMovie;
+
+  final ScrollController _similarScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,63 +30,19 @@ class SimilarMoviesWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: listResponseSimilarMovies?.movies?.length,
+        itemCount: listResponseSimilarMovies?.length,
+        controller: _similarScrollController
+        ..addListener(() {
+          if (_similarScrollController.position.pixels ==
+              _similarScrollController.position.maxScrollExtent) {
+            BlocProvider.of<DetailsMovieBloc>(context)
+                .add(LoadMoreDetailsPageEvent());
+          }
+        }),
         itemBuilder: (ctx, index) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (ctx) {
-                      return DetailsScreen(
-                        id: listResponseSimilarMovies?.movies?[index].id,
-                      );
-                    }),
-                  );
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 2.62,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(7.0),
-                      child: Image.network(
-                        getImagePath(listResponseSimilarMovies
-                            ?.movies?[index].posterPath),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                height: kSimilarMoviesNamesContainerHeight,
-                width: MediaQuery.of(context).size.width / 2.62,
-                margin: EdgeInsets.only(top: 15),
-                child: Text(
-                  listResponseSimilarMovies?.movies?[index].originalTitle ?? '',
-                  maxLines: 2,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width / 2.62,
-                margin: EdgeInsets.only(top: 3),
-                child: Text(
-                  genresOfSimilarMovie[index] ?? '',
-                  maxLines: 2,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 10,
-                  ),
-                ),
-              ),
-            ],
-          );
+          return ComingSoonAndSimilarMoviesWidget(
+              movieModel: listResponseSimilarMovies?[index],
+              genres: genresOfSimilarMovie[index]);
         },
       ),
     );

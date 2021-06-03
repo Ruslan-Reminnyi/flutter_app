@@ -1,49 +1,28 @@
 part of 'details_movie_bloc.dart';
 
-abstract class DetailsMovieState {
+class LoadingState {}
+
+class DetailsMovieState {
   final MovieDetailsResponse movieDetailsResponse;
   final List<String?> genresOfSimilarMovie;
-
+  final int? currentPageOfSimilarMovies;
+  final List<MovieModel>? listSimilarMovies;
+  final bool loading;
+  
   DetailsMovieState(
-      {required this.movieDetailsResponse, required this.genresOfSimilarMovie});
-}
+      {required this.movieDetailsResponse,
+        required this.genresOfSimilarMovie,
+        required this.currentPageOfSimilarMovies,
+        required this.listSimilarMovies,
+      required this.loading});
 
-class DetailsMovieInitState extends DetailsMovieState {
-  DetailsMovieInitState()
-      : super(
-            movieDetailsResponse: MovieDetailsResponse(
-              id: 0,
-              originalTitle: '',
-              tagline: '',
-              overview: '',
-              posterPath: '',
-              genres: [],
-              productionCompanies: [],
-              runtime: 0,
-            ),
-            genresOfSimilarMovie: []);
-}
-
-class DetailsLoadingState extends DetailsMovieState {
-  DetailsLoadingState()
-      : super(
-            movieDetailsResponse: MovieDetailsResponse(
-                id: 0,
-                originalTitle: '',
-                tagline: '',
-                overview: '',
-                posterPath: '',
-                genres: [],
-                productionCompanies: [],
-                runtime: 0,
-                rating: 0.0),
-            genresOfSimilarMovie: []);
-}
-
-class LoadedDetailsMoviesState extends DetailsMovieState {
-  LoadedDetailsMoviesState(MovieDetailsResponse movieDetailsResponse,
-      List<String?> genresOfSimilarMovie)
-      : super(
-            movieDetailsResponse: movieDetailsResponse,
-            genresOfSimilarMovie: genresOfSimilarMovie);
+  DetailsMovieState copyWith({movieDetailsResponse, genresOfSimilarMovie, currentPageOfSimilarMovies, listSimilarMovies, loading}) {
+    return DetailsMovieState(
+      movieDetailsResponse: movieDetailsResponse ?? this.movieDetailsResponse,
+      genresOfSimilarMovie: genresOfSimilarMovie ?? this.genresOfSimilarMovie,
+        currentPageOfSimilarMovies: currentPageOfSimilarMovies ?? this.currentPageOfSimilarMovies,
+        listSimilarMovies: listSimilarMovies ?? this.listSimilarMovies,
+        loading: loading ?? this.loading
+    );
+  }
 }

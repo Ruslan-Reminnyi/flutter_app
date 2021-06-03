@@ -1,11 +1,15 @@
 part of 'details_movie_bloc.dart';
 
-abstract class DetailsMovieEvent {
+class DetailsMovieEvent {
   final int? id;
 
-  DetailsMovieEvent({required this.id});
+  DetailsMovieEvent({this.id});
+
 }
 
 class LoadDetailsPageEvent extends DetailsMovieEvent {
-  LoadDetailsPageEvent(int? id) : super(id: id);
+
+  LoadDetailsPageEvent({int? id}) : super(id: id);
 }
+
+class LoadMoreDetailsPageEvent extends DetailsMovieEvent {}
