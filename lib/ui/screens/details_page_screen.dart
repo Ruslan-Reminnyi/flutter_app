@@ -9,7 +9,7 @@ class DetailsScreen extends StatelessWidget {
     required this.id,
   }) : super(key: key);
 
-  final int? id;
+  final int id;
 
   @override
   Widget build(BuildContext context) {

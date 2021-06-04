@@ -14,7 +14,7 @@ class DetailsStackWidget extends StatelessWidget {
       {Key? key,
       required this.context,
       required this.movieDetailsResponse,
-        required this.listSimilarMovies,
+      required this.listSimilarMovies,
       required this.genresOfSimilarMovie})
       : super(key: key);
 
@@ -74,8 +74,11 @@ class DetailsStackWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 60.0, 20.0, 0.0),
                     child: Image.network(
-                      getImagePath(movieDetailsResponse
-                          .productionCompanies?[0].logoPath),
+                      getImagePath(
+                          movieDetailsResponse.productionCompanies == null
+                              ? ""
+                              : movieDetailsResponse
+                                  .productionCompanies?.first.logoPath),
                       // fit: BoxFit.fitHeight,
                     ),
                   ),

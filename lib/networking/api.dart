@@ -1,66 +1,45 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_app/data/list_genres_response.dart';
 import 'package:flutter_app/data/list_response.dart';
-import 'package:http/http.dart' as http;
 
 class Api {
   static const url = "https://api.themoviedb.org/3";
   static const apiKey = "c69eb1bac817427a01cf0ea4e1bedeb8";
 
-  Future<ListResponse> getTrendingMovies(int? pageNumber) async {
-    final response = await http.get(
-        Uri.parse('$url/trending/movie/day?api_key=$apiKey&page=$pageNumber'));
+  Dio dio = Dio();
 
-    if (response.statusCode == 200) {
-      final parsed = json.decode(response.body);
-      return ListResponse.fromJson(parsed);
-    }
-    return ListResponse(page: 0, totalPages: 0, totalResults: 0, movies: []);
+  Future<ListResponse> getTrendingMovies(int pageNumber) async {
+    final response = await dio
+        .get('$url/trending/movie/day?api_key=$apiKey&page=$pageNumber');
+
+    return ListResponse.fromJson(response.data);
   }
 
-  Future<ListResponse> getUpcomingMovies(int? pageNumber) async {
-    final response = await http
-        .get(Uri.parse('$url/movie/upcoming?api_key=$apiKey&page=$pageNumber'));
+  Future<ListResponse> getUpcomingMovies(int pageNumber) async {
+    final response =
+        await dio.get('$url/movie/upcoming?api_key=$apiKey&page=$pageNumber');
 
-    if (response.statusCode == 200) {
-      final parsed = json.decode(response.body);
-      return ListResponse.fromJson(parsed);
-    }
-    return ListResponse(page: 0, totalPages: 0, totalResults: 0, movies: []);
+    return ListResponse.fromJson(response.data);
   }
 
   Future<ListGenresResponse> getGenresOfMovies() async {
+    final response = await dio.get('$url/genre/movie/list?api_key=$apiKey');
+
+    return ListGenresResponse.fromJson(response.data);
+  }
+
+  Future<MovieDetailsResponse> getDetailsOfMovies(int movieId) async {
+    final response = await dio.get(
+        '$url/movie/$movieId?api_key=$apiKey&append_to_response=similar,credits,images');
+
+    return MovieDetailsResponse.fromJson(response.data);
+  }
+
+  Future<ListResponse> getSimilarMovies(int movieId, int page) async {
     final response =
-        await http.get(Uri.parse('$url/genre/movie/list?api_key=$apiKey'));
+        await dio.get('$url/movie/$movieId/similar?api_key=$apiKey&page=$page');
 
-    if (response.statusCode == 200) {
-      final parsed = json.decode(response.body);
-      return ListGenresResponse.fromJson(parsed);
-    }
-    return ListGenresResponse(genres: []);
+    return ListResponse.fromJson(response.data);
   }
-
-  Future<MovieDetailsResponse> getDetailsOfMovies(int? movieId) async {
-    final response = await http.get(Uri.parse(
-        '$url/movie/$movieId?api_key=$apiKey&append_to_response=similar,credits,images'));
-
-    if (response.statusCode == 200) {
-      final parsed = json.decode(response.body);
-      return MovieDetailsResponse.fromJson(parsed);
-    }
-    return MovieDetailsResponse(tagline: "");
-  }
-
-  Future<ListResponse> getSimilarMovies(int? movieId, int? page) async {
-    final response = await http.get(Uri.parse(
-        '$url/movie/$movieId/similar?api_key=$apiKey&page=$page'));
-
-    if (response.statusCode == 200) {
-      final parsed = json.decode(response.body);
-      return ListResponse.fromJson(parsed);
-    }
-    return ListResponse(page: 0, totalPages: 0, totalResults: 0, movies: []);
-  }
-
 }

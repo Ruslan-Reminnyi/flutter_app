@@ -37,47 +37,69 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   //REVIEW I don't see any yeilds. This function is Future by nature too
   Stream<TrendingMovieState> _loadedTrendingMovies(
       TrendingMovieEvent movieEvent) async* {
-    yield state.copyWith(loading: true);
+    try {
+      yield state.copyWith(loading: true);
 
-    ListResponse listResponseTrending =
-        await _api.getTrendingMovies((state.response.page ?? 1) + 1);
+      ListResponse listResponseTrending =
+          await _api.getTrendingMovies((state.response.page ?? 1) + 1);
 
-    //REVIEW fetch it only once
-    ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
+      //REVIEW fetch it only once
+      ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
 
-    List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
+      List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
 
-    yield TrendingMovieState(
-        numbers: _getListOfNumbersOfTheMovies(listResponseTrending),
-        response: listResponseTrending,
-        listMovieModel: listResponseTrending.movies,
-        allApiGenres: listGenresResponse,
-        currentGenres: _getGenres(listResponseTrending, allGenresList),
-        loading: false);
+      yield TrendingMovieState(
+          numbers: _getListOfNumbersOfTheMovies(listResponseTrending),
+          response: listResponseTrending,
+          listMovieModel: listResponseTrending.movies,
+          allApiGenres: listGenresResponse,
+          currentGenres: _getGenres(listResponseTrending, allGenresList),
+          loading: false);
+    } catch (e) {
+      yield TrendingMovieState(
+          numbers: [],
+          response:
+              ListResponse(page: 0, movies: [], totalPages: 1, totalResults: 1),
+          listMovieModel: [],
+          allApiGenres: ListGenresResponse(),
+          currentGenres: [],
+          loading: false);
+    }
   }
 
   Stream<TrendingMovieState> _loadedMoreTrendingMovies(
       TrendingMovieEvent movieEvent) async* {
-    ListResponse listResponseTrending =
-        await _api.getTrendingMovies((state.response.page ?? 1) + 1);
+    try {
+      ListResponse listResponseTrending =
+          await _api.getTrendingMovies((state.response.page ?? 1) + 1);
 
-    List<MovieGenresModel>? allGenresList = state.allApiGenres.genres;
+      List<MovieGenresModel>? allGenresList = state.allApiGenres.genres;
 
-    List<int> numbers = state.numbers
-      ..addAll(_getListOfNumbersOfTheMovies(listResponseTrending));
+      List<int> numbers = state.numbers
+        ..addAll(_getListOfNumbersOfTheMovies(listResponseTrending));
 
-    List<MovieModel>? listMovieModel = state.listMovieModel
-      ?..addAll(listResponseTrending.movies ?? []);
+      List<MovieModel>? listMovieModel = state.listMovieModel
+        ?..addAll(listResponseTrending.movies ?? []);
 
-    List<String?> currentGenres = state.currentGenres
-      ..addAll(_getGenres(listResponseTrending, allGenresList));
+      List<String?> currentGenres = state.currentGenres
+        ..addAll(_getGenres(listResponseTrending, allGenresList));
 
-    yield state.copyWith(
-        numbers: numbers,
-        response: listResponseTrending,
-        listMovieModel: listMovieModel,
-        currentGenres: currentGenres,
-        loading: false);
+      yield state.copyWith(
+          numbers: numbers,
+          response: listResponseTrending,
+          listMovieModel: listMovieModel,
+          currentGenres: currentGenres,
+          loading: false);
+    } catch (e) {
+      yield TrendingMovieState(
+          numbers: [],
+          response:
+              ListResponse(page: 0, movies: [], totalPages: 1, totalResults: 1),
+          listMovieModel: [],
+          allApiGenres: ListGenresResponse(),
+          currentGenres: [],
+          loading: false);
+    }
   }
 
   List<String?> _getGenres(

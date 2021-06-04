@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
-import 'package:flutter_app/ui/widgets/ComingSoonAndSimilarMoviesWidget.dart';
-import 'package:flutter_app/utils.dart';
-import 'package:flutter_app/constants.dart';
+import 'package:flutter_app/ui/widgets/common_movie_list_widget.dart';
 
 class MovieComingSoonContainer extends StatelessWidget {
   final MovieModel? movieModel;
@@ -25,7 +23,7 @@ class MovieComingSoonContainer extends StatelessWidget {
               //REVIEW has a lot fo data passed in that it shouldn't have
               builder: (ctx) {
             return DetailsScreen(
-              id: movieModel?.id,
+              id: movieModel?.id ?? 1,
             );
           }),
         );
@@ -33,7 +31,7 @@ class MovieComingSoonContainer extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width / 2.75,
         margin: EdgeInsets.fromLTRB(0, 15, 10, 0),
-        child: ComingSoonAndSimilarMoviesWidget(
+        child: CommonMovieListWidget(
           movieModel: movieModel,
           genres: genres,
         ),

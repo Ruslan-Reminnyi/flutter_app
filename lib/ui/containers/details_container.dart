@@ -38,8 +38,7 @@ class DetailsContainer extends StatelessWidget {
           listSimilarMovies: state.listSimilarMovies,
           genresOfSimilarMovie: state.genresOfSimilarMovie,
         );
-
-              })),
+      })),
     );
   }
 }

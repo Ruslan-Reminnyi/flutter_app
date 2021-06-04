@@ -4,11 +4,11 @@ import 'package:flutter_app/ui/screens/details_page_screen.dart';
 import 'package:flutter_app/utils.dart';
 import 'package:flutter_app/constants.dart';
 
-class ComingSoonAndSimilarMoviesWidget extends StatelessWidget {
+class CommonMovieListWidget extends StatelessWidget {
   final MovieModel? movieModel;
   final String? genres;
 
-  ComingSoonAndSimilarMoviesWidget({
+  CommonMovieListWidget({
     Key? key,
     required this.movieModel,
     required this.genres,
@@ -21,12 +21,12 @@ class ComingSoonAndSimilarMoviesWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            //REVIEW has a lot fo data passed in that it shouldn't have
+              //REVIEW has a lot fo data passed in that it shouldn't have
               builder: (ctx) {
-                return DetailsScreen(
-                  id: movieModel?.id,
-                );
-              }),
+            return DetailsScreen(
+              id: movieModel?.id ?? 1,
+            );
+          }),
         );
       },
       child: Container(

@@ -33,37 +33,55 @@ class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
 
   Stream<UpcomingMovieState> _loadedUpcomingMovies(
       UpcomingMovieEvent movieEvent) async* {
-    yield state.copyWith(loading: true);
+    try {
+      yield state.copyWith(loading: true);
 
-    ListResponse listResponseUpcoming =
-        await _api.getUpcomingMovies((state.response.page ?? 1) + 1);
+      ListResponse listResponseUpcoming =
+          await _api.getUpcomingMovies((state.response.page ?? 1) + 1);
 
-    List<String?> listGenres = await _getGenres(listResponseUpcoming);
+      List<String?> listGenres = await _getGenres(listResponseUpcoming);
 
-    yield UpcomingMovieState(
-        response: listResponseUpcoming,
-        listMovieModel: listResponseUpcoming.movies,
-        currentGenres: listGenres,
-        loading: false);
+      yield UpcomingMovieState(
+          response: listResponseUpcoming,
+          listMovieModel: listResponseUpcoming.movies,
+          currentGenres: listGenres,
+          loading: false);
+    } catch (e) {
+      yield UpcomingMovieState(
+          loading: false,
+          currentGenres: [],
+          listMovieModel: [],
+          response: ListResponse(
+              page: 0, totalPages: 0, totalResults: 0, movies: []));
+    }
   }
 
   Stream<UpcomingMovieState> _loadedMoreUpcomingMovies(
       UpcomingMovieEvent movieEvent) async* {
-    ListResponse listResponseUpcoming =
-        await _api.getUpcomingMovies((state.response.page ?? 1) + 1);
+    try {
+      ListResponse listResponseUpcoming =
+          await _api.getUpcomingMovies((state.response.page ?? 1) + 1);
 
-    List<MovieModel>? listMovieModel = state.listMovieModel
-      ?..addAll(listResponseUpcoming.movies ?? []);
+      List<MovieModel>? listMovieModel = state.listMovieModel
+        ?..addAll(listResponseUpcoming.movies ?? []);
 
-    List<String?> listGenres = await _getGenres(listResponseUpcoming);
+      List<String?> listGenres = await _getGenres(listResponseUpcoming);
 
-    List<String?> currentGenres = state.currentGenres..addAll(listGenres);
+      List<String?> currentGenres = state.currentGenres..addAll(listGenres);
 
-    yield state.copyWith(
-        response: listResponseUpcoming,
-        listMovieModel: listMovieModel,
-        currentGenres: currentGenres,
-        loading: false);
+      yield state.copyWith(
+          response: listResponseUpcoming,
+          listMovieModel: listMovieModel,
+          currentGenres: currentGenres,
+          loading: false);
+    } catch (e) {
+      yield UpcomingMovieState(
+          loading: false,
+          currentGenres: [],
+          listMovieModel: [],
+          response: ListResponse(
+              page: 0, totalPages: 0, totalResults: 0, movies: []));
+    }
   }
 
   Future<List<String?>> _getGenres(ListResponse listResponse) async {

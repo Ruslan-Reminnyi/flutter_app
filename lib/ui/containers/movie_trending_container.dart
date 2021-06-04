@@ -28,7 +28,7 @@ class MovieContainer extends StatelessWidget {
                 //REVIEW has a lot fo data passed in that it shouldn't have
                 builder: (ctx) {
               return DetailsScreen(
-                id: movieModel?.id,
+                id: movieModel?.id ?? 1,
               );
             }),
           );
