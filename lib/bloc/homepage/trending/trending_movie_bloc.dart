@@ -16,7 +16,6 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
 
   TrendingMovieBloc()
       : super(TrendingMovieState(
-            numbers: [],
             response: ListResponse(
                 page: 0, movies: [], totalPages: 1, totalResults: 1),
             listMovieModel: [],
@@ -49,21 +48,13 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
       List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
 
       yield TrendingMovieState(
-          numbers: _getListOfNumbersOfTheMovies(listResponseTrending),
           response: listResponseTrending,
           listMovieModel: listResponseTrending.movies,
           allApiGenres: listGenresResponse,
           currentGenres: _getGenres(listResponseTrending, allGenresList),
           loading: false);
     } catch (e) {
-      yield TrendingMovieState(
-          numbers: [],
-          response:
-              ListResponse(page: 0, movies: [], totalPages: 1, totalResults: 1),
-          listMovieModel: [],
-          allApiGenres: ListGenresResponse(),
-          currentGenres: [],
-          loading: false);
+      yield state.copyWith(loading: false);
     }
   }
 
@@ -75,9 +66,6 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
 
       List<MovieGenresModel>? allGenresList = state.allApiGenres.genres;
 
-      List<int> numbers = state.numbers
-        ..addAll(_getListOfNumbersOfTheMovies(listResponseTrending));
-
       List<MovieModel>? listMovieModel = state.listMovieModel
         ?..addAll(listResponseTrending.movies ?? []);
 
@@ -85,20 +73,12 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
         ..addAll(_getGenres(listResponseTrending, allGenresList));
 
       yield state.copyWith(
-          numbers: numbers,
           response: listResponseTrending,
           listMovieModel: listMovieModel,
           currentGenres: currentGenres,
           loading: false);
     } catch (e) {
-      yield TrendingMovieState(
-          numbers: [],
-          response:
-              ListResponse(page: 0, movies: [], totalPages: 1, totalResults: 1),
-          listMovieModel: [],
-          allApiGenres: ListGenresResponse(),
-          currentGenres: [],
-          loading: false);
+      yield state.copyWith(loading: false);
     }
   }
 
@@ -125,19 +105,5 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
         .join(", ");
 
     return names;
-  }
-
-  int _getCurrentNumberOfTheMovie(int? trendingPageNumber, int index) {
-    return (trendingPageNumber! - 1) * 20 + index;
-  }
-
-  List<int> _getListOfNumbersOfTheMovies(ListResponse listResponseTrending) {
-    var listIndexes = List<int>.generate(20, (index) => index + 1);
-
-    List<int> listNumbersOfTheMovies = listIndexes
-        .map((e) => _getCurrentNumberOfTheMovie(listResponseTrending.page, e))
-        .toList();
-
-    return listNumbersOfTheMovies;
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/bloc/movies_genres/genres_bloc.dart';
 import 'package:flutter_app/data/movie_model.dart';
+import 'package:flutter_app/ui/widgets/loading.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieTrendingInfoWidget extends StatelessWidget {
@@ -43,14 +46,28 @@ class MovieTrendingInfoWidget extends StatelessWidget {
         SizedBox(
           height: 5,
         ),
-        Text(
-          genres ?? '',
-          style: TextStyle(color: Colors.white, fontSize: 10),
-        ),
+        Genres(),
         SizedBox(
           height: 5,
         ),
       ],
     );
+  }
+}
+
+class Genres extends StatelessWidget {
+  const Genres({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<GenresBloc, GenresState>(builder: (context, state) {
+      if (state.loading) {
+        return LoadingWidget();
+      }
+      return Text(
+        state.currentGenres ?? '',
+        style: TextStyle(color: Colors.white, fontSize: 10),
+      );
+    });
   }
 }

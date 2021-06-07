@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/homepage/upcoming/upcoming_movie_bloc.dart';
 import 'package:flutter_app/data/movie_model.dart';
-import 'package:flutter_app/ui/containers/movie_coming_soon_container.dart';
+import 'package:flutter_app/ui/containers/common_movie_list_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListUpcomingMoviesWidget extends StatelessWidget {
@@ -28,7 +28,7 @@ class ListUpcomingMoviesWidget extends StatelessWidget {
           }
         }),
       itemBuilder: (ctx, index) {
-        return MovieComingSoonContainer(
+        return CommonMovieListWidget(
           movieModel: listMovieModel?[index],
           genres: genres[index],
         );

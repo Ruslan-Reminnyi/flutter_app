@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
 import 'package:flutter_app/ui/widgets/movie_trending_info_widget.dart';
-import 'package:flutter_app/ui/widgets/movie_trending_title_and_backdrop_widget.dart';
+import 'package:flutter_app/ui/widgets/movie_trending_header_widget.dart';
 
 class MovieContainer extends StatelessWidget {
   final int number;
@@ -34,11 +35,10 @@ class MovieContainer extends StatelessWidget {
           );
         },
         child: Container(
-            width: MediaQuery.of(context).size.width / 1.17,
+            width: kMovieContainerWidth,
             margin: EdgeInsets.fromLTRB(0, 5, 10, 0),
             child: Stack(children: [
-              MovieTrendingTitleAndBackdropWidget(
-                  movieModel: movieModel, number: number),
+              MovieTrendingHeaderWidget(movieModel: movieModel, number: number),
               Positioned(
                 bottom: 10,
                 left: 10,

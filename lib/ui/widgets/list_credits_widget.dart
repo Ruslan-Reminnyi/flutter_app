@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/credits_response.dart';
-import 'package:flutter_app/utils.dart';
+import 'package:flutter_app/ui/widgets/credits_item.dart';
+import 'package:flutter_app/ui/widgets/details_category_name_widget.dart';
 
 class ListCreditsWidget extends StatelessWidget {
   ListCreditsWidget({Key? key, required this.creditsResponse})
@@ -10,33 +12,51 @@ class ListCreditsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 20, top: 670),
-      height: MediaQuery.of(context).size.height / 9.5,
-      width: MediaQuery.of(context).size.width,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: creditsResponse?.cast?.length,
-        itemBuilder: (ctx, index) {
-          if (creditsResponse?.cast?[index].path != null) {
-            return Container(
-              width: MediaQuery.of(context).size.width / 4.5,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
-                    getImagePath(creditsResponse?.cast?[index].path),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            );
-          } else {
-            return SizedBox.shrink();
-          }
-        },
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DetailsCategoryNameWidget(
+          category: 'Cast',
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        CreditsList(creditsResponse: creditsResponse),
+      ],
     );
+  }
+}
+
+class CreditsList extends StatelessWidget {
+  final CreditsResponse? creditsResponse;
+  const CreditsList({Key? key, required this.creditsResponse})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (creditsResponse?.cast?.isEmpty == false) {
+      return Container(
+        height: kCreditsContainerHeight,
+        width: MediaQuery.of(context).size.width,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: creditsResponse?.cast?.length,
+          itemBuilder: (ctx, index) {
+            if (creditsResponse?.cast?[index].path != null) {
+              return CreditsItem(
+                  creditsPath: creditsResponse?.cast?[index].path);
+            } else {
+              return SizedBox.shrink();
+            }
+          },
+        ),
+      );
+    } else {
+      return Image(
+        height: kImagePlaceholderHeight,
+        width: MediaQuery.of(context).size.width,
+        image: AssetImage('images/image_placeholder.png'),
+      );
+    }
   }
 }

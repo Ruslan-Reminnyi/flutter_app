@@ -28,21 +28,18 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildBody(context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-          child: SizedBox(
+    return Padding(
+      padding: const EdgeInsets.only(left: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(
             height: 20,
             child: Divider(
               color: Colors.grey,
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 18),
-          child: Container(
+          Container(
             height: kHomePageTrendingMovieContainerHeight,
             child: BlocBuilder<TrendingMovieBloc, TrendingMovieState>(
                 builder: (context, state) {
@@ -50,15 +47,14 @@ class HomeScreen extends StatelessWidget {
                 return LoadingWidget();
               }
               return ListTrendingMoviesWidget(
-                  numbers: state.numbers,
                   listMovieModel: state.listMovieModel,
                   genres: state.currentGenres);
             }),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(18, 25, 0, 0),
-          child: Column(
+          SizedBox(
+            height: 15,
+          ),
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -68,6 +64,9 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Container(
                 height:
@@ -84,8 +83,8 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

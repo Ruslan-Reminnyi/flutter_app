@@ -3,11 +3,13 @@ part of 'details_movie_bloc.dart';
 class DetailsMovieEvent {
   final int id;
 
-  DetailsMovieEvent({this.id = 1});
+  DetailsMovieEvent({required this.id});
 }
 
 class LoadDetailsPageEvent extends DetailsMovieEvent {
-  LoadDetailsPageEvent({int id = 1}) : super(id: id);
+  LoadDetailsPageEvent({required int id}) : super(id: id);
 }
 
-class LoadMoreDetailsPageEvent extends DetailsMovieEvent {}
+class LoadMoreDetailsPageEvent extends DetailsMovieEvent {
+  LoadMoreDetailsPageEvent({required int id}) : super(id: id);
+}

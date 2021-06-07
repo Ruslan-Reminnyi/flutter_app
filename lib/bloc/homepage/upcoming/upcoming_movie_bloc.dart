@@ -47,12 +47,7 @@ class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
           currentGenres: listGenres,
           loading: false);
     } catch (e) {
-      yield UpcomingMovieState(
-          loading: false,
-          currentGenres: [],
-          listMovieModel: [],
-          response: ListResponse(
-              page: 0, totalPages: 0, totalResults: 0, movies: []));
+      yield state.copyWith(loading: false);
     }
   }
 
@@ -75,12 +70,7 @@ class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
           currentGenres: currentGenres,
           loading: false);
     } catch (e) {
-      yield UpcomingMovieState(
-          loading: false,
-          currentGenres: [],
-          listMovieModel: [],
-          response: ListResponse(
-              page: 0, totalPages: 0, totalResults: 0, movies: []));
+      yield state.copyWith(loading: false);
     }
   }
 
@@ -88,7 +78,7 @@ class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
     List<String?> genresNames = [];
     ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
 
-    for (var genres in listResponse.movies!) {
+    for (var genres in listResponse.movies ?? []) {
       final allGenresList = listGenresResponse.genres;
       final genresOfCurrentMovie = genres.genres;
 

@@ -60,21 +60,7 @@ class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
           listSimilarMovies: movieDetailsResponse.listSimilarMovies?.movies,
           loading: false);
     } catch (e) {
-      yield DetailsMovieState(
-          movieDetailsResponse: MovieDetailsResponse(
-            id: 0,
-            originalTitle: '',
-            tagline: '',
-            overview: '',
-            posterPath: '',
-            genres: [],
-            productionCompanies: [],
-            runtime: 0,
-          ),
-          genresOfSimilarMovie: [],
-          currentPageOfSimilarMovies: 1,
-          listSimilarMovies: [],
-          loading: false);
+      yield state.copyWith(loading: false);
     }
   }
 
@@ -91,7 +77,7 @@ class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
       List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
 
       List<MovieModel>? currentListSimilarMovies = state.listSimilarMovies
-        ?..addAll(listSimilarMovies.movies!);
+        ?..addAll(listSimilarMovies.movies ?? []);
 
       List<String?> currentGenresOfSimilarMovie = state.genresOfSimilarMovie
         ..addAll(_getGenresForSimilarMovies(listSimilarMovies, allGenresList));
@@ -102,21 +88,7 @@ class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
           listSimilarMovies: currentListSimilarMovies,
           loading: false);
     } catch (e) {
-      yield DetailsMovieState(
-          movieDetailsResponse: MovieDetailsResponse(
-            id: 0,
-            originalTitle: '',
-            tagline: '',
-            overview: '',
-            posterPath: '',
-            genres: [],
-            productionCompanies: [],
-            runtime: 0,
-          ),
-          genresOfSimilarMovie: [],
-          currentPageOfSimilarMovies: 1,
-          listSimilarMovies: [],
-          loading: false);
+      yield state.copyWith(loading: false);
     }
   }
 

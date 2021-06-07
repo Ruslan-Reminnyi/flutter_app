@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/utils.dart';
 
-class MovieTrendingTitleAndBackdropWidget extends StatelessWidget {
-  MovieTrendingTitleAndBackdropWidget(
+class MovieTrendingHeaderWidget extends StatelessWidget {
+  MovieTrendingHeaderWidget(
       {Key? key, required this.movieModel, required this.number})
       : super(key: key);
 
@@ -29,7 +29,7 @@ class MovieTrendingTitleAndBackdropWidget extends StatelessWidget {
           style: TextStyle(fontSize: 18, color: Colors.white),
         ),
         SizedBox(
-          height: 15,
+          height: 10,
         ),
         Expanded(
           child: ClipRRect(
