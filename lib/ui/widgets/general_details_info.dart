@@ -15,7 +15,7 @@ class GeneralDetailsInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20.0, 180.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(20.0, 180.0, 0.0, 0.0), //REVIEW3 paddings of 180 is incorrect to place here
       child: Container(
         height: kGeneralDetailsInfoHeight,
         child: Row(
@@ -49,7 +49,7 @@ class PosterWidget extends StatelessWidget {
         ),
       );
     } else {
-      return Image(
+      return Image( //REVIEW3 this image must have the same borders
         height: kImagePlaceholderHeight,
         image: AssetImage('images/image_placeholder.png'),
       );

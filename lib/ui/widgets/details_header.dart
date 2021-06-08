@@ -20,7 +20,7 @@ class DetailsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Stack(//REVIEW3 too much elements in stack or move padding to this widget
       children: [
         Backdrop(movieDetailsResponse: movieDetailsResponse),
         ImageGradient(),
@@ -102,7 +102,7 @@ class Overview extends StatelessWidget {
         shaderCallback: (_) => kLinearGradient.createShader(
           Rect.fromLTWH(0, 0, 0, 70),
         ),
-        child: Text(
+        child: Text(//REVIEW3 view is too big
           movieDetailsResponse.overview ?? '',
           style: TextStyle(
             color: Colors.white,

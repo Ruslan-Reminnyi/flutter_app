@@ -21,7 +21,7 @@ class ListCreditsWidget extends StatelessWidget {
           category: 'Cast',
         ),
         SizedBox(
-          height: 5,
+          height: 5, //REVIEW3 always use by default even values
         ),
         CreditsList(creditsResponse: creditsResponse),
       ],
@@ -48,13 +48,13 @@ class CreditsList extends StatelessWidget {
               return CreditsItem(
                   creditsPath: creditsResponse?.cast?[index].path);
             } else {
-              return SizedBox.shrink();
+              return SizedBox.shrink(); //REVIEW3 there is no need to hide element, filter or provide placeholdergl
             }
           },
         ),
       );
     } else {
-      return Image(
+      return Image(//REVIEW3 there is no need to show image placeholder for whole list
         height: kImagePlaceholderHeight,
         width: MediaQuery.of(context).size.width,
         image: AssetImage('images/image_placeholder.png'),

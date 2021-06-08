@@ -38,7 +38,7 @@ class _ListUpcomingMoviesWidgetState extends State<ListUpcomingMoviesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.builder(//REVIEW3 extract to reusable component
       scrollDirection: Axis.horizontal,
       itemCount: widget.listMovieModel?.length,
       controller: _upcomingScrollController,

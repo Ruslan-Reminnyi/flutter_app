@@ -1,40 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/bloc/movies_genres/genres_bloc.dart';
-import 'package:flutter_app/data/movie_genres_model.dart';
+import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
-import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_app/utils.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-const kMovieComingSoonTextContainerHeight = 84.0;
-const kCommonMovieListContainerHeight = 170.0;
 
 class CommonMovieListWidget extends StatelessWidget {
   final MovieModel? movieModel;
+  final String? genres;
 
   CommonMovieListWidget({
     Key? key,
     required this.movieModel,
+    required this.genres,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        final id = movieModel?.id;
-        if (id != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                //REVIEW has a lot fo data passed in that it shouldn't have
-                builder: (ctx) {
-              return DetailsScreen(
-                id: id,
-              );
-            }),
-          );
-        }
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (ctx) {
+            return DetailsScreen(
+              id: movieModel?.id ?? 1, //REVIEW3 default 1 is incorrect
+            );
+          }),
+        );
       },
       child: Container(
         width: kCommonMovieListContainerHeight,
@@ -45,7 +36,7 @@ class CommonMovieListWidget extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6.0),
+                  borderRadius: BorderRadius.circular(5.0),
                   child: Image.network(
                     getImagePath(movieModel?.posterPath),
                     fit: BoxFit.cover,
@@ -58,22 +49,23 @@ class CommonMovieListWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 16,
+                      height: 15,
                     ),
-                    Expanded(
-                      child: Text(
-                        movieModel?.originalTitle ?? '',
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                        ),
+                    Text(
+                      movieModel?.originalTitle ?? '',
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
                       ),
                     ),
                     SizedBox(
-                      height: 4,
+                      height: 3,
                     ),
-                    Expanded(child: Genres(genres: movieModel?.genres)),
+                    Text(
+                      genres ?? '',
+                      style: TextStyle(color: Colors.grey, fontSize: 10),
+                    ),
                   ],
                 ),
               ),
@@ -83,32 +75,4 @@ class CommonMovieListWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-class Genres extends StatelessWidget {
-  final List<int>? genres;
-
-  const Genres({Key? key, required this.genres}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<GenresBloc, GenresState>(builder: (context, state) {
-      if (state.loading) {
-        return LoadingWidget();
-      }
-      return Text(
-        genresToList(genres, state.allApiGenres) ?? '',
-        style: TextStyle(color: Colors.grey, fontSize: 10),
-      );
-    });
-  }
-}
-
-String? genresToList(List<int>? genres, List<MovieGenresModel>? allGenresList) {
-  var names = allGenresList
-      ?.where((item) => genres?.contains(item.id) == true)
-      .map((e) => e.name)
-      .join(", ");
-
-  return names;
 }

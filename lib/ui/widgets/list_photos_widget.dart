@@ -36,8 +36,9 @@ class PhotosList extends StatelessWidget {
     if (photos?.backdrops?.isEmpty == false) {
       return Container(
         height: kListPhotosContainerHeight,
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width, //REVIEW3 there is no need for width for screen widget should take available space using flex properties
         child: ListView.builder(
+          padding: EdgeInsets.only(left: 20, right: 20),
           scrollDirection: Axis.horizontal,
           itemCount: photos?.backdrops?.length,
           itemBuilder: (ctx, index) {
