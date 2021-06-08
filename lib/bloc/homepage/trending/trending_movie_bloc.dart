@@ -1,7 +1,5 @@
-import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/networking/api.dart';
-import 'package:flutter_app/data/list_genres_response.dart';
 import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,8 +17,6 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
             response: ListResponse(
                 page: 0, movies: [], totalPages: 1, totalResults: 1),
             listMovieModel: [],
-            allApiGenres: ListGenresResponse(),
-            currentGenres: [],
             loading: true));
 
   @override
@@ -42,16 +38,9 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
       ListResponse listResponseTrending =
           await _api.getTrendingMovies((state.response.page ?? 1) + 1);
 
-      //REVIEW fetch it only once
-      ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
-
-      List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
-
       yield TrendingMovieState(
           response: listResponseTrending,
           listMovieModel: listResponseTrending.movies,
-          allApiGenres: listGenresResponse,
-          currentGenres: _getGenres(listResponseTrending, allGenresList),
           loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
@@ -64,46 +53,15 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
       ListResponse listResponseTrending =
           await _api.getTrendingMovies((state.response.page ?? 1) + 1);
 
-      List<MovieGenresModel>? allGenresList = state.allApiGenres.genres;
-
       List<MovieModel>? listMovieModel = state.listMovieModel
         ?..addAll(listResponseTrending.movies ?? []);
-
-      List<String?> currentGenres = state.currentGenres
-        ..addAll(_getGenres(listResponseTrending, allGenresList));
 
       yield state.copyWith(
           response: listResponseTrending,
           listMovieModel: listMovieModel,
-          currentGenres: currentGenres,
           loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
     }
-  }
-
-  List<String?> _getGenres(
-      ListResponse listResponse, List<MovieGenresModel>? allGenresList) {
-    List<String?> genresNames = [];
-
-    List<MovieModel>? listMovies = listResponse.movies;
-
-    listMovies?.forEach((element) {
-      genresNames.add(genresToList(element, allGenresList));
-    });
-
-    return genresNames;
-  }
-
-  String? genresToList(
-      MovieModel model, List<MovieGenresModel>? allGenresList) {
-    final genresOfCurrentMovie = model.genres;
-
-    var names = allGenresList
-        ?.where((item) => genresOfCurrentMovie!.contains(item.id))
-        .map((e) => e.name)
-        .join(", ");
-
-    return names;
   }
 }

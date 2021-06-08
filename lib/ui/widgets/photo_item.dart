@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constants.dart';
-import 'package:flutter_app/data/photo_model.dart';
 import 'package:flutter_app/utils.dart';
+
+const kPhotoItemWidth = 280.0;
 
 class PhotoItem extends StatelessWidget {
   final String? backdropsPath;

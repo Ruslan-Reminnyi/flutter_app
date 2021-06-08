@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/utils.dart';
+
+const kCreditsItemContainerWidth = 86.0;
 
 class CreditsItem extends StatelessWidget {
   final String? creditsPath;

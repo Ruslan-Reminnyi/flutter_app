@@ -4,7 +4,7 @@ import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/widgets/details_header.dart';
 import 'package:flutter_app/ui/widgets/list_credits_widget.dart';
 import 'package:flutter_app/ui/widgets/list_photos_widget.dart';
-import 'package:flutter_app/ui/widgets/similar_movies_widget.dart';
+import 'package:flutter_app/ui/widgets/list_similar_movies_widget.dart';
 
 class DetailsStackWidget extends StatelessWidget {
   DetailsStackWidget(
@@ -30,17 +30,17 @@ class DetailsStackWidget extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: 15,
+                height: 16,
               ),
               ListPhotosWidget(photos: movieDetailsResponse.photoResponse),
               SizedBox(
-                height: 15,
+                height: 14,
               ),
               ListCreditsWidget(
                 creditsResponse: movieDetailsResponse.creditsResponse,
               ),
               SizedBox(
-                height: 15,
+                height: 16,
               ),
               ListSimilarMoviesWidget(
                   id: movieDetailsResponse.id ?? 1,

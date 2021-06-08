@@ -18,7 +18,7 @@ class ListPhotosWidget extends StatelessWidget {
           category: 'Photos',
         ),
         SizedBox(
-          height: 5,
+          height: 6,
         ),
         PhotosList(photos: photos),
       ],
@@ -28,6 +28,7 @@ class ListPhotosWidget extends StatelessWidget {
 
 class PhotosList extends StatelessWidget {
   final ListPhotoResponse? photos;
+  final kListPhotosContainerHeight = 156.0;
   const PhotosList({Key? key, required this.photos}) : super(key: key);
 
   @override

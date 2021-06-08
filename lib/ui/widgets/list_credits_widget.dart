@@ -4,6 +4,8 @@ import 'package:flutter_app/data/credits_response.dart';
 import 'package:flutter_app/ui/widgets/credits_item.dart';
 import 'package:flutter_app/ui/widgets/details_category_name_widget.dart';
 
+const kCreditsContainerHeight = 80.0;
+
 class ListCreditsWidget extends StatelessWidget {
   ListCreditsWidget({Key? key, required this.creditsResponse})
       : super(key: key);

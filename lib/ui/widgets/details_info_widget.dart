@@ -27,7 +27,7 @@ class DetailsInfoWidget extends StatelessWidget {
             ),
             TitleMovie(movieDetailsResponse: movieDetailsResponse),
             SizedBox(
-              height: 15,
+              height: 16,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,13 +36,13 @@ class DetailsInfoWidget extends StatelessWidget {
                   children: [
                     StarsRating(movieDetailsResponse: movieDetailsResponse),
                     SizedBox(
-                      width: 5,
+                      width: 4,
                     ),
                     TextRating(movieDetailsResponse: movieDetailsResponse),
                   ],
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 4,
                 ),
                 Row(
                   children: [
@@ -51,7 +51,7 @@ class DetailsInfoWidget extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 4,
                 ),
                 DirectorName(creditsResponse: creditsResponse),
                 SizedBox(

@@ -20,7 +20,7 @@ class MovieTrendingHeaderWidget extends StatelessWidget {
           style: TextStyle(fontSize: 12, color: Colors.grey),
         ),
         SizedBox(
-          height: 5,
+          height: 6,
         ),
         Text(
           movieModel?.originalTitle != null
@@ -33,7 +33,7 @@ class MovieTrendingHeaderWidget extends StatelessWidget {
         ),
         Expanded(
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(5.0),
+            borderRadius: BorderRadius.circular(6.0),
             child: Image.network(
               getImagePath(movieModel?.backdropPath),
               fit: BoxFit.cover,

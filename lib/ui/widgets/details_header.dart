@@ -4,6 +4,14 @@ import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_app/ui/widgets/general_details_info.dart';
 import 'package:flutter_app/utils.dart';
 
+const LinearGradient kLinearGradient = LinearGradient(
+  colors: <Color>[Colors.white, Colors.black],
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+);
+const kBackdropGradientHeight = 350.0;
+const kOverviewWidth = 360.0;
+
 class DetailsHeader extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
 

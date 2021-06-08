@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/movies_genres/genres_bloc.dart';
+import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,11 +8,11 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieTrendingInfoWidget extends StatelessWidget {
   MovieTrendingInfoWidget(
-      {Key? key, required this.movieModel, required this.genres})
+      {Key? key, required this.movieModel, required this.indexOfCurrentMovie})
       : super(key: key);
 
   final MovieModel? movieModel;
-  final String? genres;
+  final int indexOfCurrentMovie;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class MovieTrendingInfoWidget extends StatelessWidget {
               direction: Axis.horizontal,
             ),
             SizedBox(
-              width: 5,
+              width: 4,
             ),
             Text(
               "${movieModel?.rating}/10 IMDb",
@@ -44,11 +45,11 @@ class MovieTrendingInfoWidget extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 5,
+          height: 6,
         ),
-        Genres(),
+        Genres(genres: movieModel?.genres),
         SizedBox(
-          height: 5,
+          height: 4,
         ),
       ],
     );
@@ -56,7 +57,9 @@ class MovieTrendingInfoWidget extends StatelessWidget {
 }
 
 class Genres extends StatelessWidget {
-  const Genres({Key? key}) : super(key: key);
+  final List<int>? genres;
+
+  const Genres({Key? key, required this.genres}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +68,18 @@ class Genres extends StatelessWidget {
         return LoadingWidget();
       }
       return Text(
-        state.currentGenres ?? '',
+        genresToList(genres, state.allApiGenres) ?? '',
         style: TextStyle(color: Colors.white, fontSize: 10),
       );
     });
   }
+}
+
+String? genresToList(List<int>? genres, List<MovieGenresModel>? allGenresList) {
+  var names = allGenresList
+      ?.where((item) => genres?.contains(item.id) == true)
+      .map((e) => e.name)
+      .join(", ");
+
+  return names;
 }

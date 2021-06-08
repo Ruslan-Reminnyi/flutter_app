@@ -4,6 +4,9 @@ import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_app/ui/widgets/details_info_widget.dart';
 import 'package:flutter_app/utils.dart';
 
+const kGeneralDetailsInfoHeight = 140.0;
+const kProductionCompanyLogoWidth = 72.0;
+
 class GeneralDetailsInfoWidget extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
   const GeneralDetailsInfoWidget({Key? key, required this.movieDetailsResponse})
@@ -39,7 +42,7 @@ class PosterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (movieDetailsResponse.posterPath?.isEmpty == false) {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(5.0),
+        borderRadius: BorderRadius.circular(6.0),
         child: Image.network(
           getImagePath(movieDetailsResponse.posterPath),
           fit: BoxFit.fitHeight,

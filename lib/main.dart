@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<GenresBloc>(
           create: (BuildContext context) =>
-              GenresBloc()..add(LoadMovieGenresEvent(genres: [])),
+              GenresBloc()..add(LoadMovieGenresEvent()),
         ),
       ], child: HomeScreen(title: kAppTitle)),
     );

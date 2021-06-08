@@ -12,19 +12,12 @@ class GenresBloc extends Bloc<GenresEvent, GenresState> {
 
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
-  GenresBloc()
-      : super(GenresState(
-            allApiGenres: ListGenresResponse(),
-            currentGenres: '',
-            loading: true));
+  GenresBloc() : super(GenresState(allApiGenres: [], loading: true));
 
   @override
   Stream<GenresState> mapEventToState(GenresEvent event) async* {
     if (event is LoadMovieGenresEvent) {
       yield* _loadedGenresMovies(event);
-    }
-    if (event is LoadMoreMovieGenresEvent) {
-      yield* _loadedMoreGenresMovies(event);
     }
   }
 
@@ -36,41 +29,10 @@ class GenresBloc extends Bloc<GenresEvent, GenresState> {
       //REVIEW fetch it only once
       ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
 
-      List<MovieGenresModel>? allGenresList = listGenresResponse.genres;
-
-      List<int>? currentGenresIds = movieEvent.genres;
-
       yield GenresState(
-          allApiGenres: listGenresResponse,
-          currentGenres: genresToList(currentGenresIds, allGenresList),
-          loading: false);
+          allApiGenres: listGenresResponse.genres, loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
     }
-  }
-
-  Stream<GenresState> _loadedMoreGenresMovies(GenresEvent movieEvent) async* {
-    try {
-      List<MovieGenresModel>? allGenresList = state.allApiGenres.genres;
-
-      List<int>? currentGenresIds = movieEvent.genres;
-
-      yield GenresState(
-          allApiGenres: state.allApiGenres,
-          currentGenres: genresToList(currentGenresIds, allGenresList),
-          loading: false);
-    } catch (e) {
-      yield state.copyWith(loading: false);
-    }
-  }
-
-  String? genresToList(
-      List<int>? currentGenresIds, List<MovieGenresModel>? allGenresList) {
-    var names = allGenresList
-        ?.where((item) => currentGenresIds!.contains(item.id))
-        .map((e) => e.name)
-        .join(", ");
-
-    return names;
   }
 }

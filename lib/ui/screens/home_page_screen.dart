@@ -5,7 +5,9 @@ import 'package:flutter_app/ui/widgets/list_trending_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/list_upcoming_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_app/constants.dart';
+
+const kHomePageTrendingMovieContainerHeight = 300.0;
+const kHomePageComingSoonMovieContainerHeight = 310.0;
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -47,12 +49,12 @@ class HomeScreen extends StatelessWidget {
                 return LoadingWidget();
               }
               return ListTrendingMoviesWidget(
-                  listMovieModel: state.listMovieModel,
-                  genres: state.currentGenres);
+                listMovieModel: state.listMovieModel,
+              );
             }),
           ),
           SizedBox(
-            height: 15,
+            height: 16,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,8 +79,7 @@ class HomeScreen extends StatelessWidget {
                     return LoadingWidget();
                   }
                   return ListUpcomingMoviesWidget(
-                      listMovieModel: state.listMovieModel,
-                      genres: state.currentGenres);
+                      listMovieModel: state.listMovieModel);
                 }),
               ),
             ],
