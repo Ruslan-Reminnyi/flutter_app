@@ -3,18 +3,18 @@ part of 'trending_movie_bloc.dart';
 class LoadingState {}
 
 class TrendingMovieState {
-  final ListResponse response;
+  final int? page;
   final List<MovieModel>? listMovieModel;
   final bool loading;
 
   TrendingMovieState(
-      {required this.response,
+      {required this.page,
       required this.listMovieModel,
       required this.loading});
 
-  TrendingMovieState copyWith({response, listMovieModel, loading}) {
+  TrendingMovieState copyWith({page, listMovieModel, loading}) {
     return TrendingMovieState(
-        response: response ?? this.response,
+        page: page ?? this.page,
         listMovieModel: listMovieModel ?? this.listMovieModel,
         loading: loading ?? this.loading);
   }

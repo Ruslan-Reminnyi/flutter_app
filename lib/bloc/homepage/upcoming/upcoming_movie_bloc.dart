@@ -13,11 +13,7 @@ class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
   //REVIEW don't store any intermidiate fields in bloc. They must be part of state
 
   UpcomingMovieBloc()
-      : super(UpcomingMovieState(
-            loading: false,
-            listMovieModel: [],
-            response: ListResponse(
-                page: 0, totalPages: 0, totalResults: 0, movies: [])));
+      : super(UpcomingMovieState(loading: false, listMovieModel: [], page: 0));
 
   @override
   Stream<UpcomingMovieState> mapEventToState(UpcomingMovieEvent event) async* {
@@ -35,10 +31,10 @@ class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
       yield state.copyWith(loading: true);
 
       ListResponse listResponseUpcoming =
-          await _api.getUpcomingMovies((state.response.page ?? 1) + 1);
+          await _api.getUpcomingMovies((state.page ?? 1) + 1);
 
       yield UpcomingMovieState(
-          response: listResponseUpcoming,
+          page: listResponseUpcoming.page,
           listMovieModel: listResponseUpcoming.movies,
           loading: false);
     } catch (e) {
@@ -50,13 +46,13 @@ class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
       UpcomingMovieEvent movieEvent) async* {
     try {
       ListResponse listResponseUpcoming =
-          await _api.getUpcomingMovies((state.response.page ?? 1) + 1);
+          await _api.getUpcomingMovies((state.page ?? 1) + 1);
 
       List<MovieModel>? listMovieModel = state.listMovieModel
         ?..addAll(listResponseUpcoming.movies ?? []);
 
       yield state.copyWith(
-          response: listResponseUpcoming,
+          page: listResponseUpcoming.page,
           listMovieModel: listMovieModel,
           loading: false);
     } catch (e) {

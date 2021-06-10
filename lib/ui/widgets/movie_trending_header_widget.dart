@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_model.dart';
-import 'package:flutter_app/utils.dart';
+import 'package:flutter_app/ui/widgets/network_image_widget.dart';
 
 class MovieTrendingHeaderWidget extends StatelessWidget {
   MovieTrendingHeaderWidget(
@@ -33,12 +33,10 @@ class MovieTrendingHeaderWidget extends StatelessWidget {
         ),
         Expanded(
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(6.0),
-            child: Image.network(
-              getImagePath(movieModel?.backdropPath),
-              fit: BoxFit.cover,
-            ),
-          ),
+              borderRadius: BorderRadius.circular(6.0),
+              child: NetworkImageWidget(
+                path: movieModel?.backdropPath,
+              )),
         ),
       ],
     );

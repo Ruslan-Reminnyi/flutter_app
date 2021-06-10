@@ -30,36 +30,40 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildBody(context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            height: 20,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(
+          height: 20,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20),
             child: Divider(
               color: Colors.grey,
             ),
           ),
-          Container(
-            height: kHomePageTrendingMovieContainerHeight,
-            child: BlocBuilder<TrendingMovieBloc, TrendingMovieState>(
-                builder: (context, state) {
-              if (state.loading) {
-                return LoadingWidget();
-              }
-              return ListTrendingMoviesWidget(
-                listMovieModel: state.listMovieModel,
-              );
-            }),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+        ),
+        Container(
+          height: kHomePageTrendingMovieContainerHeight,
+          child: BlocBuilder<TrendingMovieBloc, TrendingMovieState>(
+              builder: (context, state) {
+            if (state.loading) {
+              return LoadingWidget();
+            }
+            return ListTrendingMoviesWidget(
+              listMovieModel: state.listMovieModel,
+              padding: EdgeInsets.symmetric(horizontal: 20),
+            );
+          }),
+        ),
+        SizedBox(
+          height: 16,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text(
                 'Coming Soon',
                 style: TextStyle(
                   fontSize: 20,
@@ -67,25 +71,27 @@ class HomeScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                height:
-                    kHomePageComingSoonMovieContainerHeight, //REVIEW magic numbers
-                child: BlocBuilder<UpcomingMovieBloc, UpcomingMovieState>(
-                    builder: (context, state) {
-                  if (state.loading) {
-                    return LoadingWidget();
-                  }
-                  return ListUpcomingMoviesWidget(
-                      listMovieModel: state.listMovieModel);
-                }),
-              ),
-            ],
-          ),
-        ],
-      ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height:
+                  kHomePageComingSoonMovieContainerHeight, //REVIEW magic numbers
+              child: BlocBuilder<UpcomingMovieBloc, UpcomingMovieState>(
+                  builder: (context, state) {
+                if (state.loading) {
+                  return LoadingWidget();
+                }
+                return ListUpcomingMoviesWidget(
+                  listMovieModel: state.listMovieModel,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                );
+              }),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

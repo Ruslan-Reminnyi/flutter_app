@@ -14,15 +14,19 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider<DetailsMovieBloc>(
-        create: (BuildContext context) =>
-            DetailsMovieBloc()..add(LoadDetailsPageEvent(id: id)),
-      ),
-      BlocProvider<GenresBloc>(
-        create: (BuildContext context) =>
-            GenresBloc()..add(LoadMovieGenresEvent()),
-      ),
-    ], child: DetailsContainer());
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<DetailsMovieBloc>(
+            create: (BuildContext context) =>
+                DetailsMovieBloc()..add(LoadDetailsPageEvent(id: id)),
+          ),
+          BlocProvider<GenresBloc>(
+            create: (BuildContext context) =>
+                GenresBloc()..add(LoadMovieGenresEvent()),
+          ),
+        ],
+        child: DetailsContainer(
+          id: id,
+        ));
   }
 }

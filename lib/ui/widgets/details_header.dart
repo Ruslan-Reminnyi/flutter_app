@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_app/ui/widgets/general_details_info.dart';
 import 'package:flutter_app/utils.dart';
@@ -9,8 +8,8 @@ const LinearGradient kLinearGradient = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
 );
-const kBackdropGradientHeight = 350.0;
-const kOverviewWidth = 360.0;
+const kBackdropGradientHeight = 200.0;
+const kOverviewWidth = 370.0;
 
 class DetailsHeader extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
@@ -20,19 +19,23 @@ class DetailsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(//REVIEW3 too much elements in stack or move padding to this widget
+    return Stack(
+      //REVIEW3 too much elements in stack or move padding to this widget
       children: [
         Backdrop(movieDetailsResponse: movieDetailsResponse),
-        ImageGradient(),
-        Column(
-          children: [
-            GeneralDetailsInfoWidget(
-                movieDetailsResponse: movieDetailsResponse),
-            SizedBox(
-              height: 10,
-            ),
-            Overview(movieDetailsResponse: movieDetailsResponse),
-          ],
+        // ImageGradient(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 180.0, 0.0, 0.0),
+          child: Column(
+            children: [
+              GeneralDetailsInfoWidget(
+                  movieDetailsResponse: movieDetailsResponse),
+              SizedBox(
+                height: 10,
+              ),
+              Overview(movieDetailsResponse: movieDetailsResponse),
+            ],
+          ),
         ),
       ],
     );
@@ -46,18 +49,21 @@ class Backdrop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (movieDetailsResponse.backdropPath?.isEmpty == false) {
-      return Image.network(
-        //REVIEW should have all cases of image link construction as function not placed all over the place apply DRY principle
-        getImagePath(movieDetailsResponse.backdropPath),
-      );
+      return Stack(children: [
+        Image.network(
+          //REVIEW should have all cases of image link construction as function not placed all over the place apply DRY principle
+          getImagePath(movieDetailsResponse.backdropPath),
+        ),
+        ImageGradient(),
+      ]);
     } else {
-      return Container(
-        alignment: Alignment.bottomCenter,
-        height: 200,
-        child: Image(
-          height: kImagePlaceholderHeight,
-          width: MediaQuery.of(context).size.width,
-          image: AssetImage('images/image_placeholder.png'),
+      return Center(
+        heightFactor: 12,
+        child: Text(
+          'no backdrop',
+          style: TextStyle(
+            color: Colors.white,
+          ),
         ),
       );
     }
@@ -98,12 +104,16 @@ class Overview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: kOverviewWidth,
+      height: 80,
       child: ShaderMask(
         shaderCallback: (_) => kLinearGradient.createShader(
           Rect.fromLTWH(0, 0, 0, 70),
         ),
-        child: Text(//REVIEW3 view is too big
+        child: Text(
+          //REVIEW3 view is too big
           movieDetailsResponse.overview ?? '',
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: Colors.white,
             fontSize: 14,

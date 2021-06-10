@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/utils.dart';
+import 'package:flutter_app/ui/widgets/network_image_widget.dart';
 
 const kCreditsItemContainerWidth = 86.0;
 
@@ -16,10 +16,7 @@ class CreditsItem extends StatelessWidget {
         padding: const EdgeInsets.only(right: 10.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
-          child: Image.network(
-            getImagePath(creditsPath),
-            fit: BoxFit.cover,
-          ),
+          child: NetworkImageWidget(path: creditsPath),
         ),
       ),
     );

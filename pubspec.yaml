@@ -24,11 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
   json_annotation: ^4.0.1
-  http: ^0.13.1
   flutter_bloc: ^7.0.0
   flutter_rating_bar: ^4.0.0
   cupertino_icons: ^1.0.2
-  equatable: ^2.0.0
   pedantic: ^1.11.0
   dio: ^4.0.0
 

@@ -5,10 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_app/bloc/homepage/trending/trending_movie_bloc.dart';
 
 class ListTrendingMoviesWidget extends StatefulWidget {
-  ListTrendingMoviesWidget({Key? key, required this.listMovieModel})
+  ListTrendingMoviesWidget(
+      {Key? key, required this.listMovieModel, this.padding = EdgeInsets.zero})
       : super(key: key);
 
   final List<MovieModel>? listMovieModel;
+  final EdgeInsets padding;
 
   @override
   _ListTrendingMoviesWidgetState createState() =>
@@ -39,6 +41,7 @@ class _ListTrendingMoviesWidgetState extends State<ListTrendingMoviesWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: widget.padding,
       scrollDirection: Axis.horizontal,
       itemCount: widget.listMovieModel?.length,
       controller: _trendingScrollController,

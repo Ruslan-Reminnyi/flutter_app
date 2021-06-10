@@ -6,7 +6,9 @@ import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailsContainer extends StatelessWidget {
-  DetailsContainer({Key? key}) : super(key: key);
+  final int id;
+
+  DetailsContainer({Key? key, required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +35,8 @@ class DetailsContainer extends StatelessWidget {
           return LoadingWidget();
         }
         return DetailsStackWidget(
-          context: context,
+          id: id,
           movieDetailsResponse: state.movieDetailsResponse,
-          listSimilarMovies: state.listSimilarMovies,
-          genresOfSimilarMovie: state.genresOfSimilarMovie,
         );
       })),
     );
