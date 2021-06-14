@@ -14,10 +14,8 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: kAppTitle,
-      debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(providers: [
+    return MultiBlocProvider(
+      providers: [
         BlocProvider<TrendingMovieBloc>(
           create: (BuildContext context) =>
               TrendingMovieBloc()..add(LoadTrendingMoviesEvent()),
@@ -32,9 +30,13 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<SearchBloc>(
           create: (BuildContext context) =>
-              SearchBloc()..add(LoadSearchMovieEvent('')),
+              SearchBloc(),
         ),
-      ], child: HomeScreen(title: kAppTitle)),
+      ],
+      child: MaterialApp(
+          title: kAppTitle,
+          debugShowCheckedModeBanner: false,
+          home: HomeScreen(title: kAppTitle)),
     );
   }
 }

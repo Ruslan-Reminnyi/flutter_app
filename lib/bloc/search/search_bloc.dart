@@ -31,7 +31,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     try {
       yield state.copyWith(loading: true);
 
-      ListResponse listResponse = await _api.searchMovies(movieEvent.query);
+      int page = movieEvent.page;
+      ListResponse listResponse = await _api.searchMovies(
+          movieEvent.query,
+          page
+      );
 
       yield SearchState(
           page: listResponse.page,
@@ -44,7 +48,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Stream<SearchState> _searchMoreMovies(SearchEvent movieEvent) async* {
     try {
-      ListResponse listResponse = await _api.searchMovies(movieEvent.query);
+      int page = movieEvent.page;
+      ListResponse listResponse = await _api.searchMovies(
+          movieEvent.query,
+      page
+      );
 
       yield SearchState(
           page: (state.page ?? 1) + 1,

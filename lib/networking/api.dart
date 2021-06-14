@@ -43,9 +43,9 @@ class Api {
     return ListResponse.fromJson(response.data);
   }
 
-  Future<ListResponse> searchMovies(String query) async {
+  Future<ListResponse> searchMovies(String query, int page) async {
     final response =
-        await dio.get('$url/search/movie?api_key=$apiKey&query=$query');
+        await dio.get('$url/search/movie?api_key=$apiKey&query=$query&page=$page');
 
     return ListResponse.fromJson(response.data);
   }

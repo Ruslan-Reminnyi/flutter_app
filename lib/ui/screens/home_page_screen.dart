@@ -31,8 +31,6 @@ class HomeScreen extends StatelessWidget {
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () async {
-                BlocProvider.of<SearchBloc>(context)
-                    .add(LoadSearchMovieEvent('Matrix'));
                 await showSearch<String>(
                     context: context, delegate: MovieSearch());
               }),
