@@ -33,9 +33,9 @@ class HomeScreen extends StatelessWidget {
               onPressed: () async {
                 BlocProvider.of<SearchBloc>(context)
                     .add(LoadSearchMovieEvent('Matrix'));
-                await showSearch<String>(context: context, delegate: MovieSearch());
-              }
-          ),
+                await showSearch<String>(
+                    context: context, delegate: MovieSearch());
+              }),
         ],
       ),
       body: _buildBody(context),

@@ -7,7 +7,10 @@ class SearchState {
   final List<MovieModel>? listMovieModel;
   final bool loading;
 
-  SearchState({required this.listMovieModel, required this.loading, required this.page});
+  SearchState(
+      {required this.listMovieModel,
+      required this.loading,
+      required this.page});
 
   SearchState copyWith({page, listMovieModel, loading}) {
     return SearchState(

@@ -44,16 +44,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Stream<SearchState> _searchMoreMovies(SearchEvent movieEvent) async* {
     try {
-
       ListResponse listResponse = await _api.searchMovies(movieEvent.query);
 
       yield SearchState(
           page: (state.page ?? 1) + 1,
-          listMovieModel: state.listMovieModel?..addAll(listResponse.movies ?? []),
+          listMovieModel: state.listMovieModel
+            ?..addAll(listResponse.movies ?? []),
           loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
     }
   }
-
 }

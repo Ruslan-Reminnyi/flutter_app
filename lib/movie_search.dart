@@ -18,9 +18,11 @@ class MovieSearch extends SearchDelegate<String> {
 
   @override
   Widget buildLeading(BuildContext context) {
-    return IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
-      close(context, '');
-    });
+    return IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          close(context, '');
+        });
   }
 
   @override
@@ -29,39 +31,39 @@ class MovieSearch extends SearchDelegate<String> {
     //     .toList();
 
     // if (suggestions.isNotEmpty == true) {
-    return BlocBuilder<SearchBloc, SearchState>(
-        builder: (context, state) {
-          if (state.loading) {
-            return LoadingWidget();
-          }
-          return ListView.builder(
-            itemCount: state.listMovieModel?.length,
-            itemBuilder: (BuildContext context, int index) {
-              List<MovieModel>? suggestions = state.listMovieModel?.where((
-                  element) => element.originalTitle == query).toList();
-              return ListTile(
-                title: Text(
-                  '${suggestions?[index]}',
-                ),
-                onTap: () {
-                  final id = state.listMovieModel?[index].id;
-                  if (id != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        //REVIEW has a lot fo data passed in that it shouldn't have
-                          builder: (ctx) {
-                            return DetailsScreen(
-                              id: id,
-                            );
-                          }),
+    return BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+      if (state.loading) {
+        return LoadingWidget();
+      }
+      return ListView.builder(
+        itemCount: state.listMovieModel?.length,
+        itemBuilder: (BuildContext context, int index) {
+          List<MovieModel>? suggestions = state.listMovieModel
+              ?.where((element) => element.originalTitle == query)
+              .toList();
+          return ListTile(
+            title: Text(
+              '${suggestions?[index]}',
+            ),
+            onTap: () {
+              final id = state.listMovieModel?[index].id;
+              if (id != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      //REVIEW has a lot fo data passed in that it shouldn't have
+                      builder: (ctx) {
+                    return DetailsScreen(
+                      id: id,
                     );
-                  }
-                },
-              );
+                  }),
+                );
+              }
             },
           );
-        });
+        },
+      );
+    });
     // }
 
     // return Column();
@@ -88,58 +90,54 @@ class MovieSearch extends SearchDelegate<String> {
     // );
     // },
     // );
-
-
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return BlocBuilder<SearchBloc, SearchState>(
-        builder: (context, state) {
-          if(state == null) {
-            return Column();
-          }
-          if (state.loading) {
-            return LoadingWidget();
-          }
-          return ListView.builder(
-            itemCount: state.listMovieModel?.length,
-            itemBuilder: (BuildContext context, int index) {
-              List<MovieModel>? suggestions = state.listMovieModel?.where((
-                  element) => element.originalTitle == query).toList();
-              return ListTile(
-                title: Text(
-                  '${suggestions?[index]}',
-                ),
-                onTap: () {
-                    showResults(context);
-                  },
-              );
+    return BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+      if (state == null) {
+        return Column();
+      }
+      if (state.loading) {
+        return LoadingWidget();
+      }
+      return ListView.builder(
+        itemCount: state.listMovieModel?.length,
+        itemBuilder: (BuildContext context, int index) {
+          List<MovieModel>? suggestions = state.listMovieModel
+              ?.where((element) => element.originalTitle == query)
+              .toList();
+          return ListTile(
+            title: Text(
+              '${suggestions?[index]}',
+            ),
+            onTap: () {
+              showResults(context);
             },
           );
-        });
-
-    }
-
-    // List<String> suggestions = data.where((element) => element == query)
-    //     .toList();
-    //
-    // if (suggestions.isNotEmpty == true) {
-    //   return ListView.builder(
-    //     itemCount: suggestions.length,
-    //     itemBuilder: (BuildContext context, int index) {
-    //       return ListTile(
-    //         title: Text(
-    //             suggestions[index],
-    //         ),
-    //         onTap: () {
-    //           showResults(context);
-    //         },
-    //       );
-    //     },
-    //   );
-    // }
-    //
-
+        },
+      );
+    });
   }
 
+  // List<String> suggestions = data.where((element) => element == query)
+  //     .toList();
+  //
+  // if (suggestions.isNotEmpty == true) {
+  //   return ListView.builder(
+  //     itemCount: suggestions.length,
+  //     itemBuilder: (BuildContext context, int index) {
+  //       return ListTile(
+  //         title: Text(
+  //             suggestions[index],
+  //         ),
+  //         onTap: () {
+  //           showResults(context);
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+  //
+
+}

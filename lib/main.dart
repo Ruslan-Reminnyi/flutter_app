@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<SearchBloc>(
           create: (BuildContext context) =>
-          SearchBloc()..add(LoadSearchMovieEvent('')),
+              SearchBloc()..add(LoadSearchMovieEvent('')),
         ),
       ], child: HomeScreen(title: kAppTitle)),
     );
