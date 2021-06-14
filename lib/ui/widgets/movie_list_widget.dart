@@ -6,25 +6,25 @@ import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/containers/common_movie_list_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ListviewWidget extends StatefulWidget {
+class MovieList extends StatefulWidget {
   final int id;
   final KindOfWidget kindOfWidget;
   final EdgeInsets padding;
-  final List<MovieModel>? listMovieModel;
+  final List<MovieModel>? movies;
 
-  const ListviewWidget(
+  const MovieList(
       {Key? key,
       required this.padding,
-      required this.listMovieModel,
+      required this.movies,
       required this.kindOfWidget,
       required this.id})
       : super(key: key);
 
   @override
-  _ListviewWidgetState createState() => _ListviewWidgetState();
+  _MovieListState createState() => _MovieListState();
 }
 
-class _ListviewWidgetState extends State<ListviewWidget> {
+class _MovieListState extends State<MovieList> {
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -58,11 +58,11 @@ class _ListviewWidgetState extends State<ListviewWidget> {
     return ListView.builder(
       padding: widget.padding,
       scrollDirection: Axis.horizontal,
-      itemCount: widget.listMovieModel?.length,
+      itemCount: widget.movies?.length,
       controller: scrollController,
       itemBuilder: (ctx, index) {
         return CommonMovieListWidget(
-          movieModel: widget.listMovieModel?[index],
+          movieModel: widget.movies?[index],
         );
       },
     );

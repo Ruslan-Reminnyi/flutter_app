@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/movie_model.dart';
-import 'package:flutter_app/ui/widgets/listview_widget.dart';
+import 'package:flutter_app/ui/widgets/movie_list_widget.dart';
 
 class ListUpcomingMoviesWidget extends StatelessWidget {
   ListUpcomingMoviesWidget(
@@ -13,9 +13,9 @@ class ListUpcomingMoviesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListviewWidget(
+    return MovieList(
         padding: padding,
-        listMovieModel: listMovieModel,
+        movies: listMovieModel,
         kindOfWidget: KindOfWidget.upcoming,
         id: 0);
   }

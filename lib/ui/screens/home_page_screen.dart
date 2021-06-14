@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/homepage/upcoming/upcoming_movie_bloc.dart';
 import 'package:flutter_app/bloc/homepage/trending/trending_movie_bloc.dart';
+import 'package:flutter_app/bloc/search/search_bloc.dart';
+import 'package:flutter_app/data/movie_model.dart';
+import 'package:flutter_app/movie_search.dart';
 import 'package:flutter_app/ui/widgets/list_trending_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/list_upcoming_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
@@ -24,6 +27,16 @@ class HomeScreen extends StatelessWidget {
           title,
           style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () async {
+                BlocProvider.of<SearchBloc>(context)
+                    .add(LoadSearchMovieEvent('Matrix'));
+                await showSearch<String>(context: context, delegate: MovieSearch());
+              }
+          ),
+        ],
       ),
       body: _buildBody(context),
     );

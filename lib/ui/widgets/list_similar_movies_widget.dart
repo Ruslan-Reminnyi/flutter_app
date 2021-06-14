@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/movie_model.dart';
-import 'package:flutter_app/ui/widgets/listview_widget.dart';
+import 'package:flutter_app/ui/widgets/movie_list_widget.dart';
 import 'package:flutter_app/ui/widgets/details_category_name_widget.dart';
 
 const kSimilarMoviesContainerHeight = 308.0;
@@ -34,9 +34,9 @@ class ListSimilarMoviesWidget extends StatelessWidget {
         ),
         Container(
           height: kSimilarMoviesContainerHeight,
-          child: ListviewWidget(
+          child: MovieList(
             padding: padding,
-            listMovieModel: listResponseSimilarMovies,
+            movies: listResponseSimilarMovies,
             kindOfWidget: KindOfWidget.similar,
             id: id,
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/homepage/upcoming/upcoming_movie_bloc.dart';
 import 'package:flutter_app/bloc/homepage/trending/trending_movie_bloc.dart';
 import 'package:flutter_app/bloc/movies_genres/genres_bloc.dart';
+import 'package:flutter_app/bloc/search/search_bloc.dart';
 import 'package:flutter_app/constants.dart';
 
 //REVIEW remove unused imports android studio does it automatically when formatting
@@ -28,6 +29,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<GenresBloc>(
           create: (BuildContext context) =>
               GenresBloc()..add(LoadMovieGenresEvent()),
+        ),
+        BlocProvider<SearchBloc>(
+          create: (BuildContext context) =>
+          SearchBloc()..add(LoadSearchMovieEvent('')),
         ),
       ], child: HomeScreen(title: kAppTitle)),
     );
