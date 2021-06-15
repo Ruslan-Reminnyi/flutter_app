@@ -11,14 +11,12 @@ class MovieSearch extends SearchDelegate<String> {
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
-      BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
-        return IconButton(
+        IconButton(
             icon: Icon(Icons.close),
             onPressed: () {
               query = '';
               showSuggestions(context);
-            });
-      }),
+            })
     ];
   }
 
