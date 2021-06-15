@@ -11,7 +11,14 @@ class MovieSearch extends SearchDelegate<String> {
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
-      IconButton(icon: Icon(Icons.close), onPressed: () => query = ''),
+      BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+        return IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              query = '';
+              showSuggestions(context);
+            });
+      }),
     ];
   }
 
@@ -76,6 +83,9 @@ class MovieSearch extends SearchDelegate<String> {
     BlocProvider.of<SearchBloc>(context).add(LoadSearchMovieEvent(query));
 
     return BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+      if (query.isEmpty == true) {
+        return Container();
+      }
       if (state.loading) {
         return LoadingWidget();
       }
