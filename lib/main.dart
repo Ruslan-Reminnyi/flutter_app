@@ -29,8 +29,7 @@ class MyApp extends StatelessWidget {
               GenresBloc()..add(LoadMovieGenresEvent()),
         ),
         BlocProvider<SearchBloc>(
-          create: (BuildContext context) =>
-              SearchBloc(),
+          create: (BuildContext context) => SearchBloc(),
         ),
       ],
       child: MaterialApp(

@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/bloc/detailspage/details_movie_bloc.dart';
-import 'package:flutter_app/bloc/homepage/upcoming/upcoming_movie_bloc.dart';
-import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/containers/common_movie_list_container.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieList extends StatefulWidget {
-  final int id;
-  final KindOfWidget kindOfWidget;
   final EdgeInsets padding;
   final List<MovieModel>? movies;
+
+  final Function loadMore;
 
   const MovieList(
       {Key? key,
       required this.padding,
       required this.movies,
-      required this.kindOfWidget,
-      required this.id})
+      required this.loadMore})
       : super(key: key);
 
   @override
@@ -32,16 +27,7 @@ class _MovieListState extends State<MovieList> {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        switch (widget.kindOfWidget) {
-          case KindOfWidget.upcoming:
-            BlocProvider.of<UpcomingMovieBloc>(context)
-                .add(LoadMoreUpcomingMoviesEvent());
-            break;
-          case KindOfWidget.similar:
-            BlocProvider.of<DetailsMovieBloc>(context)
-                .add(LoadMoreDetailsPageEvent(id: widget.id));
-            break;
-        }
+        widget.loadMore();
       }
     });
     super.initState();

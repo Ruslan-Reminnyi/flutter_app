@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/homepage/upcoming/upcoming_movie_bloc.dart';
 import 'package:flutter_app/bloc/homepage/trending/trending_movie_bloc.dart';
-import 'package:flutter_app/bloc/search/search_bloc.dart';
-import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/movie_search.dart';
 import 'package:flutter_app/ui/widgets/list_trending_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/list_upcoming_movies_widget.dart';
@@ -46,11 +44,9 @@ class HomeScreen extends StatelessWidget {
       children: <Widget>[
         SizedBox(
           height: 20,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Divider(
-              color: Colors.grey,
-            ),
+          child: Divider(
+            color: Colors.grey,
+            indent: 20,
           ),
         ),
         Container(

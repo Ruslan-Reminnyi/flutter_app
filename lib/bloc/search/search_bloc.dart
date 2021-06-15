@@ -1,8 +1,6 @@
 import 'package:flutter_app/data/list_response.dart';
-import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/networking/api.dart';
-import 'package:flutter_app/data/list_genres_response.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'search_event.dart';
@@ -31,11 +29,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     try {
       yield state.copyWith(loading: true);
 
-      int page = movieEvent.page;
-      ListResponse listResponse = await _api.searchMovies(
-          movieEvent.query,
-          page
-      );
+      ListResponse listResponse = await _api.searchMovies(movieEvent.query, 1);
 
       yield SearchState(
           page: listResponse.page,
@@ -48,14 +42,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Stream<SearchState> _searchMoreMovies(SearchEvent movieEvent) async* {
     try {
-      int page = movieEvent.page;
-      ListResponse listResponse = await _api.searchMovies(
-          movieEvent.query,
-      page
-      );
+      int page = (state.page ?? 2) + 1;
+      ListResponse listResponse =
+          await _api.searchMovies(movieEvent.query, page);
 
-      yield SearchState(
-          page: (state.page ?? 1) + 1,
+      yield state.copyWith(
+          page: page,
           listMovieModel: state.listMovieModel
             ?..addAll(listResponse.movies ?? []),
           loading: false);

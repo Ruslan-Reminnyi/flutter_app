@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constants.dart';
+import 'package:flutter_app/bloc/detailspage/details_movie_bloc.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/widgets/movie_list_widget.dart';
 import 'package:flutter_app/ui/widgets/details_category_name_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 const kSimilarMoviesContainerHeight = 308.0;
 
@@ -37,8 +38,10 @@ class ListSimilarMoviesWidget extends StatelessWidget {
           child: MovieList(
             padding: padding,
             movies: listResponseSimilarMovies,
-            kindOfWidget: KindOfWidget.similar,
-            id: id,
+            loadMore: () {
+              BlocProvider.of<DetailsMovieBloc>(context)
+                  .add(LoadMoreDetailsPageEvent(id: id));
+            },
           ),
         ),
       ],
