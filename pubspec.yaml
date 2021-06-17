@@ -29,6 +29,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   pedantic: ^1.11.0
   dio: ^4.0.0
+  rxdart: ^0.27.1
+  webview_flutter: ^2.0.8
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/bloc/auth/auth_bloc.dart';
 import 'package:flutter_app/bloc/homepage/upcoming/upcoming_movie_bloc.dart';
 import 'package:flutter_app/bloc/homepage/trending/trending_movie_bloc.dart';
 import 'package:flutter_app/movie_search.dart';
+import 'package:flutter_app/ui/screens/webview_page_screen.dart';
 import 'package:flutter_app/ui/widgets/list_trending_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/list_upcoming_movies_widget.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
@@ -21,6 +23,17 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black87,
+        leading: IconButton(
+            icon: Icon(Icons.login),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (ctx) {
+                    BlocProvider.of<AuthBloc>(context)
+                        .add(GetSessionIdEvent());
+                    return WebViewPageScreen();
+              }));
+            }),
         title: Text(
           title,
           style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),

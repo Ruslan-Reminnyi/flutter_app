@@ -2,6 +2,7 @@ import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/networking/api.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'search_event.dart';
 
@@ -24,9 +25,20 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
   }
 
+  @override
+  Stream<Transition<SearchEvent, SearchState>> transformEvents(
+      events,
+      transitionFn) {
+      return events.debounceTime(Duration(milliseconds: 150)).switchMap(transitionFn);
+  }
+
   //REVIEW I don't see any yeilds. This function is Future by nature too
   Stream<SearchState> _searchMovies(SearchEvent movieEvent) async* {
     try {
+      if(movieEvent.query.isEmpty) {
+        yield SearchState(page: 0, listMovieModel: [], loading: false);
+      }
+print(movieEvent.query);
       yield state.copyWith(loading: true);
 
       ListResponse listResponse = await _api.searchMovies(movieEvent.query, 1);
@@ -36,13 +48,20 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           listMovieModel: listResponse.movies,
           loading: false);
     } catch (e) {
-      yield state.copyWith(loading: false);
+      List<MovieModel>? listMovieModel = [];
+
+      yield state.copyWith(listMovieModel: listMovieModel, loading: false);
     }
   }
 
   Stream<SearchState> _searchMoreMovies(SearchEvent movieEvent) async* {
     try {
+      if(movieEvent.query.isEmpty) {
+        yield SearchState(page: 0, listMovieModel: [], loading: false);
+      }
+
       int page = (state.page ?? 2) + 1;
+
       ListResponse listResponse =
           await _api.searchMovies(movieEvent.query, page);
 
@@ -52,7 +71,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             ?..addAll(listResponse.movies ?? []),
           loading: false);
     } catch (e) {
-      yield state.copyWith(loading: false);
+      List<MovieModel>? listMovieModel = [];
+
+      yield state.copyWith(listMovieModel: listMovieModel, loading: false);
     }
   }
 }
