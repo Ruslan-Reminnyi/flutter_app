@@ -15,7 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
-  AuthBloc() : super(AuthState(token: ApiToken(token: ''), sessionId: '', loading: true));
+  AuthBloc() : super(AuthState(token: '', sessionId: '', loading: true));
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
@@ -35,10 +35,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ApiToken token = await _api.getRequestToken();
 
       yield state.copyWith(
-        token: token,
+        token: token.token,
           loading: false);
     } catch (e) {
-      yield state.copyWith(token: ApiToken(token: ''), loading: false);
+      yield state.copyWith(loading: false);
     }
   }
 
@@ -46,15 +46,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       yield state.copyWith(loading: false);
 
-      SessionId sessionId = await _api.getSessionId(state.token);
-
-      String? id = sessionId.id;
+      SessionId sessionId = await _api.getSessionId();
 
       yield state.copyWith(
-          sessionId: id,
+          sessionId: sessionId,
           loading: false);
     } catch (e) {
-      yield state.copyWith(token: ApiToken(token: ''), loading: false);
+      yield state.copyWith(loading: false);
     }
   }
 

@@ -23,6 +23,7 @@ class _WebViewPageScreenState extends State<WebViewPageScreen> {
       }
 
       print('sessionId ${state.sessionId}');
+      print('token ${state.token}');
 
       return WebView(
       initialUrl: 'https://www.themoviedb.org/authenticate/${state.token}',

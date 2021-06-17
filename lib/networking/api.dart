@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_app/data/list_genres_response.dart';
@@ -62,10 +60,10 @@ class Api {
     return ApiToken.fromJson(response.data);
   }
 
-  Future<SessionId> getSessionId(ApiToken apiToken) async {
+  Future<SessionId> getSessionId() async {
     final response = await dio
-        .post('$url/authentication/session/new?api_key=$apiKey', data: jsonEncode(apiToken));
-print('statusCode ${response.statusCode}');
+        .get('$url/authentication/session/new?api_key=$apiKey');
+
     return SessionId.fromJson(response.data);
   }
 

@@ -29,8 +29,8 @@ class HomeScreen extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(builder: (ctx) {
-                    BlocProvider.of<AuthBloc>(context)
-                        .add(GetSessionIdEvent());
+                    // BlocProvider.of<AuthBloc>(context)
+                    //     .add(GetSessionIdEvent());
                     return WebViewPageScreen();
               }));
             }),

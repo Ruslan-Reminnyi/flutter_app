@@ -3,7 +3,7 @@ part of 'auth_bloc.dart';
 class LoadingState {}
 
 class AuthState {
-  final ApiToken token;
+  final String? token;
   final String? sessionId;
   final bool loading;
 
