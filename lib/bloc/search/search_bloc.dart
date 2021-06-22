@@ -27,18 +27,19 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   @override
   Stream<Transition<SearchEvent, SearchState>> transformEvents(
-      events,
-      transitionFn) {
-      return events.debounceTime(Duration(milliseconds: 150)).switchMap(transitionFn);
+      events, transitionFn) {
+    return events
+        .debounceTime(Duration(milliseconds: 150))
+        .switchMap(transitionFn);
   }
 
   //REVIEW I don't see any yeilds. This function is Future by nature too
   Stream<SearchState> _searchMovies(SearchEvent movieEvent) async* {
     try {
-      if(movieEvent.query.isEmpty) {
+      if (movieEvent.query.isEmpty) {
         yield SearchState(page: 0, listMovieModel: [], loading: false);
       }
-print(movieEvent.query);
+
       yield state.copyWith(loading: true);
 
       ListResponse listResponse = await _api.searchMovies(movieEvent.query, 1);
@@ -56,7 +57,7 @@ print(movieEvent.query);
 
   Stream<SearchState> _searchMoreMovies(SearchEvent movieEvent) async* {
     try {
-      if(movieEvent.query.isEmpty) {
+      if (movieEvent.query.isEmpty) {
         yield SearchState(page: 0, listMovieModel: [], loading: false);
       }
 

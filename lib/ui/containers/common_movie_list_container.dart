@@ -3,6 +3,7 @@ import 'package:flutter_app/bloc/movies_genres/genres_bloc.dart';
 import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
+import 'package:flutter_app/ui/widgets/heart_widget.dart';
 import 'package:flutter_app/ui/widgets/network_image_widget.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,48 +37,56 @@ class CommonMovieListWidget extends StatelessWidget {
           );
         }
       },
-      child: Container(
-        width: kCommonMovieListContainerHeight,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6.0),
-                    child: NetworkImageWidget(
-                      path: movieModel?.posterPath,
-                    )),
-              ),
-              Container(
-                height: kMovieComingSoonTextContainerHeight,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Expanded(
-                      child: Text(
-                        movieModel?.originalTitle ?? '',
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
+      child: Stack(
+        children: [
+          Container(
+            width: kCommonMovieListContainerHeight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6.0),
+                        child: NetworkImageWidget(
+                          path: movieModel?.posterPath,
+                        )),
+                  ),
+                  Container(
+                    height: kMovieComingSoonTextContainerHeight,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 16,
                         ),
-                      ),
+                        Expanded(
+                          child: Text(
+                            movieModel?.originalTitle ?? '',
+                            maxLines: 2,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Expanded(child: Genres(genres: movieModel?.genres)),
+                      ],
                     ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Expanded(child: Genres(genres: movieModel?.genres)),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          Heart(
+            id: movieModel?.id,
+            padding: EdgeInsets.only(left: 100.0),
+          ),
+        ],
       ),
     );
   }

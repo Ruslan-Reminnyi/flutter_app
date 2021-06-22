@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_model.dart';
+import 'package:flutter_app/ui/widgets/heart_widget.dart';
 import 'package:flutter_app/ui/widgets/network_image_widget.dart';
 
 class MovieTrendingHeaderWidget extends StatelessWidget {
@@ -12,31 +13,39 @@ class MovieTrendingHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          number < 10 ? '0$number' : '$number',
-          style: TextStyle(fontSize: 12, color: Colors.grey),
+    return Stack(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              number < 10 ? '0$number' : '$number',
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            SizedBox(
+              height: 6,
+            ),
+            Text(
+              movieModel?.originalTitle != null
+                  ? '${movieModel?.originalTitle}'
+                  : '${movieModel?.originalTitle}',
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(6.0),
+                  child: NetworkImageWidget(
+                    path: movieModel?.backdropPath,
+                  )),
+            ),
+          ],
         ),
-        SizedBox(
-          height: 6,
-        ),
-        Text(
-          movieModel?.originalTitle != null
-              ? '${movieModel?.originalTitle}'
-              : '${movieModel?.originalTitle}',
-          style: TextStyle(fontSize: 18, color: Colors.white),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Expanded(
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(6.0),
-              child: NetworkImageWidget(
-                path: movieModel?.backdropPath,
-              )),
+        Heart(
+          id: movieModel?.id,
+          padding: EdgeInsets.only(top: 50.0),
         ),
       ],
     );

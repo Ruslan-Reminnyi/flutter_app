@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter_app/data/favorite_request.dart';
+import 'package:flutter_app/data/favorite_response.dart';
 import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_app/data/list_genres_response.dart';
 import 'package:flutter_app/data/list_response.dart';
@@ -54,17 +58,36 @@ class Api {
   }
 
   Future<ApiToken> getRequestToken() async {
-    final response = await dio
-        .get('$url/authentication/token/new?api_key=$apiKey');
+    final response =
+        await dio.get('$url/authentication/token/new?api_key=$apiKey');
 
     return ApiToken.fromJson(response.data);
   }
 
-  Future<SessionId> getSessionId() async {
-    final response = await dio
-        .get('$url/authentication/session/new?api_key=$apiKey');
-
+  Future<SessionId> getSessionId(String token) async {
+    ApiToken apiToken = ApiToken(token: token);
+    final response = await dio.post(
+        '$url/authentication/session/new?api_key=$apiKey',
+        data: jsonEncode(apiToken));
+    print('statusCode ${response.statusCode}');
     return SessionId.fromJson(response.data);
   }
 
+  Future<ListResponse> getFavoriteMovies(
+      String sessionId, int pageNumber) async {
+    final response = await dio.get(
+        '$url/account/favorite/movies?api_key=$apiKey&session_id=$sessionId&page=$pageNumber');
+    print('statusCode ${response.statusCode}');
+    return ListResponse.fromJson(response.data);
+  }
+
+  Future<FavoriteResponse> markMovieAsFavorite(
+      String sessionId, int pageNumber, FavoriteRequest request) async {
+    final response = await dio.post(
+        '$url/account/favorite?api_key=$apiKey&session_id=$sessionId&page=$pageNumber',
+        data: jsonEncode(request),
+        options: Options(contentType: 'application/json;charset=utf-8'));
+    print('statusCode ${response.statusCode}');
+    return FavoriteResponse.fromJson(response.data);
+  }
 }

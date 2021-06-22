@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/auth/auth_bloc.dart';
-import 'package:flutter_app/data/api_token.dart';
-import 'package:flutter_app/networking/api.dart';
-import 'package:flutter_app/ui/widgets/loading.dart';
+import 'package:flutter_app/data/favorite_request.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class WebViewPageScreen extends StatefulWidget {
-  const WebViewPageScreen({Key? key}) : super(key: key);
+class WebViewPageScreen extends StatelessWidget {
+  final String token;
 
-  @override
-  _WebViewPageScreenState createState() => _WebViewPageScreenState();
-}
-
-class _WebViewPageScreenState extends State<WebViewPageScreen> {
+  const WebViewPageScreen({Key? key, required this.token}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-      if (state.loading) {
-        return LoadingWidget();
-      }
-
-      print('sessionId ${state.sessionId}');
-      print('token ${state.token}');
-
-      return WebView(
-      initialUrl: 'https://www.themoviedb.org/authenticate/${state.token}',
-      javascriptMode: JavascriptMode.unrestricted,
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              BlocProvider.of<AuthBloc>(context).add(GetSessionIdEvent(
+                  FavoriteRequest(
+                      mediaType: "movie", mediaId: 0, favorite: false)));
+              Navigator.pop(context);
+            }),
+      ),
+      body: WebView(
+        initialUrl: 'https://www.themoviedb.org/authenticate/$token',
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
     );
-    });
   }
 }

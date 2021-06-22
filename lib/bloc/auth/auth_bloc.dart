@@ -1,10 +1,11 @@
 import 'package:flutter_app/data/api_token.dart';
+import 'package:flutter_app/data/favorite_request.dart';
+import 'package:flutter_app/data/favorite_response.dart';
 import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/data/session_id.dart';
 import 'package:flutter_app/networking/api.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rxdart/rxdart.dart';
 
 part 'auth_event.dart';
 
@@ -15,7 +16,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
-  AuthBloc() : super(AuthState(token: '', sessionId: '', loading: true));
+  AuthBloc()
+      : super(AuthState(
+            token: '',
+            sessionId: '',
+            page: 0,
+            listMovieModel: [],
+            response: FavoriteResponse(statusCode: 0, statusMessage: ''),
+            loading: true));
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
@@ -24,6 +32,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
     if (event is GetSessionIdEvent) {
       yield* _getSessionId(event);
+    }
+    if (event is GetFavoriteMoviesEvent) {
+      yield* _getFavoriteMovies(event);
+    }
+    if (event is GetMoreFavoriteMoviesEvent) {
+      yield* _getMoreFavoriteMovies(event);
+    }
+    if (event is MarkAsFavoriteEvent) {
+      yield* _markAsFavorite(event);
     }
   }
 
@@ -34,11 +51,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       ApiToken token = await _api.getRequestToken();
 
-      yield state.copyWith(
-        token: token.token,
-          loading: false);
+      yield state.copyWith(token: token.token, loading: false);
     } catch (e) {
-      yield state.copyWith(loading: false);
+      List<MovieModel>? listMovieModel = [];
+      yield state.copyWith(
+          token: '',
+          sessionId: '',
+          page: 0,
+          listMovieModel: listMovieModel,
+          response: FavoriteResponse(statusCode: 0, statusMessage: ''),
+          loading: false);
     }
   }
 
@@ -46,14 +68,62 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       yield state.copyWith(loading: false);
 
-      SessionId sessionId = await _api.getSessionId();
+      SessionId sessionId = await _api.getSessionId(state.token ?? '');
+
+      yield state.copyWith(sessionId: sessionId.id, loading: false);
+    } catch (e) {
+      List<MovieModel>? listMovieModel = [];
+      yield state.copyWith(
+          token: '',
+          sessionId: '',
+          page: 0,
+          listMovieModel: listMovieModel,
+          response: FavoriteResponse(statusCode: 0, statusMessage: ''),
+          loading: false);
+    }
+  }
+
+  Stream<AuthState> _getFavoriteMovies(AuthEvent movieEvent) async* {
+    try {
+      yield state.copyWith(loading: true);
+
+      ListResponse listResponse =
+          await _api.getFavoriteMovies(state.sessionId ?? '', 1);
 
       yield state.copyWith(
-          sessionId: sessionId,
-          loading: false);
+          page: 1, listMovieModel: listResponse.movies, loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
     }
   }
 
+  Stream<AuthState> _getMoreFavoriteMovies(AuthEvent movieEvent) async* {
+    try {
+      int? currentPage = (state.page ?? 1) + 1;
+
+      ListResponse listResponse =
+          await _api.getFavoriteMovies(state.sessionId ?? '', currentPage);
+
+      List<MovieModel>? currentList = state.listMovieModel
+        ?..addAll(listResponse.movies ?? []);
+
+      yield state.copyWith(
+          page: currentPage, listMovieModel: currentList, loading: false);
+    } catch (e) {
+      yield state.copyWith(loading: false);
+    }
+  }
+
+  Stream<AuthState> _markAsFavorite(AuthEvent movieEvent) async* {
+    try {
+      yield state.copyWith(loading: true);
+
+      FavoriteResponse response = await _api.markMovieAsFavorite(
+          state.sessionId ?? '', state.page ?? 1, movieEvent.request);
+
+      yield state.copyWith(response: response, loading: false);
+    } catch (e) {
+      yield state.copyWith(loading: false);
+    }
+  }
 }

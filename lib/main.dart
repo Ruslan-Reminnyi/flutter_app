@@ -5,6 +5,7 @@ import 'package:flutter_app/bloc/homepage/trending/trending_movie_bloc.dart';
 import 'package:flutter_app/bloc/movies_genres/genres_bloc.dart';
 import 'package:flutter_app/bloc/search/search_bloc.dart';
 import 'package:flutter_app/constants.dart';
+import 'package:flutter_app/data/favorite_request.dart';
 
 //REVIEW remove unused imports android studio does it automatically when formatting
 import 'package:flutter_app/ui/screens/home_page_screen.dart';
@@ -33,7 +34,9 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => SearchBloc(),
         ),
         BlocProvider<AuthBloc>(
-          create: (BuildContext context) => AuthBloc()..add(GetTokenEvent()),
+          create: (BuildContext context) => AuthBloc()
+            ..add(GetTokenEvent(FavoriteRequest(
+                mediaType: "movie", mediaId: 0, favorite: false))),
         ),
       ],
       child: MaterialApp(

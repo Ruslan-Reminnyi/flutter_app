@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/search/search_bloc.dart';
-import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_app/ui/widgets/search_item.dart';
