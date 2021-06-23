@@ -69,7 +69,7 @@ class Api {
     final response = await dio.post(
         '$url/authentication/session/new?api_key=$apiKey',
         data: jsonEncode(apiToken));
-    print('statusCode ${response.statusCode}');
+
     return SessionId.fromJson(response.data);
   }
 
@@ -82,12 +82,16 @@ class Api {
   }
 
   Future<FavoriteResponse> markMovieAsFavorite(
-      String sessionId, int pageNumber, FavoriteRequest request) async {
+      String sessionId, FavoriteRequest request) async {
+
     final response = await dio.post(
-        '$url/account/favorite?api_key=$apiKey&session_id=$sessionId&page=$pageNumber',
+        '$url/account/{account_id}/favorite?api_key=$apiKey&session_id=$sessionId',
         data: jsonEncode(request),
         options: Options(contentType: 'application/json;charset=utf-8'));
-    print('statusCode ${response.statusCode}');
+
+    print('markMovieAsFavorite ${response.statusCode}');
+    print('markMovieAsFavorite ${response.statusMessage}');
+
     return FavoriteResponse.fromJson(response.data);
   }
 }

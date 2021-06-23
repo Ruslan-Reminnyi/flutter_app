@@ -22,7 +22,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             sessionId: '',
             page: 0,
             listMovieModel: [],
-            response: FavoriteResponse(statusCode: 0, statusMessage: ''),
             loading: true));
 
   @override
@@ -47,7 +46,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   //REVIEW I don't see any yeilds. This function is Future by nature too
   Stream<AuthState> _getToken(AuthEvent movieEvent) async* {
     try {
-      yield state.copyWith(loading: true);
 
       ApiToken token = await _api.getRequestToken();
 
@@ -55,30 +53,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       List<MovieModel>? listMovieModel = [];
       yield state.copyWith(
-          token: '',
-          sessionId: '',
-          page: 0,
-          listMovieModel: listMovieModel,
-          response: FavoriteResponse(statusCode: 0, statusMessage: ''),
+          // token: '',
+          // sessionId: '',
+          // page: 0,
+          // listMovieModel: listMovieModel,
           loading: false);
     }
   }
 
   Stream<AuthState> _getSessionId(AuthEvent movieEvent) async* {
     try {
-      yield state.copyWith(loading: false);
 
       SessionId sessionId = await _api.getSessionId(state.token ?? '');
 
-      yield state.copyWith(sessionId: sessionId.id, loading: false);
+      yield state.copyWith(token: state.token, sessionId: sessionId.id, loading: false);
     } catch (e) {
       List<MovieModel>? listMovieModel = [];
       yield state.copyWith(
-          token: '',
-          sessionId: '',
-          page: 0,
-          listMovieModel: listMovieModel,
-          response: FavoriteResponse(statusCode: 0, statusMessage: ''),
+          // token: '',
+          // sessionId: '',
+          // page: 0,
+          // listMovieModel: listMovieModel,
           loading: false);
     }
   }
@@ -116,12 +111,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _markAsFavorite(AuthEvent movieEvent) async* {
     try {
-      yield state.copyWith(loading: true);
 
       FavoriteResponse response = await _api.markMovieAsFavorite(
-          state.sessionId ?? '', state.page ?? 1, movieEvent.request);
+          state.sessionId ?? '', movieEvent.request);
 
-      yield state.copyWith(response: response, loading: false);
+      print('response.statusCode ${response.statusCode}');
+      print('response.statusMessage ${response.statusMessage}');
+
+      yield state.copyWith(token: state.token, sessionId: state.sessionId, loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
     }

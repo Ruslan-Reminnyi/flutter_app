@@ -8,11 +8,10 @@ class FavoriteRequest {
   final String mediaType;
   @JsonKey(name: 'media_id')
   final int mediaId;
-  @JsonKey(name: 'favorite')
   final bool favorite;
 
   FavoriteRequest(
-      {required this.mediaType, this.mediaId = 0, required this.favorite});
+      {this.mediaType = "movie", this.mediaId = 0, this.favorite = false});
 
   factory FavoriteRequest.fromJson(Map<String, dynamic> json) =>
       _$FavoriteRequestFromJson(json);

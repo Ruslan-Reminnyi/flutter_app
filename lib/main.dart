@@ -35,8 +35,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AuthBloc>(
           create: (BuildContext context) => AuthBloc()
-            ..add(GetTokenEvent(FavoriteRequest(
-                mediaType: "movie", mediaId: 0, favorite: false))),
+            ..add(GetTokenEvent(FavoriteRequest())),
         ),
       ],
       child: MaterialApp(

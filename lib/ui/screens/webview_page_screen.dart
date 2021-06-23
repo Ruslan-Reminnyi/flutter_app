@@ -22,8 +22,7 @@ class WebViewPageScreen extends StatelessWidget {
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               BlocProvider.of<AuthBloc>(context).add(GetSessionIdEvent(
-                  FavoriteRequest(
-                      mediaType: "movie", mediaId: 0, favorite: false)));
+                  FavoriteRequest()));
               Navigator.pop(context);
             }),
       ),

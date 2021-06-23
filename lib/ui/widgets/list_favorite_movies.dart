@@ -20,7 +20,7 @@ class ListFavoriteMoviesWidget extends StatelessWidget {
       movies: listMovieModel,
       loadMore: () {
         BlocProvider.of<AuthBloc>(context).add(GetMoreFavoriteMoviesEvent(
-            FavoriteRequest(mediaType: "movie", favorite: true)));
+            FavoriteRequest()));
       },
     );
   }
