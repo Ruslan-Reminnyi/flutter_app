@@ -7,11 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListFavoriteMoviesWidget extends StatelessWidget {
   ListFavoriteMoviesWidget(
-      {Key? key, required this.listMovieModel, this.padding = EdgeInsets.zero})
+      {Key? key, required this.listMovieModel, this.padding = EdgeInsets.zero, required this.sessionId})
       : super(key: key);
 
   final List<MovieModel>? listMovieModel;
   final EdgeInsets padding;
+  final String sessionId;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class ListFavoriteMoviesWidget extends StatelessWidget {
         BlocProvider.of<AuthBloc>(context).add(GetMoreFavoriteMoviesEvent(
             FavoriteRequest()));
       },
+      sessionId: sessionId,
     );
   }
 }

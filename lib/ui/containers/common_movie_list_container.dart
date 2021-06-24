@@ -13,10 +13,12 @@ const kCommonMovieListContainerHeight = 170.0;
 
 class CommonMovieListWidget extends StatelessWidget {
   final MovieModel? movieModel;
+  final String sessionId;
 
   CommonMovieListWidget({
     Key? key,
     required this.movieModel,
+    required this.sessionId,
   }) : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class CommonMovieListWidget extends StatelessWidget {
                 builder: (ctx) {
               return DetailsScreen(
                 id: id,
+                sessionId: sessionId,
               );
             }),
           );
@@ -82,6 +85,7 @@ class CommonMovieListWidget extends StatelessWidget {
               ),
             ),
           ),
+          sessionId == '' ? SizedBox() :
           Heart(
             id: movieModel?.id,
             padding: EdgeInsets.only(left: 100.0),

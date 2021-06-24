@@ -6,11 +6,12 @@ import 'package:flutter_app/bloc/homepage/trending/trending_movie_bloc.dart';
 
 class ListTrendingMoviesWidget extends StatefulWidget {
   ListTrendingMoviesWidget(
-      {Key? key, required this.listMovieModel, this.padding = EdgeInsets.zero})
+      {Key? key, required this.listMovieModel, this.padding = EdgeInsets.zero, required this.sessionId})
       : super(key: key);
 
   final List<MovieModel>? listMovieModel;
   final EdgeInsets padding;
+  final String sessionId;
 
   @override
   _ListTrendingMoviesWidgetState createState() =>
@@ -49,6 +50,7 @@ class _ListTrendingMoviesWidgetState extends State<ListTrendingMoviesWidget> {
         return MovieContainer(
           number: index + 1,
           movieModel: widget.listMovieModel?[index],
+          sessionId: widget.sessionId,
         );
       },
     );

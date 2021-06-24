@@ -8,9 +8,11 @@ class DetailsScreen extends StatelessWidget {
   DetailsScreen({
     Key? key,
     required this.id,
+    required this.sessionId,
   }) : super(key: key);
 
   final int id;
+  final String sessionId;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class DetailsScreen extends StatelessWidget {
         ],
         child: DetailsContainer(
           id: id,
+          sessionId: sessionId,
         ));
   }
 }

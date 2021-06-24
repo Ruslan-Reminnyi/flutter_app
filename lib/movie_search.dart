@@ -7,6 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieSearch extends SearchDelegate<String> {
   final ScrollController scrollController = ScrollController();
+  final String sessionId;
+
+  MovieSearch({required this.sessionId});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -63,6 +66,7 @@ class MovieSearch extends SearchDelegate<String> {
                       MaterialPageRoute(builder: (ctx) {
                         return DetailsScreen(
                           id: id,
+                          sessionId: '',
                         );
                       }),
                     );
@@ -115,8 +119,9 @@ class MovieSearch extends SearchDelegate<String> {
 
 class SearchList extends StatelessWidget {
   final ScrollController scrollController = ScrollController();
+  final String sessionId;
 
-  SearchList({Key? key}) : super(key: key);
+  SearchList({Key? key, required this.sessionId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +157,7 @@ class SearchList extends StatelessWidget {
                   MaterialPageRoute(builder: (ctx) {
                     return DetailsScreen(
                       id: id,
+                      sessionId: '',
                     );
                   }),
                 );

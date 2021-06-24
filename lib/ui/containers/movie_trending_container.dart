@@ -9,6 +9,7 @@ const kMovieContainerWidth = 334.0;
 class MovieContainer extends StatelessWidget {
   final int number;
   final MovieModel? movieModel;
+  final String sessionId;
 
   //REVIEW introduce widgets for specific part of UI instead of all been in one file
 
@@ -16,6 +17,7 @@ class MovieContainer extends StatelessWidget {
     Key? key,
     required this.number,
     required this.movieModel,
+    required this.sessionId,
   }) : super(key: key);
 
   @override
@@ -31,6 +33,7 @@ class MovieContainer extends StatelessWidget {
                   builder: (ctx) {
                 return DetailsScreen(
                   id: id,
+                  sessionId: sessionId,
                 );
               }),
             );
@@ -40,7 +43,7 @@ class MovieContainer extends StatelessWidget {
             width: kMovieContainerWidth,
             margin: EdgeInsets.fromLTRB(0, 4, 10, 0),
             child: Stack(children: [
-              MovieTrendingHeaderWidget(movieModel: movieModel, number: number),
+              MovieTrendingHeaderWidget(movieModel: movieModel, number: number, sessionId: sessionId,),
               Positioned(
                 bottom: 10,
                 left: 10,

@@ -7,11 +7,12 @@ import 'package:flutter_app/ui/widgets/list_similar_movies_widget.dart';
 
 class DetailsStackWidget extends StatelessWidget {
   DetailsStackWidget(
-      {Key? key, required this.id, required this.movieDetailsResponse})
+      {Key? key, required this.id, required this.movieDetailsResponse, required this.sessionId})
       : super(key: key);
 
   final int id;
   final MovieDetailsResponse movieDetailsResponse;
+  final String sessionId;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +43,7 @@ class DetailsStackWidget extends StatelessWidget {
               listResponseSimilarMovies:
                   movieDetailsResponse.listSimilarMovies?.movies,
               padding: EdgeInsets.symmetric(horizontal: 20),
+              sessionId: sessionId,
             ),
           ],
         ),

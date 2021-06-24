@@ -7,8 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailsContainer extends StatelessWidget {
   final int id;
+  final String sessionId;
 
-  DetailsContainer({Key? key, required this.id}) : super(key: key);
+  DetailsContainer({Key? key, required this.id, required this.sessionId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class DetailsContainer extends StatelessWidget {
         return DetailsStackWidget(
           id: id,
           movieDetailsResponse: state.movieDetailsResponse,
+          sessionId: sessionId,
         );
       })),
     );

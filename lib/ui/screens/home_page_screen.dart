@@ -16,6 +16,7 @@ const kHomePageTrendingMovieContainerHeight = 300.0;
 const kHomePageComingSoonMovieContainerHeight = 310.0;
 
 String token = '';
+String sessionId = '';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -46,7 +47,7 @@ class HomeScreen extends StatelessWidget {
               icon: Icon(Icons.search),
               onPressed: () async {
                 await showSearch<String>(
-                    context: context, delegate: MovieSearch());
+                    context: context, delegate: MovieSearch(sessionId: sessionId));
               }),
         ],
       ),
@@ -59,6 +60,10 @@ class HomeScreen extends StatelessWidget {
 
       if(token == '') {
         token = authState.token ?? '';
+      }
+
+      if(sessionId == '') {
+        sessionId = authState.sessionId ?? '';
       }
 
       return SingleChildScrollView(
@@ -82,6 +87,7 @@ class HomeScreen extends StatelessWidget {
                 return ListTrendingMoviesWidget(
                   listMovieModel: state.listMovieModel,
                   padding: EdgeInsets.symmetric(horizontal: 20),
+                  sessionId: authState.sessionId ?? '',
                 );
               }),
             ),
@@ -116,6 +122,7 @@ class HomeScreen extends StatelessWidget {
                     return ListUpcomingMoviesWidget(
                       listMovieModel: state.listMovieModel,
                       padding: EdgeInsets.symmetric(horizontal: 20),
+                      sessionId: authState.sessionId ?? '',
                     );
                   }),
                 ),
@@ -128,6 +135,7 @@ class HomeScreen extends StatelessWidget {
                 ? SizedBox()
                 : FavoriteMovies(
                     listMovieModel: authState.listMovieModel,
+              sessionId: authState.sessionId ?? '',
                   ),
           ],
         ),
@@ -141,8 +149,9 @@ class HomeScreen extends StatelessWidget {
 
 class FavoriteMovies extends StatelessWidget {
   final List<MovieModel>? listMovieModel;
+  final String sessionId;
 
-  const FavoriteMovies({Key? key, required this.listMovieModel})
+  const FavoriteMovies({Key? key, required this.listMovieModel, required this.sessionId})
       : super(key: key);
 
   @override
@@ -170,6 +179,7 @@ class FavoriteMovies extends StatelessWidget {
           child: ListFavoriteMoviesWidget(
             listMovieModel: listMovieModel,
             padding: EdgeInsets.symmetric(horizontal: 20),
+            sessionId: sessionId,
           ),
         ),
       ],

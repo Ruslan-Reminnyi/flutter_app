@@ -7,12 +7,14 @@ class MovieList extends StatefulWidget {
   final List<MovieModel>? movies;
 
   final Function loadMore;
+  final String sessionId;
 
   const MovieList(
       {Key? key,
       required this.padding,
       required this.movies,
-      required this.loadMore})
+      required this.loadMore,
+        required this.sessionId})
       : super(key: key);
 
   @override
@@ -49,6 +51,7 @@ class _MovieListState extends State<MovieList> {
       itemBuilder: (ctx, index) {
         return CommonMovieListWidget(
           movieModel: widget.movies?[index],
+          sessionId: widget.sessionId,
         );
       },
     );

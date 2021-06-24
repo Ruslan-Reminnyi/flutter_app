@@ -6,11 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListUpcomingMoviesWidget extends StatelessWidget {
   ListUpcomingMoviesWidget(
-      {Key? key, required this.listMovieModel, this.padding = EdgeInsets.zero})
+      {Key? key, required this.listMovieModel, this.padding = EdgeInsets.zero, required this.sessionId})
       : super(key: key);
 
   final List<MovieModel>? listMovieModel;
   final EdgeInsets padding;
+  final String sessionId;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class ListUpcomingMoviesWidget extends StatelessWidget {
         BlocProvider.of<UpcomingMovieBloc>(context)
             .add(LoadMoreUpcomingMoviesEvent());
       },
+      sessionId: sessionId,
     );
   }
 }
