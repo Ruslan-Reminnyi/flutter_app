@@ -9,7 +9,8 @@ class DetailsContainer extends StatelessWidget {
   final int id;
   final String sessionId;
 
-  DetailsContainer({Key? key, required this.id, required this.sessionId}) : super(key: key);
+  DetailsContainer({Key? key, required this.id, required this.sessionId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

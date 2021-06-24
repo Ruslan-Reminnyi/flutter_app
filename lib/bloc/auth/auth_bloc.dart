@@ -46,35 +46,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   //REVIEW I don't see any yeilds. This function is Future by nature too
   Stream<AuthState> _getToken(AuthEvent movieEvent) async* {
     try {
-
       ApiToken token = await _api.getRequestToken();
 
       yield state.copyWith(token: token.token, loading: false);
     } catch (e) {
-      List<MovieModel>? listMovieModel = [];
-      yield state.copyWith(
-          // token: '',
-          // sessionId: '',
-          // page: 0,
-          // listMovieModel: listMovieModel,
-          loading: false);
+      yield state.copyWith(loading: false);
     }
   }
 
   Stream<AuthState> _getSessionId(AuthEvent movieEvent) async* {
     try {
-
       SessionId sessionId = await _api.getSessionId(state.token ?? '');
 
-      yield state.copyWith(token: state.token, sessionId: sessionId.id, loading: false);
-    } catch (e) {
-      List<MovieModel>? listMovieModel = [];
       yield state.copyWith(
-          // token: '',
-          // sessionId: '',
-          // page: 0,
-          // listMovieModel: listMovieModel,
-          loading: false);
+          token: state.token, sessionId: sessionId.id, loading: false);
+    } catch (e) {
+      yield state.copyWith(loading: false);
     }
   }
 
@@ -83,8 +70,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ListResponse listResponse =
           await _api.getFavoriteMovies(state.sessionId ?? '', 1);
 
-      yield state.copyWith(token: state.token, sessionId: state.sessionId,
-          page: 1, listMovieModel: listResponse.movies, loading: false);
+      yield state.copyWith(
+          token: state.token,
+          sessionId: state.sessionId,
+          page: 1,
+          listMovieModel: listResponse.movies,
+          loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
     }
@@ -100,8 +91,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       List<MovieModel>? currentList = state.listMovieModel
         ?..addAll(listResponse.movies ?? []);
 
-      yield state.copyWith(token: state.token, sessionId: state.sessionId,
-          page: currentPage, listMovieModel: currentList, loading: false);
+      yield state.copyWith(
+          token: state.token,
+          sessionId: state.sessionId,
+          page: currentPage,
+          listMovieModel: currentList,
+          loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
     }
@@ -109,14 +104,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _markAsFavorite(AuthEvent movieEvent) async* {
     try {
-
       FavoriteResponse response = await _api.markMovieAsFavorite(
           state.sessionId ?? '', movieEvent.request);
 
       print('response.statusCode ${response.statusCode}');
       print('response.statusMessage ${response.statusMessage}');
 
-      yield state.copyWith(token: state.token, sessionId: state.sessionId, loading: false);
+      yield state.copyWith(
+          token: state.token, sessionId: state.sessionId, loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
     }

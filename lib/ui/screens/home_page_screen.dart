@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/auth/auth_bloc.dart';
 import 'package:flutter_app/bloc/homepage/upcoming/upcoming_movie_bloc.dart';
 import 'package:flutter_app/bloc/homepage/trending/trending_movie_bloc.dart';
-import 'package:flutter_app/data/favorite_request.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/movie_search.dart';
 import 'package:flutter_app/ui/screens/webview_page_screen.dart';
@@ -47,7 +46,8 @@ class HomeScreen extends StatelessWidget {
               icon: Icon(Icons.search),
               onPressed: () async {
                 await showSearch<String>(
-                    context: context, delegate: MovieSearch(sessionId: sessionId));
+                    context: context,
+                    delegate: MovieSearch(sessionId: sessionId));
               }),
         ],
       ),
@@ -57,12 +57,11 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildBody(context) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
-
-      if(token == '') {
+      if (token == '') {
         token = authState.token ?? '';
       }
 
-      if(sessionId == '') {
+      if (sessionId == '') {
         sessionId = authState.sessionId ?? '';
       }
 
@@ -88,6 +87,7 @@ class HomeScreen extends StatelessWidget {
                   listMovieModel: state.listMovieModel,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   sessionId: authState.sessionId ?? '',
+                  listFavoriteMovies: authState.listMovieModel ?? [],
                 );
               }),
             ),
@@ -135,7 +135,7 @@ class HomeScreen extends StatelessWidget {
                 ? SizedBox()
                 : FavoriteMovies(
                     listMovieModel: authState.listMovieModel,
-              sessionId: authState.sessionId ?? '',
+                    sessionId: authState.sessionId ?? '',
                   ),
           ],
         ),
@@ -151,7 +151,8 @@ class FavoriteMovies extends StatelessWidget {
   final List<MovieModel>? listMovieModel;
   final String sessionId;
 
-  const FavoriteMovies({Key? key, required this.listMovieModel, required this.sessionId})
+  const FavoriteMovies(
+      {Key? key, required this.listMovieModel, required this.sessionId})
       : super(key: key);
 
   @override

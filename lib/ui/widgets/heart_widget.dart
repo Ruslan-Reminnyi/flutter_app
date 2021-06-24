@@ -6,8 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class Heart extends StatefulWidget {
   final int? id;
   final EdgeInsets padding;
+  bool isFavorite;
 
-  const Heart({Key? key, required this.id, this.padding = EdgeInsets.zero})
+  Heart(
+      {Key? key,
+      required this.id,
+      this.padding = EdgeInsets.zero,
+      this.isFavorite = false})
       : super(key: key);
 
   @override
@@ -15,8 +20,6 @@ class Heart extends StatefulWidget {
 }
 
 class _HeartState extends State<Heart> {
-
-  bool isFavorite = false;
   Color _color = Colors.grey;
   Icon disabledIcon = Icon(Icons.favorite_border);
   Icon enabledIcon = Icon(Icons.favorite);
@@ -24,6 +27,14 @@ class _HeartState extends State<Heart> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isFavorite) {
+      _color = Colors.red;
+      currentIcon = enabledIcon;
+    } else {
+      _color = Colors.grey;
+      currentIcon = disabledIcon;
+    }
+
     final currentId = widget.id;
     if (currentId != null) {
       return Row(
@@ -33,18 +44,23 @@ class _HeartState extends State<Heart> {
             padding: widget.padding,
             child: IconButton(
                 icon: currentIcon,
-                  color: _color,
+                color: _color,
                 onPressed: () {
                   setState(() {
-                    _color == Colors.grey ? _color = Colors.red : _color = Colors.grey;
-                    currentIcon == enabledIcon ? currentIcon = disabledIcon : currentIcon = enabledIcon;
-                    isFavorite == false ? isFavorite = true : isFavorite = false;
-                    print('heart $isFavorite');
+                    widget.isFavorite == true
+                        ? widget.isFavorite = false
+                        : widget.isFavorite = true;
+
+                    _color == Colors.grey
+                        ? _color = Colors.red
+                        : _color = Colors.grey;
+                    currentIcon == enabledIcon
+                        ? currentIcon = disabledIcon
+                        : currentIcon = enabledIcon;
                   });
-                  BlocProvider.of<AuthBloc>(context)..add(
-                      MarkAsFavoriteEvent(FavoriteRequest(
-                          mediaId: currentId,
-                          favorite: isFavorite)))
+                  BlocProvider.of<AuthBloc>(context)
+                    ..add(MarkAsFavoriteEvent(FavoriteRequest(
+                        mediaId: currentId, favorite: widget.isFavorite)))
                     ..add(GetFavoriteMoviesEvent(FavoriteRequest()));
                 }),
           )

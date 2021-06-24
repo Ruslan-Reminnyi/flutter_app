@@ -6,7 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListUpcomingMoviesWidget extends StatelessWidget {
   ListUpcomingMoviesWidget(
-      {Key? key, required this.listMovieModel, this.padding = EdgeInsets.zero, required this.sessionId})
+      {Key? key,
+      required this.listMovieModel,
+      this.padding = EdgeInsets.zero,
+      required this.sessionId})
       : super(key: key);
 
   final List<MovieModel>? listMovieModel;

@@ -85,11 +85,13 @@ class CommonMovieListWidget extends StatelessWidget {
               ),
             ),
           ),
-          sessionId == '' ? SizedBox() :
-          Heart(
-            id: movieModel?.id,
-            padding: EdgeInsets.only(left: 100.0),
-          ),
+          sessionId == ''
+              ? SizedBox()
+              : Heart(
+                  id: movieModel?.id,
+                  padding: EdgeInsets.only(left: 100.0),
+                  isFavorite: false,
+                ),
         ],
       ),
     );

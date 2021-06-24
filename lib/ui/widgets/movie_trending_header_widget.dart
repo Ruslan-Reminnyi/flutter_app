@@ -5,12 +5,17 @@ import 'package:flutter_app/ui/widgets/network_image_widget.dart';
 
 class MovieTrendingHeaderWidget extends StatelessWidget {
   MovieTrendingHeaderWidget(
-      {Key? key, required this.movieModel, required this.number, required this.sessionId})
+      {Key? key,
+      required this.movieModel,
+      required this.number,
+      required this.sessionId,
+      required this.isFavorite})
       : super(key: key);
 
   final int number;
   final MovieModel? movieModel;
   final String sessionId;
+  final bool isFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +49,14 @@ class MovieTrendingHeaderWidget extends StatelessWidget {
             ),
           ],
         ),
-        sessionId == '' ? SizedBox() :
-        Heart(
-          id: movieModel?.id,
-          padding: EdgeInsets.only(top: 50.0),
-        ),
+        sessionId == ''
+            ? SizedBox()
+            : Heart(
+                id: movieModel?.id,
+                padding: EdgeInsets.only(top: 50.0),
+                isFavorite: isFavorite,
+              ),
       ],
     );
   }
-
-
 }

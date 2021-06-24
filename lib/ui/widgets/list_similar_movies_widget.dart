@@ -13,7 +13,7 @@ class ListSimilarMoviesWidget extends StatelessWidget {
       required this.id,
       required this.listResponseSimilarMovies,
       this.padding = EdgeInsets.zero,
-        required this.sessionId})
+      required this.sessionId})
       : super(key: key);
 
   final int id;

@@ -7,7 +7,10 @@ import 'package:flutter_app/ui/widgets/list_similar_movies_widget.dart';
 
 class DetailsStackWidget extends StatelessWidget {
   DetailsStackWidget(
-      {Key? key, required this.id, required this.movieDetailsResponse, required this.sessionId})
+      {Key? key,
+      required this.id,
+      required this.movieDetailsResponse,
+      required this.sessionId})
       : super(key: key);
 
   final int id;

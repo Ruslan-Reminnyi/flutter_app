@@ -16,8 +16,7 @@ class AuthState {
       required this.listMovieModel,
       required this.token});
 
-  AuthState copyWith(
-      {token, sessionId, page, listMovieModel, loading}) {
+  AuthState copyWith({token, sessionId, page, listMovieModel, loading}) {
     return AuthState(
         token: token,
         sessionId: sessionId,

@@ -14,7 +14,7 @@ class MovieList extends StatefulWidget {
       required this.padding,
       required this.movies,
       required this.loadMore,
-        required this.sessionId})
+      required this.sessionId})
       : super(key: key);
 
   @override

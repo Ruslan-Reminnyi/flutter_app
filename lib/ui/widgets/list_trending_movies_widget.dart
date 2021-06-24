@@ -6,12 +6,17 @@ import 'package:flutter_app/bloc/homepage/trending/trending_movie_bloc.dart';
 
 class ListTrendingMoviesWidget extends StatefulWidget {
   ListTrendingMoviesWidget(
-      {Key? key, required this.listMovieModel, this.padding = EdgeInsets.zero, required this.sessionId})
+      {Key? key,
+      required this.listMovieModel,
+      this.padding = EdgeInsets.zero,
+      required this.sessionId,
+      required this.listFavoriteMovies})
       : super(key: key);
 
   final List<MovieModel>? listMovieModel;
   final EdgeInsets padding;
   final String sessionId;
+  final List<MovieModel> listFavoriteMovies;
 
   @override
   _ListTrendingMoviesWidgetState createState() =>
@@ -47,10 +52,24 @@ class _ListTrendingMoviesWidgetState extends State<ListTrendingMoviesWidget> {
       itemCount: widget.listMovieModel?.length,
       controller: _trendingScrollController,
       itemBuilder: (ctx, index) {
+        var favorite = widget.listFavoriteMovies.firstWhere(
+            (element) => element.id == widget.listMovieModel?[index].id,
+            orElse: () => MovieModel(
+                id: 0,
+                genres: [],
+                rating: 0,
+                backdropPath: '',
+                originalName: '',
+                originalTitle: '',
+                posterPath: ''));
+
+        bool isFavorite = favorite.id != 0 ? true : false;
+
         return MovieContainer(
           number: index + 1,
           movieModel: widget.listMovieModel?[index],
           sessionId: widget.sessionId,
+          isFavorite: isFavorite,
         );
       },
     );
