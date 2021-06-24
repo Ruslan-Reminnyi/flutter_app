@@ -131,7 +131,7 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: 16,
             ),
-            authState.listMovieModel != null
+            authState.listMovieModel == null
                 ? SizedBox()
                 : FavoriteMovies(
                     listMovieModel: authState.listMovieModel,

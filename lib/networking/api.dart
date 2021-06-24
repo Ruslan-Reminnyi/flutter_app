@@ -76,8 +76,8 @@ class Api {
   Future<ListResponse> getFavoriteMovies(
       String sessionId, int pageNumber) async {
     final response = await dio.get(
-        '$url/account/favorite/movies?api_key=$apiKey&session_id=$sessionId&page=$pageNumber');
-    print('statusCode ${response.statusCode}');
+        '$url/account/{account_id}/favorite/movies?api_key=$apiKey&session_id=$sessionId&page=$pageNumber');
+    print('getFavoriteMovies ${response.statusCode}');
     return ListResponse.fromJson(response.data);
   }
 

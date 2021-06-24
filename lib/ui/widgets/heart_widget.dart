@@ -41,10 +41,11 @@ class _HeartState extends State<Heart> {
                     isFavorite == false ? isFavorite = true : isFavorite = false;
                     print('heart $isFavorite');
                   });
-                  BlocProvider.of<AuthBloc>(context).add(
+                  BlocProvider.of<AuthBloc>(context)..add(
                       MarkAsFavoriteEvent(FavoriteRequest(
                           mediaId: currentId,
-                          favorite: isFavorite)));
+                          favorite: isFavorite)))
+                    ..add(GetFavoriteMoviesEvent(FavoriteRequest()));
                 }),
           )
         ],

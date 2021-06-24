@@ -52,4 +52,6 @@ class MovieTrendingHeaderWidget extends StatelessWidget {
       ],
     );
   }
+
+
 }

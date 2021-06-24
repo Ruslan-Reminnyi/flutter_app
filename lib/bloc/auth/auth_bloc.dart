@@ -80,12 +80,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _getFavoriteMovies(AuthEvent movieEvent) async* {
     try {
-      yield state.copyWith(loading: true);
-
       ListResponse listResponse =
           await _api.getFavoriteMovies(state.sessionId ?? '', 1);
 
-      yield state.copyWith(
+      yield state.copyWith(token: state.token, sessionId: state.sessionId,
           page: 1, listMovieModel: listResponse.movies, loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
@@ -102,7 +100,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       List<MovieModel>? currentList = state.listMovieModel
         ?..addAll(listResponse.movies ?? []);
 
-      yield state.copyWith(
+      yield state.copyWith(token: state.token, sessionId: state.sessionId,
           page: currentPage, listMovieModel: currentList, loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
