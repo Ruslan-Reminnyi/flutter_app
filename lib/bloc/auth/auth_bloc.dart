@@ -1,9 +1,6 @@
-import 'package:flutter_app/data/account_model.dart';
 import 'package:flutter_app/data/api_token.dart';
-import 'package:flutter_app/data/avatar.dart';
 import 'package:flutter_app/data/favorite_request.dart';
 import 'package:flutter_app/data/favorite_response.dart';
-import 'package:flutter_app/data/gravatar.dart';
 import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/data/session_id.dart';
@@ -17,122 +14,130 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final Api _api = Api();
 
-  //REVIEW remove all fields with state from Bloc. They must be placed in state
-
-  AuthBloc()
-      : super(AuthState(
-            token: '',
-            sessionId: '',
-            page: 0,
-            listMovieModel: [],
-            // account: AccountModel(id: 0, name: '', avatar: Avatar(gravatar: Gravatar(hash: ''))),
-            loading: true));
+  AuthBloc() : super(UnAuthorized());
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is GetTokenEvent) {
-      yield* _getToken(event);
+      yield* _getToken();
     }
     if (event is GetSessionIdEvent) {
-      yield* _getSessionId(event);
+      yield* _getSessionId();
     }
     if (event is GetFavoriteMoviesEvent) {
-      yield* _getFavoriteMovies(event);
+      yield* _getFavoriteMovies();
     }
     if (event is GetMoreFavoriteMoviesEvent) {
-      yield* _getMoreFavoriteMovies(event);
+      yield* _getMoreFavoriteMovies();
     }
     if (event is MarkAsFavoriteEvent) {
       yield* _markAsFavorite(event);
     }
-    // if (event is GetAccountEvent) {
-    //   yield* _getAccount(event);
-    // }
   }
 
-  //REVIEW I don't see any yeilds. This function is Future by nature too
-  Stream<AuthState> _getToken(AuthEvent movieEvent) async* {
+  Stream<AuthState> _getToken() async* {
     try {
       ApiToken token = await _api.getRequestToken();
 
-      yield state.copyWith(token: token.token, loading: false);
+      yield AuthRequestToken(token.token);
     } catch (e) {
-      yield state.copyWith(account: AccountModel(id: 0, name: '', avatar: Avatar(gravatar: Gravatar(hash: ''))), loading: false);
+      yield UnAuthorized();
     }
   }
 
-  Stream<AuthState> _getSessionId(AuthEvent movieEvent) async* {
-    try {
-      SessionId sessionId = await _api.getSessionId(state.token ?? '');
+  Stream<AuthState> _getSessionId() async* {
+    final currentState = state;
+    if (currentState is AuthRequestToken) {
+      try {
+        SessionId response = await _api.getSessionId(currentState.token);
 
-      yield state.copyWith(
-          token: state.token, sessionId: sessionId.id, loading: false);
-    } catch (e) {
-      yield state.copyWith(account: AccountModel(id: 0, name: '', avatar: Avatar(gravatar: Gravatar(hash: ''))), loading: false);
+        final sessionId = response.id;
+
+        if (sessionId == null) {
+          yield UnAuthorized();
+        } else {
+          yield Authorized(sessionId);
+          // yield* _getAccount();
+          yield* _getFavoriteMovies();
+        }
+      } catch (e) {
+        yield UnAuthorized();
+      }
+    } else {
+      yield UnAuthorized();
     }
   }
 
-  // Stream<AuthState> _getAccount(AuthEvent movieEvent) async* {
-  //   try {
-  //     AccountModel account = await _api.getAccount(state.sessionId ?? '');
+  // Stream<AuthState> _getAccount() async* {
+  //   final currentState = state;
+  //   if (currentState is Authorized) {
+  //     try {
+  //       AccountModel account =
+  //       await _api.getAccount(currentState.sessionId);
   //
-  //     yield state.copyWith(token: state.token, sessionId: state.sessionId, account: account, loading: false);
-  //   } catch (e) {
-  //     yield state.copyWith(loading: false);
+  //       yield currentState.copyWith(
+  //           sessionId: currentState.sessionId,
+  //           favoritesList: FavoritesList(
+  //               page: currentState.favoritesList?.page,
+  //               listMovieModel: currentState.favoritesList?.listMovieModel,
+  //               loading: false),
+  //         account: account
+  //           );
+  //     } catch (e) {}
   //   }
   // }
 
-  Stream<AuthState> _getFavoriteMovies(AuthEvent movieEvent) async* {
-    try {
-      ListResponse listResponse =
-          await _api.getFavoriteMovies(state.sessionId ?? '', 1);
+  Stream<AuthState> _getFavoriteMovies() async* {
+    final currentState = state;
+    if (currentState is Authorized) {
+      try {
+        ListResponse listResponse =
+            await _api.getFavoriteMovies(currentState.sessionId, 1);
 
-      yield state.copyWith(
-          token: state.token,
-          sessionId: state.sessionId,
-          page: 1,
-          listMovieModel: listResponse.movies,
-          // account: state.account,
-          loading: false);
-    } catch (e) {
-      yield state.copyWith(account: AccountModel(id: 0, name: '', avatar: Avatar(gravatar: Gravatar(hash: ''))), loading: false);
+        yield currentState.copyWith(
+            sessionId: currentState.sessionId,
+            favoritesList: FavoritesList(
+                page: 1,
+                listMovieModel: listResponse.movies ?? [],
+                loading: false));
+      } catch (e) {}
     }
   }
 
-  Stream<AuthState> _getMoreFavoriteMovies(AuthEvent movieEvent) async* {
-    try {
-      int? currentPage = (state.page ?? 1) + 1;
+  Stream<AuthState> _getMoreFavoriteMovies() async* {
+    final currentState = state;
+    if (currentState is Authorized) {
+      try {
+        int? currentPage = (currentState.favoritesList?.page ?? 1) + 1;
 
-      ListResponse listResponse =
-          await _api.getFavoriteMovies(state.sessionId ?? '', currentPage);
+        ListResponse listResponse =
+            await _api.getFavoriteMovies(currentState.sessionId, currentPage);
 
-      List<MovieModel>? currentList = state.listMovieModel
-        ?..addAll(listResponse.movies ?? []);
+        List<MovieModel>? currentList = currentState
+            .favoritesList?.listMovieModel
+          ?..addAll(listResponse.movies ?? []);
 
-      yield state.copyWith(
-          token: state.token,
-          sessionId: state.sessionId,
-          page: currentPage,
-          listMovieModel: currentList,
-          // account: state.account,
-          loading: false);
-    } catch (e) {
-      yield state.copyWith(loading: false);
+        yield currentState.copyWith(
+            favoritesList: FavoritesList(
+                page: currentPage,
+                listMovieModel: currentList ?? [],
+                loading: false));
+      } catch (e) {}
     }
   }
 
-  Stream<AuthState> _markAsFavorite(AuthEvent movieEvent) async* {
-    try {
-      FavoriteResponse response = await _api.markMovieAsFavorite(
-          state.sessionId ?? '', movieEvent.request);
+  Stream<AuthState> _markAsFavorite(MarkAsFavoriteEvent event) async* {
+    final currentState = state;
+    if (currentState is Authorized) {
+      try {
+        FavoriteResponse response = await _api.markMovieAsFavorite(
+            currentState.sessionId, event.request);
 
-      print('response.statusCode ${response.statusCode}');
-      print('response.statusMessage ${response.statusMessage}');
+        print('response.statusCode ${response.statusCode}');
+        print('response.statusMessage ${response.statusMessage}');
 
-      yield state.copyWith(
-          token: state.token, sessionId: state.sessionId, loading: false);
-    } catch (e) {
-      yield state.copyWith(loading: false);
+        yield* _getFavoriteMovies();
+      } catch (e) {}
     }
   }
 }

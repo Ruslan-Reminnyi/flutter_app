@@ -12,16 +12,12 @@ class ListSimilarMoviesWidget extends StatelessWidget {
       {Key? key,
       required this.id,
       required this.listResponseSimilarMovies,
-      this.padding = EdgeInsets.zero,
-      required this.sessionId,
-        required this.listFavoriteMovies})
+      this.padding = EdgeInsets.zero})
       : super(key: key);
 
   final int id;
   final List<MovieModel>? listResponseSimilarMovies;
   final EdgeInsets padding;
-  final String sessionId;
-  final List<MovieModel> listFavoriteMovies;
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +42,6 @@ class ListSimilarMoviesWidget extends StatelessWidget {
               BlocProvider.of<DetailsMovieBloc>(context)
                   .add(LoadMoreDetailsPageEvent(id: id));
             },
-            sessionId: sessionId,
-            listFavoriteMovies: listFavoriteMovies,
           ),
         ),
       ],

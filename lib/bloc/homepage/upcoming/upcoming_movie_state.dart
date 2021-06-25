@@ -1,7 +1,5 @@
 part of 'upcoming_movie_bloc.dart';
 
-class LoadingState {}
-
 class UpcomingMovieState {
   final int? page;
   final List<MovieModel>? listMovieModel;

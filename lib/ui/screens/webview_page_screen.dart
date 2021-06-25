@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/auth/auth_bloc.dart';
-import 'package:flutter_app/data/favorite_request.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -21,10 +20,7 @@ class WebViewPageScreen extends StatelessWidget {
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              BlocProvider.of<AuthBloc>(context)
-                ..add(GetSessionIdEvent(FavoriteRequest()))
-                // ..add(GetAccountEvent(FavoriteRequest()))
-                ..add(GetFavoriteMoviesEvent(FavoriteRequest()));
+              BlocProvider.of<AuthBloc>(context).add(GetSessionIdEvent());
               Navigator.pop(context);
             }),
       ),

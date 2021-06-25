@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/bloc/auth/auth_bloc.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/containers/common_movie_list_container.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieList extends StatefulWidget {
   final EdgeInsets padding;
   final List<MovieModel>? movies;
 
   final Function loadMore;
-  final String sessionId;
-  final List<MovieModel> listFavoriteMovies;
 
   const MovieList(
       {Key? key,
       required this.padding,
       required this.movies,
-      required this.loadMore,
-      required this.sessionId,
-        required this.listFavoriteMovies})
+      required this.loadMore})
       : super(key: key);
 
   @override
@@ -45,32 +43,39 @@ class _MovieListState extends State<MovieList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: widget.padding,
-      scrollDirection: Axis.horizontal,
-      itemCount: widget.movies?.length,
-      controller: scrollController,
-      itemBuilder: (ctx, index) {
-        var favorite = widget.listFavoriteMovies.firstWhere(
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
+      return ListView.builder(
+        padding: widget.padding,
+        scrollDirection: Axis.horizontal,
+        itemCount: widget.movies?.length,
+        controller: scrollController,
+        itemBuilder: (ctx, index) {
+          if (authState is Authorized) {
+            var favorite = authState.favoritesList?.listMovieModel?.firstWhere(
                 (element) => element.id == widget.movies?[index].id,
-            orElse: () => MovieModel(
-                id: 0,
-                genres: [],
-                rating: 0,
-                backdropPath: '',
-                originalName: '',
-                originalTitle: '',
-                posterPath: ''));
+                orElse: () => MovieModel(
+                    id: 0,
+                    genres: [],
+                    rating: 0,
+                    backdropPath: '',
+                    originalName: '',
+                    originalTitle: '',
+                    posterPath: ''));
 
-        bool isFavorite = favorite.id != 0 ? true : false;
+            bool isFavorite =
+                favorite?.id != 0 && favorite?.id != null ? true : false;
 
-        return CommonMovieListWidget(
-          movieModel: widget.movies?[index],
-          sessionId: widget.sessionId,
-          isFavorite: isFavorite,
-          listFavoriteMovies: widget.listFavoriteMovies,
-        );
-      },
-    );
+            return CommonMovieListWidget(
+              movieModel: widget.movies?[index],
+              isFavorite: isFavorite,
+            );
+          }
+          return CommonMovieListWidget(
+            movieModel: widget.movies?[index],
+            isFavorite: false,
+          );
+        },
+      );
+    });
   }
 }

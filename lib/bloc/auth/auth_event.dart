@@ -1,31 +1,19 @@
 part of 'auth_bloc.dart';
 
-class AuthEvent {
-  FavoriteRequest request;
+abstract class AuthEvent {}
 
-  AuthEvent({required this.request});
-}
+class GetTokenEvent extends AuthEvent {}
 
-class GetTokenEvent extends AuthEvent {
-  GetTokenEvent(FavoriteRequest request) : super(request: request);
-}
+class GetSessionIdEvent extends AuthEvent {}
 
-class GetSessionIdEvent extends AuthEvent {
-  GetSessionIdEvent(FavoriteRequest request) : super(request: request);
-}
+class GetAccountEvent extends AuthEvent {}
 
-class GetAccountEvent extends AuthEvent {
-  GetAccountEvent(FavoriteRequest request) : super(request: request);
-}
+class GetFavoriteMoviesEvent extends AuthEvent {}
 
-class GetFavoriteMoviesEvent extends AuthEvent {
-  GetFavoriteMoviesEvent(FavoriteRequest request) : super(request: request);
-}
-
-class GetMoreFavoriteMoviesEvent extends AuthEvent {
-  GetMoreFavoriteMoviesEvent(FavoriteRequest request) : super(request: request);
-}
+class GetMoreFavoriteMoviesEvent extends AuthEvent {}
 
 class MarkAsFavoriteEvent extends AuthEvent {
-  MarkAsFavoriteEvent(FavoriteRequest request) : super(request: request);
+  FavoriteRequest request;
+
+  MarkAsFavoriteEvent({required this.request});
 }

@@ -1,7 +1,5 @@
 part of 'details_movie_bloc.dart';
 
-class LoadingState {}
-
 class DetailsMovieState {
   final MovieDetailsResponse movieDetailsResponse;
   final int? currentPageOfSimilarMovies;

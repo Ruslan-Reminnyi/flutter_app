@@ -1,7 +1,5 @@
 part of 'trending_movie_bloc.dart';
 
-class LoadingState {}
-
 class TrendingMovieState {
   final int? page;
   final List<MovieModel>? listMovieModel;

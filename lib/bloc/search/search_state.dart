@@ -1,7 +1,5 @@
 part of 'search_bloc.dart';
 
-class LoadingState {}
-
 class SearchState {
   final int? page;
   final List<MovieModel>? listMovieModel;

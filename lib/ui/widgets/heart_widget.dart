@@ -3,7 +3,7 @@ import 'package:flutter_app/bloc/auth/auth_bloc.dart';
 import 'package:flutter_app/data/favorite_request.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Heart extends StatefulWidget {
+class Heart extends StatelessWidget {
   final int? id;
   final EdgeInsets padding;
   bool isFavorite;
@@ -15,11 +15,6 @@ class Heart extends StatefulWidget {
       this.isFavorite = false})
       : super(key: key);
 
-  @override
-  _HeartState createState() => _HeartState();
-}
-
-class _HeartState extends State<Heart> {
   Color _color = Colors.grey;
   Icon disabledIcon = Icon(Icons.favorite_border);
   Icon enabledIcon = Icon(Icons.favorite);
@@ -27,29 +22,27 @@ class _HeartState extends State<Heart> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isFavorite) {
-      _color = Colors.red;
-      currentIcon = enabledIcon;
-    } else {
-      _color = Colors.grey;
-      currentIcon = disabledIcon;
-    }
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
+      if (isFavorite) {
+        _color = Colors.red;
+        currentIcon = enabledIcon;
+      } else {
+        _color = Colors.grey;
+        currentIcon = disabledIcon;
+      }
 
-    final currentId = widget.id;
-    if (currentId != null) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Padding(
-            padding: widget.padding,
-            child: IconButton(
-                icon: currentIcon,
-                color: _color,
-                onPressed: () {
-                  setState(() {
-                    widget.isFavorite == true
-                        ? widget.isFavorite = false
-                        : widget.isFavorite = true;
+      final currentId = id;
+      if (authState is Authorized && currentId != null) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: padding,
+              child: IconButton(
+                  icon: currentIcon,
+                  color: _color,
+                  onPressed: () {
+                    isFavorite == true ? isFavorite = false : isFavorite = true;
 
                     _color == Colors.grey
                         ? _color = Colors.red
@@ -57,16 +50,16 @@ class _HeartState extends State<Heart> {
                     currentIcon == enabledIcon
                         ? currentIcon = disabledIcon
                         : currentIcon = enabledIcon;
-                  });
-                  BlocProvider.of<AuthBloc>(context)
-                    ..add(MarkAsFavoriteEvent(FavoriteRequest(
-                        mediaId: currentId, favorite: widget.isFavorite)))
-                    ..add(GetFavoriteMoviesEvent(FavoriteRequest()));
-                }),
-          )
-        ],
-      );
-    }
-    return Row();
+
+                    BlocProvider.of<AuthBloc>(context).add(MarkAsFavoriteEvent(
+                        request: FavoriteRequest(
+                            mediaId: currentId, favorite: isFavorite)));
+                  }),
+            )
+          ],
+        );
+      }
+      return Row();
+    });
   }
 }

@@ -1,7 +1,5 @@
 part of 'genres_bloc.dart';
 
-class LoadingState {}
-
 class GenresState {
   final List<MovieGenresModel>? allApiGenres;
   final bool loading;

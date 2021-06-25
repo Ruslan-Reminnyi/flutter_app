@@ -9,9 +9,7 @@ const kMovieContainerWidth = 334.0;
 class MovieContainer extends StatelessWidget {
   final int number;
   final MovieModel? movieModel;
-  final String sessionId;
   final bool isFavorite;
-  final List<MovieModel> listFavoriteMovies;
 
   //REVIEW introduce widgets for specific part of UI instead of all been in one file
 
@@ -19,9 +17,7 @@ class MovieContainer extends StatelessWidget {
     Key? key,
     required this.number,
     required this.movieModel,
-    required this.sessionId,
     required this.isFavorite,
-    required this.listFavoriteMovies,
   }) : super(key: key);
 
   @override
@@ -37,8 +33,6 @@ class MovieContainer extends StatelessWidget {
                   builder: (ctx) {
                 return DetailsScreen(
                   id: id,
-                  sessionId: sessionId,
-                  listFavoriteMovies: listFavoriteMovies,
                 );
               }),
             );
@@ -51,7 +45,6 @@ class MovieContainer extends StatelessWidget {
               MovieTrendingHeaderWidget(
                 movieModel: movieModel,
                 number: number,
-                sessionId: sessionId,
                 isFavorite: isFavorite,
               ),
               Positioned(
