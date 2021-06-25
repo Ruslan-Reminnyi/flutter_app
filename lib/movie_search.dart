@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/search/search_bloc.dart';
+import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_app/ui/widgets/search_item.dart';
@@ -8,8 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MovieSearch extends SearchDelegate<String> {
   final ScrollController scrollController = ScrollController();
   final String sessionId;
+  final List<MovieModel> listFavoriteMovies;
 
-  MovieSearch({required this.sessionId});
+  MovieSearch({required this.sessionId, required this.listFavoriteMovies});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -67,6 +69,7 @@ class MovieSearch extends SearchDelegate<String> {
                         return DetailsScreen(
                           id: id,
                           sessionId: '',
+                          listFavoriteMovies: listFavoriteMovies,
                         );
                       }),
                     );
@@ -158,6 +161,7 @@ class SearchList extends StatelessWidget {
                     return DetailsScreen(
                       id: id,
                       sessionId: '',
+                      listFavoriteMovies: [],
                     );
                   }),
                 );

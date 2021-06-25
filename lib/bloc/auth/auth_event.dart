@@ -14,6 +14,10 @@ class GetSessionIdEvent extends AuthEvent {
   GetSessionIdEvent(FavoriteRequest request) : super(request: request);
 }
 
+class GetAccountEvent extends AuthEvent {
+  GetAccountEvent(FavoriteRequest request) : super(request: request);
+}
+
 class GetFavoriteMoviesEvent extends AuthEvent {
   GetFavoriteMoviesEvent(FavoriteRequest request) : super(request: request);
 }

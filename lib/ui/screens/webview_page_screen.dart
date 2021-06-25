@@ -23,6 +23,7 @@ class WebViewPageScreen extends StatelessWidget {
             onPressed: () {
               BlocProvider.of<AuthBloc>(context)
                 ..add(GetSessionIdEvent(FavoriteRequest()))
+                // ..add(GetAccountEvent(FavoriteRequest()))
                 ..add(GetFavoriteMoviesEvent(FavoriteRequest()));
               Navigator.pop(context);
             }),

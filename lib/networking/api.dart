@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_app/data/account_model.dart';
 import 'package:flutter_app/data/favorite_request.dart';
 import 'package:flutter_app/data/favorite_response.dart';
 import 'package:flutter_app/data/movie_details_response.dart';
@@ -71,6 +72,13 @@ class Api {
         data: jsonEncode(apiToken));
 
     return SessionId.fromJson(response.data);
+  }
+
+  Future<AccountModel> getAccount(String sessionId) async {
+    final response = await dio.post(
+        '$url/account?api_key=$apiKey&session_id=$sessionId');
+
+    return AccountModel.fromJson(response.data);
   }
 
   Future<ListResponse> getFavoriteMovies(

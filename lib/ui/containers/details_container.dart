@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/detailspage/details_movie_bloc.dart';
 import 'package:flutter_app/constants.dart';
+import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/widgets/details_stack_widget.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DetailsContainer extends StatelessWidget {
   final int id;
   final String sessionId;
+  final List<MovieModel> listFavoriteMovies;
 
-  DetailsContainer({Key? key, required this.id, required this.sessionId})
+  DetailsContainer({Key? key, required this.id, required this.sessionId, required this.listFavoriteMovies})
       : super(key: key);
 
   @override
@@ -40,6 +42,7 @@ class DetailsContainer extends StatelessWidget {
           id: id,
           movieDetailsResponse: state.movieDetailsResponse,
           sessionId: sessionId,
+          listFavoriteMovies: listFavoriteMovies,
         );
       })),
     );

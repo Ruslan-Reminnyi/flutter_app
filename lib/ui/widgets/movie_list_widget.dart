@@ -8,13 +8,15 @@ class MovieList extends StatefulWidget {
 
   final Function loadMore;
   final String sessionId;
+  final List<MovieModel> listFavoriteMovies;
 
   const MovieList(
       {Key? key,
       required this.padding,
       required this.movies,
       required this.loadMore,
-      required this.sessionId})
+      required this.sessionId,
+        required this.listFavoriteMovies})
       : super(key: key);
 
   @override
@@ -49,9 +51,24 @@ class _MovieListState extends State<MovieList> {
       itemCount: widget.movies?.length,
       controller: scrollController,
       itemBuilder: (ctx, index) {
+        var favorite = widget.listFavoriteMovies.firstWhere(
+                (element) => element.id == widget.movies?[index].id,
+            orElse: () => MovieModel(
+                id: 0,
+                genres: [],
+                rating: 0,
+                backdropPath: '',
+                originalName: '',
+                originalTitle: '',
+                posterPath: ''));
+
+        bool isFavorite = favorite.id != 0 ? true : false;
+
         return CommonMovieListWidget(
           movieModel: widget.movies?[index],
           sessionId: widget.sessionId,
+          isFavorite: isFavorite,
+          listFavoriteMovies: widget.listFavoriteMovies,
         );
       },
     );

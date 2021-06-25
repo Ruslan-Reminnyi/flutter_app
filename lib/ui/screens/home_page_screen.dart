@@ -16,6 +16,7 @@ const kHomePageComingSoonMovieContainerHeight = 310.0;
 
 String token = '';
 String sessionId = '';
+List<MovieModel> listFavoriteMovies = [];
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -29,7 +30,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black87,
         leading: IconButton(
-            icon: Icon(Icons.login),
+            icon: sessionId == '' ? Icon(Icons.login) : Icon(Icons.person),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (ctx) {
                 return WebViewPageScreen(
@@ -47,7 +48,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () async {
                 await showSearch<String>(
                     context: context,
-                    delegate: MovieSearch(sessionId: sessionId));
+                    delegate: MovieSearch(sessionId: sessionId, listFavoriteMovies: listFavoriteMovies));
               }),
         ],
       ),
@@ -64,7 +65,7 @@ class HomeScreen extends StatelessWidget {
       if (sessionId == '') {
         sessionId = authState.sessionId ?? '';
       }
-
+// print('account ${authState.account.avatar?.gravatar?.hash}');
       return SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,6 +124,7 @@ class HomeScreen extends StatelessWidget {
                       listMovieModel: state.listMovieModel,
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       sessionId: authState.sessionId ?? '',
+                      listFavoriteMovies: authState.listMovieModel ?? [],
                     );
                   }),
                 ),
@@ -136,6 +138,7 @@ class HomeScreen extends StatelessWidget {
                 : FavoriteMovies(
                     listMovieModel: authState.listMovieModel,
                     sessionId: authState.sessionId ?? '',
+              listFavoriteMovies: authState.listMovieModel ?? [],
                   ),
           ],
         ),
@@ -150,9 +153,10 @@ class HomeScreen extends StatelessWidget {
 class FavoriteMovies extends StatelessWidget {
   final List<MovieModel>? listMovieModel;
   final String sessionId;
+  final List<MovieModel> listFavoriteMovies;
 
   const FavoriteMovies(
-      {Key? key, required this.listMovieModel, required this.sessionId})
+      {Key? key, required this.listMovieModel, required this.sessionId, required this.listFavoriteMovies})
       : super(key: key);
 
   @override
@@ -181,6 +185,7 @@ class FavoriteMovies extends StatelessWidget {
             listMovieModel: listMovieModel,
             padding: EdgeInsets.symmetric(horizontal: 20),
             sessionId: sessionId,
+            listFavoriteMovies: listFavoriteMovies,
           ),
         ),
       ],

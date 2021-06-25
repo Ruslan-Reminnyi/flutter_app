@@ -14,11 +14,15 @@ const kCommonMovieListContainerHeight = 170.0;
 class CommonMovieListWidget extends StatelessWidget {
   final MovieModel? movieModel;
   final String sessionId;
+  final bool isFavorite;
+  final List<MovieModel> listFavoriteMovies;
 
   CommonMovieListWidget({
     Key? key,
     required this.movieModel,
     required this.sessionId,
+    required this.isFavorite,
+    required this.listFavoriteMovies,
   }) : super(key: key);
 
   @override
@@ -35,6 +39,7 @@ class CommonMovieListWidget extends StatelessWidget {
               return DetailsScreen(
                 id: id,
                 sessionId: sessionId,
+                listFavoriteMovies: listFavoriteMovies,
               );
             }),
           );
@@ -90,7 +95,7 @@ class CommonMovieListWidget extends StatelessWidget {
               : Heart(
                   id: movieModel?.id,
                   padding: EdgeInsets.only(left: 100.0),
-                  isFavorite: false,
+                  isFavorite: isFavorite,
                 ),
         ],
       ),

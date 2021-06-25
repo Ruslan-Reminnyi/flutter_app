@@ -11,6 +11,7 @@ class MovieContainer extends StatelessWidget {
   final MovieModel? movieModel;
   final String sessionId;
   final bool isFavorite;
+  final List<MovieModel> listFavoriteMovies;
 
   //REVIEW introduce widgets for specific part of UI instead of all been in one file
 
@@ -20,6 +21,7 @@ class MovieContainer extends StatelessWidget {
     required this.movieModel,
     required this.sessionId,
     required this.isFavorite,
+    required this.listFavoriteMovies,
   }) : super(key: key);
 
   @override
@@ -36,6 +38,7 @@ class MovieContainer extends StatelessWidget {
                 return DetailsScreen(
                   id: id,
                   sessionId: sessionId,
+                  listFavoriteMovies: listFavoriteMovies,
                 );
               }),
             );

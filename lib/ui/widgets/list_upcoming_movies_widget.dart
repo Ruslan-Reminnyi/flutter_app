@@ -9,12 +9,14 @@ class ListUpcomingMoviesWidget extends StatelessWidget {
       {Key? key,
       required this.listMovieModel,
       this.padding = EdgeInsets.zero,
-      required this.sessionId})
+      required this.sessionId,
+        required this.listFavoriteMovies})
       : super(key: key);
 
   final List<MovieModel>? listMovieModel;
   final EdgeInsets padding;
   final String sessionId;
+  final List<MovieModel> listFavoriteMovies;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class ListUpcomingMoviesWidget extends StatelessWidget {
             .add(LoadMoreUpcomingMoviesEvent());
       },
       sessionId: sessionId,
+      listFavoriteMovies: listFavoriteMovies,
     );
   }
 }

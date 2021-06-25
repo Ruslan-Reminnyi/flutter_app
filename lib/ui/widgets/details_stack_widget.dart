@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/movie_details_response.dart';
+import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/widgets/details_header.dart';
 import 'package:flutter_app/ui/widgets/list_credits_widget.dart';
 import 'package:flutter_app/ui/widgets/list_photos_widget.dart';
@@ -10,12 +11,14 @@ class DetailsStackWidget extends StatelessWidget {
       {Key? key,
       required this.id,
       required this.movieDetailsResponse,
-      required this.sessionId})
+      required this.sessionId,
+        required this.listFavoriteMovies})
       : super(key: key);
 
   final int id;
   final MovieDetailsResponse movieDetailsResponse;
   final String sessionId;
+  final List<MovieModel> listFavoriteMovies;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +50,7 @@ class DetailsStackWidget extends StatelessWidget {
                   movieDetailsResponse.listSimilarMovies?.movies,
               padding: EdgeInsets.symmetric(horizontal: 20),
               sessionId: sessionId,
+              listFavoriteMovies: listFavoriteMovies,
             ),
           ],
         ),

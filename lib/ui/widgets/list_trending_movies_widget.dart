@@ -70,6 +70,7 @@ class _ListTrendingMoviesWidgetState extends State<ListTrendingMoviesWidget> {
           movieModel: widget.listMovieModel?[index],
           sessionId: widget.sessionId,
           isFavorite: isFavorite,
+          listFavoriteMovies: widget.listFavoriteMovies,
         );
       },
     );

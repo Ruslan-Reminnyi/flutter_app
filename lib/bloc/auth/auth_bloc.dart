@@ -1,6 +1,9 @@
+import 'package:flutter_app/data/account_model.dart';
 import 'package:flutter_app/data/api_token.dart';
+import 'package:flutter_app/data/avatar.dart';
 import 'package:flutter_app/data/favorite_request.dart';
 import 'package:flutter_app/data/favorite_response.dart';
+import 'package:flutter_app/data/gravatar.dart';
 import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/data/session_id.dart';
@@ -22,6 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             sessionId: '',
             page: 0,
             listMovieModel: [],
+            // account: AccountModel(id: 0, name: '', avatar: Avatar(gravatar: Gravatar(hash: ''))),
             loading: true));
 
   @override
@@ -41,6 +45,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (event is MarkAsFavoriteEvent) {
       yield* _markAsFavorite(event);
     }
+    // if (event is GetAccountEvent) {
+    //   yield* _getAccount(event);
+    // }
   }
 
   //REVIEW I don't see any yeilds. This function is Future by nature too
@@ -50,7 +57,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       yield state.copyWith(token: token.token, loading: false);
     } catch (e) {
-      yield state.copyWith(loading: false);
+      yield state.copyWith(account: AccountModel(id: 0, name: '', avatar: Avatar(gravatar: Gravatar(hash: ''))), loading: false);
     }
   }
 
@@ -61,9 +68,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield state.copyWith(
           token: state.token, sessionId: sessionId.id, loading: false);
     } catch (e) {
-      yield state.copyWith(loading: false);
+      yield state.copyWith(account: AccountModel(id: 0, name: '', avatar: Avatar(gravatar: Gravatar(hash: ''))), loading: false);
     }
   }
+
+  // Stream<AuthState> _getAccount(AuthEvent movieEvent) async* {
+  //   try {
+  //     AccountModel account = await _api.getAccount(state.sessionId ?? '');
+  //
+  //     yield state.copyWith(token: state.token, sessionId: state.sessionId, account: account, loading: false);
+  //   } catch (e) {
+  //     yield state.copyWith(loading: false);
+  //   }
+  // }
 
   Stream<AuthState> _getFavoriteMovies(AuthEvent movieEvent) async* {
     try {
@@ -75,9 +92,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           sessionId: state.sessionId,
           page: 1,
           listMovieModel: listResponse.movies,
+          // account: state.account,
           loading: false);
     } catch (e) {
-      yield state.copyWith(loading: false);
+      yield state.copyWith(account: AccountModel(id: 0, name: '', avatar: Avatar(gravatar: Gravatar(hash: ''))), loading: false);
     }
   }
 
@@ -96,6 +114,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           sessionId: state.sessionId,
           page: currentPage,
           listMovieModel: currentList,
+          // account: state.account,
           loading: false);
     } catch (e) {
       yield state.copyWith(loading: false);
