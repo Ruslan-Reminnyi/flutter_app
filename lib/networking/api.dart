@@ -75,8 +75,8 @@ class Api {
   }
 
   Future<AccountModel> getAccount(String sessionId) async {
-    final response = await dio.post(
-        '$url/account?api_key=$apiKey&session_id=$sessionId');
+    final response =
+        await dio.post('$url/account?api_key=$apiKey&session_id=$sessionId');
 
     return AccountModel.fromJson(response.data);
   }

@@ -1,5 +1,4 @@
 import 'package:flutter_app/data/avatar.dart';
-import 'package:flutter_app/data/gravatar.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'account_model.g.dart';

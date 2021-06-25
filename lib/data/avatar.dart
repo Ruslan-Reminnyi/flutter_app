@@ -9,6 +9,5 @@ class Avatar {
 
   Avatar({this.gravatar});
 
-  factory Avatar.fromJson(Map<String, dynamic> json) =>
-      _$AvatarFromJson(json);
+  factory Avatar.fromJson(Map<String, dynamic> json) => _$AvatarFromJson(json);
 }
