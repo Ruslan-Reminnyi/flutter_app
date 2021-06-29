@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/bloc/auth/auth_bloc.dart';
 import 'package:flutter_app/bloc/detailspage/details_movie_bloc.dart';
 import 'package:flutter_app/constants.dart';
+import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/ui/widgets/details_stack_widget.dart';
+import 'package:flutter_app/ui/widgets/heart_widget.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,6 +30,9 @@ class DetailsContainer extends StatelessWidget {
             decoration: TextDecoration.none,
           ),
         ),
+        actions: [
+          LikeAction(id: id),
+        ],
       ),
       body: SingleChildScrollView(child:
           BlocBuilder<DetailsMovieBloc, DetailsMovieState>(
@@ -40,5 +46,41 @@ class DetailsContainer extends StatelessWidget {
         );
       })),
     );
+  }
+}
+
+class LikeAction extends StatelessWidget {
+  final int id;
+  const LikeAction({Key? key, required this.id}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
+      if (authState is Authorized) {
+        var favorite = authState.favoritesList?.listMovieModel?.firstWhere(
+            (element) => element.id == id,
+            orElse: () => MovieModel(
+                id: 0,
+                genres: [],
+                rating: 0,
+                backdropPath: '',
+                originalName: '',
+                originalTitle: '',
+                posterPath: ''));
+
+        bool isFavorite =
+            favorite?.id != 0 && favorite?.id != null ? true : false;
+
+        return Heart(
+          id: id,
+          isFavorite: isFavorite,
+        );
+      } else {
+        return Heart(
+          id: id,
+          isFavorite: false,
+        );
+      }
+    });
   }
 }

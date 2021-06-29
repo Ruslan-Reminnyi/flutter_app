@@ -20,7 +20,10 @@ class UserIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
       if (authState is Authorized) {
-        return IconButton(icon: Icon(Icons.person), onPressed: () {});
+        return IconButton(
+            icon: Image.network(
+                'https://secure.gravatar.com/avatar/${authState.account?.avatar?.gravatar?.hash}'),
+            onPressed: () {});
       } else if (authState is AuthRequestToken) {
         return IconButton(
             icon: Icon(Icons.login),

@@ -17,7 +17,7 @@ class DetailsStackWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DetailsHeader(movieDetailsResponse: movieDetailsResponse),
+        DetailsHeader(id: id, movieDetailsResponse: movieDetailsResponse),
         Column(
           children: [
             SizedBox(

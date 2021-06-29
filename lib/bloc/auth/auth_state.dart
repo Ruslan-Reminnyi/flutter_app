@@ -13,11 +13,13 @@ class AuthRequestToken extends AuthState {
 class Authorized extends AuthState {
   final String sessionId;
   final FavoritesList? favoritesList;
+  final AccountModel? account;
 
-  Authorized(this.sessionId, {this.favoritesList});
+  Authorized(this.sessionId, {this.favoritesList, this.account});
 
-  AuthState copyWith({sessionId, favoritesList}) {
-    return Authorized(sessionId, favoritesList: favoritesList);
+  AuthState copyWith({sessionId, favoritesList, account}) {
+    return Authorized(sessionId,
+        favoritesList: favoritesList, account: account);
   }
 }
 

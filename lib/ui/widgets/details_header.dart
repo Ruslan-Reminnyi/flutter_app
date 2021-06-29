@@ -12,9 +12,11 @@ const kBackdropGradientHeight = 200.0;
 const kOverviewWidth = 370.0;
 
 class DetailsHeader extends StatelessWidget {
+  final int id;
   final MovieDetailsResponse movieDetailsResponse;
 
-  DetailsHeader({Key? key, required this.movieDetailsResponse})
+  DetailsHeader(
+      {Key? key, required this.id, required this.movieDetailsResponse})
       : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class DetailsHeader extends StatelessWidget {
     return Stack(
       //REVIEW3 too much elements in stack or move padding to this widget
       children: [
-        Backdrop(movieDetailsResponse: movieDetailsResponse),
+        Backdrop(id: id, movieDetailsResponse: movieDetailsResponse),
         // ImageGradient(),
         Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 180.0, 0.0, 0.0),
@@ -43,8 +45,11 @@ class DetailsHeader extends StatelessWidget {
 }
 
 class Backdrop extends StatelessWidget {
+  final int id;
   final MovieDetailsResponse movieDetailsResponse;
-  Backdrop({Key? key, required this.movieDetailsResponse}) : super(key: key);
+
+  Backdrop({Key? key, required this.id, required this.movieDetailsResponse})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

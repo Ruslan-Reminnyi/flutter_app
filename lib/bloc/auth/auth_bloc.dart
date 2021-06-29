@@ -1,6 +1,6 @@
+import 'package:flutter_app/data/account_model.dart';
 import 'package:flutter_app/data/api_token.dart';
 import 'package:flutter_app/data/favorite_request.dart';
-import 'package:flutter_app/data/favorite_response.dart';
 import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/data/session_id.dart';
@@ -57,7 +57,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           yield UnAuthorized();
         } else {
           yield Authorized(sessionId);
-          // yield* _getAccount();
           yield* _getFavoriteMovies();
         }
       } catch (e) {
@@ -68,25 +67,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  // Stream<AuthState> _getAccount() async* {
-  //   final currentState = state;
-  //   if (currentState is Authorized) {
-  //     try {
-  //       AccountModel account =
-  //       await _api.getAccount(currentState.sessionId);
-  //
-  //       yield currentState.copyWith(
-  //           sessionId: currentState.sessionId,
-  //           favoritesList: FavoritesList(
-  //               page: currentState.favoritesList?.page,
-  //               listMovieModel: currentState.favoritesList?.listMovieModel,
-  //               loading: false),
-  //         account: account
-  //           );
-  //     } catch (e) {}
-  //   }
-  // }
-
   Stream<AuthState> _getFavoriteMovies() async* {
     final currentState = state;
     if (currentState is Authorized) {
@@ -94,12 +74,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ListResponse listResponse =
             await _api.getFavoriteMovies(currentState.sessionId, 1);
 
+        AccountModel account = await _api.getAccount(currentState.sessionId);
+
         yield currentState.copyWith(
-            sessionId: currentState.sessionId,
-            favoritesList: FavoritesList(
-                page: 1,
-                listMovieModel: listResponse.movies ?? [],
-                loading: false));
+          sessionId: currentState.sessionId,
+          favoritesList: FavoritesList(
+              page: 1,
+              listMovieModel: listResponse.movies ?? [],
+              loading: false),
+          account: account,
+        );
       } catch (e) {}
     }
   }
@@ -130,11 +114,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final currentState = state;
     if (currentState is Authorized) {
       try {
-        FavoriteResponse response = await _api.markMovieAsFavorite(
-            currentState.sessionId, event.request);
-
-        print('response.statusCode ${response.statusCode}');
-        print('response.statusMessage ${response.statusMessage}');
+        await _api.markMovieAsFavorite(currentState.sessionId, event.request);
 
         yield* _getFavoriteMovies();
       } catch (e) {}
