@@ -56,8 +56,10 @@ class ProductionCompanyLogo extends StatelessWidget {
       width: kProductionCompanyLogoWidth,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 60.0, 20.0, 0.0),
-        child: NetworkImageWidget(
-            path: movieDetailsResponse.productionCompanies?.first.logoPath),
+        child: movieDetailsResponse.productionCompanies?.isNotEmpty == true
+            ? NetworkImageWidget(
+                path: movieDetailsResponse.productionCompanies?.first.logoPath)
+            : NetworkImageWidget(path: null),
       ),
     );
   }

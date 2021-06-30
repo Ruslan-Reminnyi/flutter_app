@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPageScreen extends StatelessWidget {
+  static const routeName = '/authentication';
   final String token;
 
-  const WebViewPageScreen({Key? key, required this.token}) : super(key: key);
+  const WebViewPageScreen({Key? key, this.token = ''}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

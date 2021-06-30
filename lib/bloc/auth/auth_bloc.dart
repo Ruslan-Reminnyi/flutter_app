@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_app/data/account_model.dart';
 import 'package:flutter_app/data/api_token.dart';
 import 'package:flutter_app/data/favorite_request.dart';
@@ -84,7 +85,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               loading: false),
           account: account,
         );
-      } catch (e) {}
+      } on DioError catch (e) {
+        if (e.response?.statusCode == 401) {
+          yield UnAuthorized();
+        }
+      }
     }
   }
 
@@ -102,11 +107,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ?..addAll(listResponse.movies ?? []);
 
         yield currentState.copyWith(
+            sessionId: currentState.sessionId,
             favoritesList: FavoritesList(
                 page: currentPage,
                 listMovieModel: currentList ?? [],
-                loading: false));
-      } catch (e) {}
+                loading: false),
+            account: currentState.account);
+      } on DioError catch (e) {
+        if (e.response?.statusCode == 401) {
+          yield UnAuthorized();
+        }
+      }
     }
   }
 
@@ -117,7 +128,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await _api.markMovieAsFavorite(currentState.sessionId, event.request);
 
         yield* _getFavoriteMovies();
-      } catch (e) {}
+      } on DioError catch (e) {
+        if (e.response?.statusCode == 401) {
+          yield UnAuthorized();
+        }
+      }
     }
   }
 }

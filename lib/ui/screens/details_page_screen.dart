@@ -7,26 +7,37 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DetailsScreen extends StatelessWidget {
   DetailsScreen({
     Key? key,
-    required this.id,
+    this.id = 0,
   }) : super(key: key);
 
   final int id;
+  static const routeName = '/details';
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider<DetailsMovieBloc>(
-            create: (BuildContext context) =>
-                DetailsMovieBloc()..add(LoadDetailsPageEvent(id: id)),
-          ),
-          BlocProvider<GenresBloc>(
-            create: (BuildContext context) =>
-                GenresBloc()..add(LoadMovieGenresEvent()),
-          ),
-        ],
-        child: DetailsContainer(
-          id: id,
-        ));
+    return RefreshIndicator(
+      onRefresh: () => _refreshDetailsScreen(id),
+      child: MultiBlocProvider(
+          providers: [
+            BlocProvider<DetailsMovieBloc>(
+              create: (BuildContext context) =>
+                  DetailsMovieBloc()..add(LoadDetailsPageEvent(id: id)),
+            ),
+            BlocProvider<GenresBloc>(
+              create: (BuildContext context) =>
+                  GenresBloc()..add(LoadMovieGenresEvent()),
+            ),
+          ],
+          child: DetailsContainer(
+            id: id,
+          )),
+    );
   }
+}
+
+Future<void> _refreshDetailsScreen(int id) async {
+  LoadDetailsPageEvent(id: id);
+  LoadMovieGenresEvent();
+
+  print('refresh');
 }

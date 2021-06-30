@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/movies_genres/genres_bloc.dart';
 import 'package:flutter_app/data/movie_genres_model.dart';
 import 'package:flutter_app/data/movie_model.dart';
-import 'package:flutter_app/ui/screens/details_page_screen.dart';
 import 'package:flutter_app/ui/widgets/heart_widget.dart';
 import 'package:flutter_app/ui/widgets/network_image_widget.dart';
 import 'package:flutter_app/ui/widgets/loading.dart';
@@ -27,16 +26,7 @@ class CommonMovieListWidget extends StatelessWidget {
       onTap: () {
         final id = movieModel?.id;
         if (id != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                //REVIEW has a lot fo data passed in that it shouldn't have
-                builder: (ctx) {
-              return DetailsScreen(
-                id: id,
-              );
-            }),
-          );
+          Navigator.pushNamed(context, '/details', arguments: id);
         }
       },
       child: Stack(

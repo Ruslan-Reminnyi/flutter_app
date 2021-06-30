@@ -8,7 +8,7 @@ class NetworkImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return path != null
+    return path != null && path?.isNotEmpty == true
         ? Image.network(getImagePath(path), fit: BoxFit.cover)
         : Image(image: AssetImage('images/image_placeholder.png'));
   }
