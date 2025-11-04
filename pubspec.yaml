@@ -30,14 +30,14 @@ dependencies:
   pedantic: ^1.11.0
   dio: ^4.0.0
   rxdart: ^0.27.1
-  webview_flutter: ^2.0.8
+  webview_flutter: ^4.13.0
   pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable: ^4.1.0
-  build_runner: ^1.12.2
+  json_serializable: ^6.11.1
+  build_runner: ^2.10.1
   flutter_lints: ^1.0.2
 
 # For information on the generic Dart part of this file, see the

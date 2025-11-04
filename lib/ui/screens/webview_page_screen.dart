@@ -11,6 +11,10 @@ class WebViewPageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final webviewController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse('https://www.themoviedb.org/authenticate/$token'));
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.black,
@@ -25,9 +29,8 @@ class WebViewPageScreen extends StatelessWidget {
               Navigator.pop(context);
             }),
       ),
-      body: WebView(
-        initialUrl: 'https://www.themoviedb.org/authenticate/$token',
-        javascriptMode: JavascriptMode.unrestricted,
+      body: WebViewWidget(
+        controller: webviewController,
       ),
     );
   }
