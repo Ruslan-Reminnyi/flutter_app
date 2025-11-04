@@ -17,23 +17,25 @@ class UserIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
-      if (authState is Authorized) {
-        return IconButton(
-            icon: Image.network(
-                'https://secure.gravatar.com/avatar/${authState.account?.avatar?.gravatar?.hash}'),
-            onPressed: () {});
-      } else if (authState is AuthRequestToken) {
-        return IconButton(
-            icon: Icon(Icons.login),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, authState) {
+        if (authState is Authorized) {
+          return IconButton(
+            icon: Image.network('https://secure.gravatar.com/avatar/${authState.account?.avatar?.gravatar?.hash}'),
+            onPressed: () {},
+          );
+        } else if (authState is AuthRequestToken) {
+          return IconButton(
+            icon: Icon(Icons.login, color: Colors.white),
             onPressed: () {
-              Navigator.pushNamed(context, '/authentication',
-                  arguments: authState.token);
-            });
-      } else {
-        return SizedBox();
-      }
-    });
+              Navigator.pushNamed(context, '/authentication', arguments: authState.token);
+            },
+          );
+        } else {
+          return SizedBox();
+        }
+      },
+    );
   }
 }
 
@@ -51,15 +53,15 @@ class HomeScreen extends StatelessWidget {
         leading: UserIndicator(),
         title: Text(
           title,
-          style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         actions: [
           IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () async {
-                await showSearch<String>(
-                    context: context, delegate: MovieSearch());
-              }),
+            icon: Icon(Icons.search, color: Colors.white),
+            onPressed: () async {
+              await showSearch<String>(context: context, delegate: MovieSearch());
+            },
+          ),
         ],
       ),
       body: _buildBody(context),
@@ -73,29 +75,22 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(
-              height: 20,
-              child: Divider(
-                color: Colors.grey,
-                indent: 20,
-              ),
-            ),
+            SizedBox(height: 20, child: Divider(color: Colors.grey, indent: 20)),
             Container(
               height: kHomePageTrendingMovieContainerHeight,
               child: BlocBuilder<TrendingMovieBloc, TrendingMovieState>(
-                  builder: (context, state) {
-                if (state.loading) {
-                  return LoadingWidget();
-                }
-                return ListTrendingMoviesWidget(
-                  listMovieModel: state.listMovieModel,
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                );
-              }),
+                builder: (context, state) {
+                  if (state.loading) {
+                    return LoadingWidget();
+                  }
+                  return ListTrendingMoviesWidget(
+                    listMovieModel: state.listMovieModel,
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                  );
+                },
+              ),
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -103,35 +98,28 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20),
                   child: Text(
                     'Coming Soon',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
+                SizedBox(height: 10),
                 Container(
                   height: kHomePageComingSoonMovieContainerHeight,
                   //REVIEW magic numbers
                   child: BlocBuilder<UpcomingMovieBloc, UpcomingMovieState>(
-                      builder: (context, state) {
-                    if (state.loading) {
-                      return LoadingWidget();
-                    }
-                    return ListUpcomingMoviesWidget(
-                      listMovieModel: state.listMovieModel,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                    );
-                  }),
+                    builder: (context, state) {
+                      if (state.loading) {
+                        return LoadingWidget();
+                      }
+                      return ListUpcomingMoviesWidget(
+                        listMovieModel: state.listMovieModel,
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             FavoriteMovies(),
           ],
         ),
@@ -145,52 +133,47 @@ class FavoriteMovies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
-      if (authState is Authorized) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                'Favorite Movies',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, authState) {
+        if (authState is Authorized) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  'Favorite Movies',
+                  style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height:
-                  kHomePageComingSoonMovieContainerHeight, //REVIEW magic numbers
-              child: ListFavoriteMoviesWidget(
-                listMovieModel: authState is Authorized
-                    ? authState.favoritesList?.listMovieModel ?? []
-                    : [],
-                padding: EdgeInsets.symmetric(horizontal: 20),
+              SizedBox(height: 10),
+              Container(
+                height: kHomePageComingSoonMovieContainerHeight, //REVIEW magic numbers
+                child: ListFavoriteMoviesWidget(
+                  listMovieModel: authState is Authorized ? authState.favoritesList?.listMovieModel ?? [] : [],
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                ),
               ),
-            ),
-          ],
-        );
-      }
-      return SizedBox();
-    });
+            ],
+          );
+        }
+        return SizedBox();
+      },
+    );
   }
 }
 
 Future<void> _refreshHomeScreen() async {
   LoadTrendingMoviesEvent();
   LoadUpcomingMoviesEvent();
-  BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
-    if (authState is Authorized) {
-      GetFavoriteMoviesEvent();
-    }
-    return SizedBox();
-  });
+  BlocBuilder<AuthBloc, AuthState>(
+    builder: (context, authState) {
+      if (authState is Authorized) {
+        GetFavoriteMoviesEvent();
+      }
+      return SizedBox();
+    },
+  );
 
   print('refresh');
 }
