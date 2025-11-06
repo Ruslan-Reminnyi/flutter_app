@@ -6,13 +6,12 @@ part of 'favorite_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FavoriteRequest _$FavoriteRequestFromJson(Map<String, dynamic> json) {
-  return FavoriteRequest(
-    mediaType: json['media_type'] as String,
-    mediaId: json['media_id'] as int,
-    favorite: json['favorite'] as bool,
-  );
-}
+FavoriteRequest _$FavoriteRequestFromJson(Map<String, dynamic> json) =>
+    FavoriteRequest(
+      mediaType: json['media_type'] as String? ?? "movie",
+      mediaId: (json['media_id'] as num?)?.toInt() ?? 0,
+      favorite: json['favorite'] as bool? ?? false,
+    );
 
 Map<String, dynamic> _$FavoriteRequestToJson(FavoriteRequest instance) =>
     <String, dynamic>{

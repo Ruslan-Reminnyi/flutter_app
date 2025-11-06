@@ -6,6 +6,7 @@ part of 'photo_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PhotoModel _$PhotoModelFromJson(Map<String, dynamic> json) {
-  return PhotoModel(id: json['id'] as int?, path: json['file_path'] as String?);
-}
+PhotoModel _$PhotoModelFromJson(Map<String, dynamic> json) => PhotoModel(
+  id: (json['id'] as num?)?.toInt(),
+  path: json['file_path'] as String?,
+);

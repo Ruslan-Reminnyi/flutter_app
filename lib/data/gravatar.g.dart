@@ -6,6 +6,5 @@ part of 'gravatar.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Gravatar _$GravatarFromJson(Map<String, dynamic> json) {
-  return Gravatar(hash: json['hash'] as String?);
-}
+Gravatar _$GravatarFromJson(Map<String, dynamic> json) =>
+    Gravatar(hash: json['hash'] as String?);

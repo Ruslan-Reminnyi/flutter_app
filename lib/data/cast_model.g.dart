@@ -6,9 +6,7 @@ part of 'cast_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CastModel _$CastModelFromJson(Map<String, dynamic> json) {
-  return CastModel(
-    id: json['id'] as int?,
-    path: json['profile_path'] as String?,
-  );
-}
+CastModel _$CastModelFromJson(Map<String, dynamic> json) => CastModel(
+  id: (json['id'] as num?)?.toInt(),
+  path: json['profile_path'] as String?,
+);
