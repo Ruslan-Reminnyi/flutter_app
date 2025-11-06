@@ -17,9 +17,12 @@ class Authorized extends AuthState {
 
   Authorized(this.sessionId, {this.favoritesList, this.account});
 
-  AuthState copyWith({sessionId, favoritesList, account}) {
-    return Authorized(sessionId,
-        favoritesList: favoritesList, account: account);
+  AuthState copyWith({String? sessionId, FavoritesList? favoritesList, AccountModel? account}) {
+    return Authorized(
+      sessionId ?? this.sessionId,
+      favoritesList: favoritesList ?? this.favoritesList,
+      account: account ?? this.account,
+    );
   }
 }
 
@@ -28,6 +31,5 @@ class FavoritesList {
   final List<MovieModel>? listMovieModel;
   final bool loading;
 
-  FavoritesList(
-      {this.page, required this.listMovieModel, this.loading = false});
+  FavoritesList({this.page, required this.listMovieModel, this.loading = false});
 }

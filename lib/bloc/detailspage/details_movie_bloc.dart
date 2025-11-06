@@ -12,68 +12,73 @@ class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
   final Api _api = Api();
 
   DetailsMovieBloc()
-      : super(DetailsMovieState(
-            movieDetailsResponse: MovieDetailsResponse(
-              id: 0,
-              originalTitle: '',
-              tagline: '',
-              overview: '',
-              posterPath: '',
-              genres: [],
-              productionCompanies: [],
-              runtime: 0,
-            ),
-            currentPageOfSimilarMovies: 1,
-            listSimilarMovies: [],
-            loading: false));
-
-  @override
-  Stream<DetailsMovieState> mapEventToState(DetailsMovieEvent event) async* {
-    if (event is LoadDetailsPageEvent) {
-      yield* _loadedDetails(event);
-    }
-    if (event is LoadMoreDetailsPageEvent) {
-      yield* _loadedMoreSimilarMovies(event);
-    }
+    : super(
+        DetailsMovieState(
+          movieDetailsResponse: MovieDetailsResponse(
+            id: 0,
+            originalTitle: '',
+            tagline: '',
+            overview: '',
+            posterPath: '',
+            genres: [],
+            productionCompanies: [],
+            runtime: 0,
+          ),
+          currentPageOfSimilarMovies: 1,
+          listSimilarMovies: [],
+          loading: false,
+        ),
+      ) {
+    on<LoadDetailsPageEvent>(_loadedDetails);
+    on<LoadMoreDetailsPageEvent>(_loadedMoreSimilarMovies);
   }
 
-  Stream<DetailsMovieState> _loadedDetails(
-      LoadDetailsPageEvent movieEvent) async* {
+  Future<void> _loadedDetails(
+    LoadDetailsPageEvent movieEvent,
+    Emitter<DetailsMovieState> emit,
+  ) async {
     try {
-      yield state.copyWith(loading: true);
+      emit(state.copyWith(loading: true));
 
-      MovieDetailsResponse movieDetailsResponse =
-          await _api.getDetailsOfMovies(movieEvent.id);
+      MovieDetailsResponse movieDetailsResponse = await _api.getDetailsOfMovies(movieEvent.id);
 
-      yield DetailsMovieState(
+      emit(
+        DetailsMovieState(
           movieDetailsResponse: movieDetailsResponse,
-          currentPageOfSimilarMovies:
-              movieDetailsResponse.listSimilarMovies?.page,
+          currentPageOfSimilarMovies: movieDetailsResponse.listSimilarMovies?.page,
           listSimilarMovies: movieDetailsResponse.listSimilarMovies?.movies,
-          loading: false);
+          loading: false,
+        ),
+      );
     } catch (e) {
-      yield state.copyWith(loading: false);
+      emit(state.copyWith(loading: false));
     }
   }
 
-  Stream<DetailsMovieState> _loadedMoreSimilarMovies(
-      DetailsMovieEvent movieEvent) async* {
+  Future<void> _loadedMoreSimilarMovies(
+    DetailsMovieEvent movieEvent,
+    Emitter<DetailsMovieState> emit,
+  ) async {
     try {
-      int? currentPageOfSimilarMovies =
-          (state.currentPageOfSimilarMovies ?? 1) + 1;
+      int? currentPageOfSimilarMovies = (state.currentPageOfSimilarMovies ?? 1) + 1;
 
       ListResponse? listSimilarMovies = await _api.getSimilarMovies(
-          state.movieDetailsResponse.id ?? 1, currentPageOfSimilarMovies);
+        state.movieDetailsResponse.id ?? 1,
+        currentPageOfSimilarMovies,
+      );
 
       List<MovieModel>? currentListSimilarMovies = state.listSimilarMovies
         ?..addAll(listSimilarMovies.movies ?? []);
 
-      yield state.copyWith(
+      emit(
+        state.copyWith(
           currentPageOfSimilarMovies: currentPageOfSimilarMovies,
           listSimilarMovies: currentListSimilarMovies,
-          loading: false);
+          loading: false,
+        ),
+      );
     } catch (e) {
-      yield state.copyWith(loading: false);
+      emit(state.copyWith(loading: false));
     }
   }
 }

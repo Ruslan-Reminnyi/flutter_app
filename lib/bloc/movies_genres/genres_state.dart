@@ -6,9 +6,10 @@ class GenresState {
 
   GenresState({required this.allApiGenres, required this.loading});
 
-  GenresState copyWith({allApiGenres, currentGenres, loading}) {
+  GenresState copyWith({List<MovieGenresModel>? allApiGenres, bool? loading}) {
     return GenresState(
-        allApiGenres: allApiGenres ?? this.allApiGenres,
-        loading: loading ?? this.loading);
+      allApiGenres: allApiGenres ?? this.allApiGenres,
+      loading: loading ?? this.loading,
+    );
   }
 }

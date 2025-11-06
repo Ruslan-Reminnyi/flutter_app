@@ -7,9 +7,9 @@ class SearchEvent {
 }
 
 class LoadSearchMovieEvent extends SearchEvent {
-  LoadSearchMovieEvent(String query) : super(query);
+  LoadSearchMovieEvent(super.query);
 }
 
 class LoadMoreSearchMovieEvent extends SearchEvent {
-  LoadMoreSearchMovieEvent(String query) : super(query);
+  LoadMoreSearchMovieEvent(super.query);
 }

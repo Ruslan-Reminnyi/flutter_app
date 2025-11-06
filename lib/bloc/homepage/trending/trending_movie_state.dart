@@ -5,15 +5,13 @@ class TrendingMovieState {
   final List<MovieModel>? listMovieModel;
   final bool loading;
 
-  TrendingMovieState(
-      {required this.page,
-      required this.listMovieModel,
-      required this.loading});
+  TrendingMovieState({required this.page, required this.listMovieModel, required this.loading});
 
-  TrendingMovieState copyWith({page, listMovieModel, loading}) {
+  TrendingMovieState copyWith({int? page, List<MovieModel>? listMovieModel, bool? loading}) {
     return TrendingMovieState(
-        page: page ?? this.page,
-        listMovieModel: listMovieModel ?? this.listMovieModel,
-        loading: loading ?? this.loading);
+      page: page ?? this.page,
+      listMovieModel: listMovieModel ?? this.listMovieModel,
+      loading: loading ?? this.loading,
+    );
   }
 }

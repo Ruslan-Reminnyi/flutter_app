@@ -5,15 +5,13 @@ class SearchState {
   final List<MovieModel>? listMovieModel;
   final bool loading;
 
-  SearchState(
-      {required this.listMovieModel,
-      required this.loading,
-      required this.page});
+  SearchState({required this.listMovieModel, required this.loading, required this.page});
 
-  SearchState copyWith({page, listMovieModel, loading}) {
+  SearchState copyWith({int? page, List<MovieModel>? listMovieModel, bool? loading}) {
     return SearchState(
-        listMovieModel: listMovieModel ?? this.listMovieModel,
-        page: page,
-        loading: loading ?? this.loading);
+      listMovieModel: listMovieModel ?? this.listMovieModel,
+      page: page,
+      loading: loading ?? this.loading,
+    );
   }
 }

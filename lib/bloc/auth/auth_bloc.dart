@@ -15,38 +15,25 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final Api _api = Api();
 
-  AuthBloc() : super(UnAuthorized());
-
-  @override
-  Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    if (event is GetTokenEvent) {
-      yield* _getToken();
-    }
-    if (event is GetSessionIdEvent) {
-      yield* _getSessionId();
-    }
-    if (event is GetFavoriteMoviesEvent) {
-      yield* _getFavoriteMovies();
-    }
-    if (event is GetMoreFavoriteMoviesEvent) {
-      yield* _getMoreFavoriteMovies();
-    }
-    if (event is MarkAsFavoriteEvent) {
-      yield* _markAsFavorite(event);
-    }
+  AuthBloc() : super(UnAuthorized()) {
+    on<GetTokenEvent>(_getToken);
+    on<GetSessionIdEvent>(_getSessionId);
+    on<GetFavoriteMoviesEvent>(_getFavoriteMovies);
+    on<GetMoreFavoriteMoviesEvent>(_getMoreFavoriteMovies);
+    on<MarkAsFavoriteEvent>(_markAsFavorite);
   }
 
-  Stream<AuthState> _getToken() async* {
+  Future<void> _getToken(GetTokenEvent event, Emitter<AuthState> emit) async {
     try {
       ApiToken token = await _api.getRequestToken();
 
-      yield AuthRequestToken(token.token);
+      emit(AuthRequestToken(token.token));
     } catch (e) {
-      yield UnAuthorized();
+      emit(UnAuthorized());
     }
   }
 
-  Stream<AuthState> _getSessionId() async* {
+  Future<void> _getSessionId(GetSessionIdEvent event, Emitter<AuthState> emit) async {
     final currentState = state;
     if (currentState is AuthRequestToken) {
       try {
@@ -55,82 +42,92 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final sessionId = response.id;
 
         if (sessionId == null) {
-          yield UnAuthorized();
+          emit(UnAuthorized());
         } else {
-          yield Authorized(sessionId);
-          yield* _getFavoriteMovies();
+          emit(Authorized(sessionId));
+          add(GetFavoriteMoviesEvent());
         }
       } catch (e) {
-        yield UnAuthorized();
+        emit(UnAuthorized());
       }
     } else {
-      yield UnAuthorized();
+      emit(UnAuthorized());
     }
   }
 
-  Stream<AuthState> _getFavoriteMovies() async* {
+  Future<void> _getFavoriteMovies(GetFavoriteMoviesEvent event, Emitter<AuthState> emit) async {
     final currentState = state;
     if (currentState is Authorized) {
       try {
-        ListResponse listResponse =
-            await _api.getFavoriteMovies(currentState.sessionId, 1);
+        ListResponse listResponse = await _api.getFavoriteMovies(currentState.sessionId, 1);
 
         AccountModel account = await _api.getAccount(currentState.sessionId);
 
-        yield currentState.copyWith(
-          sessionId: currentState.sessionId,
-          favoritesList: FavoritesList(
+        emit(
+          currentState.copyWith(
+            sessionId: currentState.sessionId,
+            favoritesList: FavoritesList(
               page: 1,
               listMovieModel: listResponse.movies ?? [],
-              loading: false),
-          account: account,
+              loading: false,
+            ),
+            account: account,
+          ),
         );
       } on DioError catch (e) {
         if (e.response?.statusCode == 401) {
-          yield UnAuthorized();
+          emit(UnAuthorized());
         }
       }
     }
   }
 
-  Stream<AuthState> _getMoreFavoriteMovies() async* {
+  Future<void> _getMoreFavoriteMovies(
+    GetMoreFavoriteMoviesEvent event,
+    Emitter<AuthState> emit,
+  ) async {
     final currentState = state;
     if (currentState is Authorized) {
       try {
         int? currentPage = (currentState.favoritesList?.page ?? 1) + 1;
 
-        ListResponse listResponse =
-            await _api.getFavoriteMovies(currentState.sessionId, currentPage);
+        ListResponse listResponse = await _api.getFavoriteMovies(
+          currentState.sessionId,
+          currentPage,
+        );
 
-        List<MovieModel>? currentList = currentState
-            .favoritesList?.listMovieModel
+        List<MovieModel>? currentList = currentState.favoritesList?.listMovieModel
           ?..addAll(listResponse.movies ?? []);
 
-        yield currentState.copyWith(
+        emit(
+          currentState.copyWith(
             sessionId: currentState.sessionId,
             favoritesList: FavoritesList(
-                page: currentPage,
-                listMovieModel: currentList ?? [],
-                loading: false),
-            account: currentState.account);
+              page: currentPage,
+              listMovieModel: currentList ?? [],
+              loading: false,
+            ),
+            account: currentState.account,
+          ),
+        );
       } on DioError catch (e) {
         if (e.response?.statusCode == 401) {
-          yield UnAuthorized();
+          emit(UnAuthorized());
         }
       }
     }
   }
 
-  Stream<AuthState> _markAsFavorite(MarkAsFavoriteEvent event) async* {
+  Future<void> _markAsFavorite(MarkAsFavoriteEvent event, Emitter<AuthState> emit) async {
     final currentState = state;
     if (currentState is Authorized) {
       try {
         await _api.markMovieAsFavorite(currentState.sessionId, event.request);
 
-        yield* _getFavoriteMovies();
+        add(GetFavoriteMoviesEvent());
       } on DioError catch (e) {
         if (e.response?.statusCode == 401) {
-          yield UnAuthorized();
+          emit(UnAuthorized());
         }
       }
     }

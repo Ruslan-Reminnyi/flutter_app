@@ -12,27 +12,21 @@ class GenresBloc extends Bloc<GenresEvent, GenresState> {
 
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
-  GenresBloc() : super(GenresState(allApiGenres: [], loading: true));
-
-  @override
-  Stream<GenresState> mapEventToState(GenresEvent event) async* {
-    if (event is LoadMovieGenresEvent) {
-      yield* _loadedGenresMovies(event);
-    }
+  GenresBloc() : super(GenresState(allApiGenres: [], loading: true)) {
+    on<LoadMovieGenresEvent>(_loadedGenresMovies);
   }
 
   //REVIEW I don't see any yeilds. This function is Future by nature too
-  Stream<GenresState> _loadedGenresMovies(GenresEvent movieEvent) async* {
+  Future<void> _loadedGenresMovies(GenresEvent movieEvent, Emitter<GenresState> emit) async {
     try {
-      yield state.copyWith(loading: true);
+      emit(state.copyWith(loading: true));
 
       //REVIEW fetch it only once
       ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
 
-      yield GenresState(
-          allApiGenres: listGenresResponse.genres, loading: false);
+      emit(GenresState(allApiGenres: listGenresResponse.genres, loading: false));
     } catch (e) {
-      yield state.copyWith(loading: false);
+      emit(state.copyWith(loading: false));
     }
   }
 }

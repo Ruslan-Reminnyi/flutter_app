@@ -13,68 +13,58 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
-  SearchBloc() : super(SearchState(page: 0, listMovieModel: [], loading: true));
-
-  @override
-  Stream<SearchState> mapEventToState(SearchEvent event) async* {
-    if (event is LoadSearchMovieEvent) {
-      yield* _searchMovies(event);
-    }
-    if (event is LoadMoreSearchMovieEvent) {
-      yield* _searchMoreMovies(event);
-    }
+  SearchBloc() : super(SearchState(page: 0, listMovieModel: [], loading: true)) {
+    on<LoadSearchMovieEvent>(_searchMovies);
+    on<LoadMoreSearchMovieEvent>(_searchMoreMovies);
   }
 
   @override
-  Stream<Transition<SearchEvent, SearchState>> transformEvents(
-      events, transitionFn) {
-    return events
-        .debounceTime(Duration(milliseconds: 150))
-        .switchMap(transitionFn);
+  Stream<Transition<SearchEvent, SearchState>> transformEvents(events, transitionFn) {
+    return events.debounceTime(Duration(milliseconds: 150)).switchMap(transitionFn);
   }
 
   //REVIEW I don't see any yeilds. This function is Future by nature too
-  Stream<SearchState> _searchMovies(SearchEvent movieEvent) async* {
+  Future<void> _searchMovies(SearchEvent movieEvent, Emitter<SearchState> emit) async {
     try {
       if (movieEvent.query.isEmpty) {
-        yield SearchState(page: 0, listMovieModel: [], loading: false);
+        emit(SearchState(page: 0, listMovieModel: [], loading: false));
       }
 
-      yield state.copyWith(loading: true);
+      emit(state.copyWith(loading: true));
 
       ListResponse listResponse = await _api.searchMovies(movieEvent.query, 1);
 
-      yield SearchState(
-          page: listResponse.page,
-          listMovieModel: listResponse.movies,
-          loading: false);
+      emit(
+        SearchState(page: listResponse.page, listMovieModel: listResponse.movies, loading: false),
+      );
     } catch (e) {
       List<MovieModel>? listMovieModel = [];
 
-      yield state.copyWith(listMovieModel: listMovieModel, loading: false);
+      emit(state.copyWith(listMovieModel: listMovieModel, loading: false));
     }
   }
 
-  Stream<SearchState> _searchMoreMovies(SearchEvent movieEvent) async* {
+  Future<void> _searchMoreMovies(SearchEvent movieEvent, Emitter<SearchState> emit) async {
     try {
       if (movieEvent.query.isEmpty) {
-        yield SearchState(page: 0, listMovieModel: [], loading: false);
+        emit(SearchState(page: 0, listMovieModel: [], loading: false));
       }
 
       int page = (state.page ?? 2) + 1;
 
-      ListResponse listResponse =
-          await _api.searchMovies(movieEvent.query, page);
+      ListResponse listResponse = await _api.searchMovies(movieEvent.query, page);
 
-      yield state.copyWith(
+      emit(
+        state.copyWith(
           page: page,
-          listMovieModel: state.listMovieModel
-            ?..addAll(listResponse.movies ?? []),
-          loading: false);
+          listMovieModel: state.listMovieModel?..addAll(listResponse.movies ?? []),
+          loading: false,
+        ),
+      );
     } catch (e) {
       List<MovieModel>? listMovieModel = [];
 
-      yield state.copyWith(listMovieModel: listMovieModel, loading: false);
+      emit(state.copyWith(listMovieModel: listMovieModel, loading: false));
     }
   }
 }

@@ -7,9 +7,9 @@ class DetailsMovieEvent {
 }
 
 class LoadDetailsPageEvent extends DetailsMovieEvent {
-  LoadDetailsPageEvent({required int id}) : super(id: id);
+  LoadDetailsPageEvent({required super.id});
 }
 
 class LoadMoreDetailsPageEvent extends DetailsMovieEvent {
-  LoadMoreDetailsPageEvent({required int id}) : super(id: id);
+  LoadMoreDetailsPageEvent({required super.id});
 }

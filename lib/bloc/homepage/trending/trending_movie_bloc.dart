@@ -12,52 +12,52 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
 
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
-  TrendingMovieBloc()
-      : super(TrendingMovieState(page: 0, listMovieModel: [], loading: true));
-
-  @override
-  Stream<TrendingMovieState> mapEventToState(TrendingMovieEvent event) async* {
-    if (event is LoadTrendingMoviesEvent) {
-      yield* _loadedTrendingMovies(event);
-    }
-    if (event is LoadMoreTrendingMoviesEvent) {
-      yield* _loadedMoreTrendingMovies(event);
-    }
+  TrendingMovieBloc() : super(TrendingMovieState(page: 0, listMovieModel: [], loading: true)) {
+    on<LoadTrendingMoviesEvent>(_loadedTrendingMovies);
+    on<LoadMoreTrendingMoviesEvent>(_loadedMoreTrendingMovies);
   }
 
   //REVIEW I don't see any yeilds. This function is Future by nature too
-  Stream<TrendingMovieState> _loadedTrendingMovies(
-      TrendingMovieEvent movieEvent) async* {
+  Future<void> _loadedTrendingMovies(
+    TrendingMovieEvent movieEvent,
+    Emitter<TrendingMovieState> emit,
+  ) async {
     try {
-      yield state.copyWith(loading: true);
+      emit(state.copyWith(loading: true));
 
-      ListResponse listResponseTrending =
-          await _api.getTrendingMovies((state.page ?? 1) + 1);
+      ListResponse listResponseTrending = await _api.getTrendingMovies((state.page ?? 1) + 1);
 
-      yield TrendingMovieState(
+      emit(
+        TrendingMovieState(
           page: listResponseTrending.page,
           listMovieModel: listResponseTrending.movies,
-          loading: false);
+          loading: false,
+        ),
+      );
     } catch (e) {
-      yield state.copyWith(loading: false);
+      emit(state.copyWith(loading: false));
     }
   }
 
-  Stream<TrendingMovieState> _loadedMoreTrendingMovies(
-      TrendingMovieEvent movieEvent) async* {
+  Future<void> _loadedMoreTrendingMovies(
+    TrendingMovieEvent movieEvent,
+    Emitter<TrendingMovieState> emit,
+  ) async {
     try {
-      ListResponse listResponseTrending =
-          await _api.getTrendingMovies((state.page ?? 1) + 1);
+      ListResponse listResponseTrending = await _api.getTrendingMovies((state.page ?? 1) + 1);
 
       List<MovieModel>? listMovieModel = state.listMovieModel
         ?..addAll(listResponseTrending.movies ?? []);
 
-      yield state.copyWith(
+      emit(
+        state.copyWith(
           page: listResponseTrending.page,
           listMovieModel: listMovieModel,
-          loading: false);
+          loading: false,
+        ),
+      );
     } catch (e) {
-      yield state.copyWith(loading: false);
+      emit(state.copyWith(loading: false));
     }
   }
 }
