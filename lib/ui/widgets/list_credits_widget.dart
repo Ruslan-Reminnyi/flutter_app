@@ -24,9 +24,7 @@ class ListCreditsWidget extends StatelessWidget {
           padding: padding,
           child: DetailsCategoryNameWidget(category: 'Cast'),
         ),
-        SizedBox(
-          height: 6, //REVIEW3 always use by default even values
-        ),
+        SizedBox(height: 6),
         CreditsList(creditsResponse: creditsResponse, padding: padding),
       ],
     );

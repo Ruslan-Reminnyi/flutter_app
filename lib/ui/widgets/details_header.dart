@@ -24,7 +24,6 @@ class DetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      //REVIEW3 too much elements in stack or move padding to this widget
       children: [
         Backdrop(id: id, movieDetailsResponse: movieDetailsResponse),
         // ImageGradient(),
@@ -56,10 +55,7 @@ class Backdrop extends StatelessWidget {
     if (movieDetailsResponse.backdropPath?.isEmpty == false) {
       return Stack(
         children: [
-          Image.network(
-            //REVIEW should have all cases of image link construction as function not placed all over the place apply DRY principle
-            getImagePath(movieDetailsResponse.backdropPath),
-          ),
+          Image.network(getImagePath(movieDetailsResponse.backdropPath)),
           ImageGradient(),
         ],
       );
@@ -79,8 +75,6 @@ class ImageGradient extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: kBackdropGradientHeight,
-      //REVIEW magic numbers
-      //REVIEW magic numbers
       margin: EdgeInsets.only(top: 30),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -107,7 +101,6 @@ class Overview extends StatelessWidget {
         shaderCallback: (_) =>
             kLinearGradient.createShader(Rect.fromLTWH(0, 0, 0, 70)),
         child: Text(
-          //REVIEW3 view is too big
           movieDetailsResponse.overview ?? '',
           maxLines: 3,
           overflow: TextOverflow.ellipsis,

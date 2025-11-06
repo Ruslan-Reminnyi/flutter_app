@@ -4,7 +4,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'credits_response.g.dart';
 
-//REVIEW data and networking/response seems to be all DTO models. Why are they in different places?
 @JsonSerializable(createToJson: false)
 class CreditsResponse {
   final int? id;

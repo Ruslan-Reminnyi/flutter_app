@@ -10,8 +10,6 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final Api _api = Api();
 
-  //REVIEW remove all fields with state from Bloc. They must be placed in state
-
   SearchBloc()
     : super(SearchState(page: 0, listMovieModel: [], loading: true)) {
     on<LoadSearchMovieEvent>(_searchMovies);
@@ -27,7 +25,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         .switchMap(transitionFn);
   }
 
-  //REVIEW I don't see any yeilds. This function is Future by nature too
   Future<void> _searchMovies(
     SearchEvent movieEvent,
     Emitter<SearchState> emit,

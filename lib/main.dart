@@ -6,8 +6,6 @@ import 'package:flutter_app/bloc/movies_genres/genres_bloc.dart';
 import 'package:flutter_app/bloc/search/search_bloc.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/ui/screens/details_page_screen.dart';
-
-//REVIEW remove unused imports android studio does it automatically when formatting
 import 'package:flutter_app/ui/screens/home_page_screen.dart';
 import 'package:flutter_app/ui/screens/webview_page_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

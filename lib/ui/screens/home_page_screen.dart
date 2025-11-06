@@ -124,7 +124,6 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 10),
                 Container(
                   height: kHomePageComingSoonMovieContainerHeight,
-                  //REVIEW magic numbers
                   child: BlocBuilder<UpcomingMovieBloc, UpcomingMovieState>(
                     builder: (context, state) {
                       if (state.loading) {
@@ -172,8 +171,7 @@ class FavoriteMovies extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Container(
-                height:
-                    kHomePageComingSoonMovieContainerHeight, //REVIEW magic numbers
+                height: kHomePageComingSoonMovieContainerHeight,
                 child: ListFavoriteMoviesWidget(
                   listMovieModel: authState.favoritesList?.listMovieModel ?? [],
                   padding: EdgeInsets.symmetric(horizontal: 20),

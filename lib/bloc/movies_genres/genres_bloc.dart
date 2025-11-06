@@ -10,13 +10,10 @@ part 'genres_state.dart';
 class GenresBloc extends Bloc<GenresEvent, GenresState> {
   final Api _api = Api();
 
-  //REVIEW remove all fields with state from Bloc. They must be placed in state
-
   GenresBloc() : super(GenresState(allApiGenres: [], loading: true)) {
     on<LoadMovieGenresEvent>(_loadedGenresMovies);
   }
 
-  //REVIEW I don't see any yeilds. This function is Future by nature too
   Future<void> _loadedGenresMovies(
     GenresEvent movieEvent,
     Emitter<GenresState> emit,
@@ -24,7 +21,6 @@ class GenresBloc extends Bloc<GenresEvent, GenresState> {
     try {
       emit(state.copyWith(loading: true));
 
-      //REVIEW fetch it only once
       ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
 
       emit(

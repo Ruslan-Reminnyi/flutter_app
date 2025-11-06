@@ -10,15 +10,12 @@ part 'trending_movie_state.dart';
 class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   final Api _api = Api();
 
-  //REVIEW remove all fields with state from Bloc. They must be placed in state
-
   TrendingMovieBloc()
     : super(TrendingMovieState(page: 0, listMovieModel: [], loading: true)) {
     on<LoadTrendingMoviesEvent>(_loadedTrendingMovies);
     on<LoadMoreTrendingMoviesEvent>(_loadedMoreTrendingMovies);
   }
 
-  //REVIEW I don't see any yeilds. This function is Future by nature too
   Future<void> _loadedTrendingMovies(
     TrendingMovieEvent movieEvent,
     Emitter<TrendingMovieState> emit,

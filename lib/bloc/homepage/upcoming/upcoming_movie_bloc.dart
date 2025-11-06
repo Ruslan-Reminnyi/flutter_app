@@ -10,8 +10,6 @@ part 'upcoming_movie_state.dart';
 class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
   final Api _api = Api();
 
-  //REVIEW don't store any intermidiate fields in bloc. They must be part of state
-
   UpcomingMovieBloc()
     : super(UpcomingMovieState(loading: false, listMovieModel: [], page: 0)) {
     on<LoadUpcomingMoviesEvent>(_loadedUpcomingMovies);
