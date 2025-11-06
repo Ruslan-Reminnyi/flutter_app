@@ -1,16 +1,37 @@
 # flutter_app
 
-A new Flutter application.
+A mobile application that shows new videos.
+
+---
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+These instructions will get you a copy of the project up and running on your local machine for development purposes.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Versioning
+* [Flutter](https://github.com/flutter/flutter.git) • 3.35.5 channel stable
+* Framework • revision adc90106255 • 2025-10-21
+* Tools • Dart 3.9.0
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+$ xcodebuild -version
+Xcode 16.3
+Build version 16E140
+```
+
+---
+
+## Supported platforms
+| Android | iOS |
+
+---
+
+## Codestyle
+
+[Effective Dart: Style](https://dart.dev/guides/language/effective-dart/style)
+
+Code is always formatted by using ```dart format lib```
+
+Line length: 80
