@@ -2,7 +2,6 @@ import 'package:flutter_app/data/list_response.dart';
 import 'package:flutter_app/data/movie_model.dart';
 import 'package:flutter_app/networking/api.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rxdart/rxdart.dart';
 
 part 'search_event.dart';
 
@@ -13,18 +12,26 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
-  SearchBloc() : super(SearchState(page: 0, listMovieModel: [], loading: true)) {
+  SearchBloc()
+    : super(SearchState(page: 0, listMovieModel: [], loading: true)) {
     on<LoadSearchMovieEvent>(_searchMovies);
     on<LoadMoreSearchMovieEvent>(_searchMoreMovies);
   }
 
-  @override
-  Stream<Transition<SearchEvent, SearchState>> transformEvents(events, transitionFn) {
-    return events.debounceTime(Duration(milliseconds: 150)).switchMap(transitionFn);
+  Stream<Transition<SearchEvent, SearchState>> transformEvents(
+    dynamic events,
+    dynamic transitionFn,
+  ) {
+    return events
+        .debounceTime(Duration(milliseconds: 150))
+        .switchMap(transitionFn);
   }
 
   //REVIEW I don't see any yeilds. This function is Future by nature too
-  Future<void> _searchMovies(SearchEvent movieEvent, Emitter<SearchState> emit) async {
+  Future<void> _searchMovies(
+    SearchEvent movieEvent,
+    Emitter<SearchState> emit,
+  ) async {
     try {
       if (movieEvent.query.isEmpty) {
         emit(SearchState(page: 0, listMovieModel: [], loading: false));
@@ -35,7 +42,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       ListResponse listResponse = await _api.searchMovies(movieEvent.query, 1);
 
       emit(
-        SearchState(page: listResponse.page, listMovieModel: listResponse.movies, loading: false),
+        SearchState(
+          page: listResponse.page,
+          listMovieModel: listResponse.movies,
+          loading: false,
+        ),
       );
     } catch (e) {
       List<MovieModel>? listMovieModel = [];
@@ -44,7 +55,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
   }
 
-  Future<void> _searchMoreMovies(SearchEvent movieEvent, Emitter<SearchState> emit) async {
+  Future<void> _searchMoreMovies(
+    SearchEvent movieEvent,
+    Emitter<SearchState> emit,
+  ) async {
     try {
       if (movieEvent.query.isEmpty) {
         emit(SearchState(page: 0, listMovieModel: [], loading: false));
@@ -52,12 +66,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
       int page = (state.page ?? 2) + 1;
 
-      ListResponse listResponse = await _api.searchMovies(movieEvent.query, page);
+      ListResponse listResponse = await _api.searchMovies(
+        movieEvent.query,
+        page,
+      );
 
       emit(
         state.copyWith(
           page: page,
-          listMovieModel: state.listMovieModel?..addAll(listResponse.movies ?? []),
+          listMovieModel: state.listMovieModel
+            ?..addAll(listResponse.movies ?? []),
           loading: false,
         ),
       );

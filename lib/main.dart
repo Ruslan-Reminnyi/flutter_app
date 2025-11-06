@@ -15,6 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -47,9 +49,7 @@ class MyApp extends StatelessWidget {
 
             return MaterialPageRoute(
               builder: (context) {
-                return WebViewPageScreen(
-                  token: args,
-                );
+                return WebViewPageScreen(token: args);
               },
             );
           }
@@ -58,9 +58,7 @@ class MyApp extends StatelessWidget {
 
             return MaterialPageRoute(
               builder: (context) {
-                return DetailsScreen(
-                  id: args,
-                );
+                return DetailsScreen(id: args);
               },
             );
           }

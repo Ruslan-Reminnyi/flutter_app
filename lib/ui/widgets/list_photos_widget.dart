@@ -4,9 +4,11 @@ import 'package:flutter_app/ui/widgets/details_category_name_widget.dart';
 import 'package:flutter_app/ui/widgets/photo_item.dart';
 
 class ListPhotosWidget extends StatelessWidget {
-  ListPhotosWidget(
-      {Key? key, required this.photos, this.padding = EdgeInsets.zero})
-      : super(key: key);
+  ListPhotosWidget({
+    super.key,
+    required this.photos,
+    this.padding = EdgeInsets.zero,
+  });
 
   final ListPhotoResponse? photos;
   final EdgeInsets padding;
@@ -18,17 +20,10 @@ class ListPhotosWidget extends StatelessWidget {
       children: [
         Padding(
           padding: padding,
-          child: DetailsCategoryNameWidget(
-            category: 'Photos',
-          ),
+          child: DetailsCategoryNameWidget(category: 'Photos'),
         ),
-        SizedBox(
-          height: 6,
-        ),
-        PhotosList(
-          photos: photos,
-          padding: padding,
-        ),
+        SizedBox(height: 6),
+        PhotosList(photos: photos, padding: padding),
       ],
     );
   }
@@ -39,9 +34,11 @@ class PhotosList extends StatelessWidget {
   final kListPhotosContainerHeight = 156.0;
   final EdgeInsets padding;
 
-  const PhotosList(
-      {Key? key, required this.photos, this.padding = EdgeInsets.zero})
-      : super(key: key);
+  const PhotosList({
+    super.key,
+    required this.photos,
+    this.padding = EdgeInsets.zero,
+  });
 
   @override
   Widget build(BuildContext context) {

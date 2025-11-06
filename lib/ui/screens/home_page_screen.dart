@@ -13,7 +13,7 @@ const kHomePageTrendingMovieContainerHeight = 300.0;
 const kHomePageComingSoonMovieContainerHeight = 310.0;
 
 class UserIndicator extends StatelessWidget {
-  const UserIndicator({Key? key}) : super(key: key);
+  const UserIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +21,20 @@ class UserIndicator extends StatelessWidget {
       builder: (context, authState) {
         if (authState is Authorized) {
           return IconButton(
-            icon: Image.network('https://secure.gravatar.com/avatar/${authState.account?.avatar?.gravatar?.hash}'),
+            icon: Image.network(
+              'https://secure.gravatar.com/avatar/${authState.account?.avatar?.gravatar?.hash}',
+            ),
             onPressed: () {},
           );
         } else if (authState is AuthRequestToken) {
           return IconButton(
             icon: Icon(Icons.login, color: Colors.white),
             onPressed: () {
-              Navigator.pushNamed(context, '/authentication', arguments: authState.token);
+              Navigator.pushNamed(
+                context,
+                '/authentication',
+                arguments: authState.token,
+              );
             },
           );
         } else {
@@ -40,7 +46,7 @@ class UserIndicator extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key, required this.title}) : super(key: key);
+  HomeScreen({super.key, required this.title});
 
   final String title;
 
@@ -53,13 +59,20 @@ class HomeScreen extends StatelessWidget {
         leading: UserIndicator(),
         title: Text(
           title,
-          style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         actions: [
           IconButton(
             icon: Icon(Icons.search, color: Colors.white),
             onPressed: () async {
-              await showSearch<String>(context: context, delegate: MovieSearch());
+              await showSearch<String>(
+                context: context,
+                delegate: MovieSearch(),
+              );
             },
           ),
         ],
@@ -68,14 +81,17 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(context) {
+  Widget _buildBody(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () => _refreshHomeScreen(),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 20, child: Divider(color: Colors.grey, indent: 20)),
+            SizedBox(
+              height: 20,
+              child: Divider(color: Colors.grey, indent: 20),
+            ),
             Container(
               height: kHomePageTrendingMovieContainerHeight,
               child: BlocBuilder<TrendingMovieBloc, TrendingMovieState>(
@@ -98,7 +114,11 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20),
                   child: Text(
                     'Coming Soon',
-                    style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
@@ -129,7 +149,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 class FavoriteMovies extends StatelessWidget {
-  const FavoriteMovies({Key? key}) : super(key: key);
+  const FavoriteMovies({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -143,14 +163,19 @@ class FavoriteMovies extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
                   'Favorite Movies',
-                  style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(height: 10),
               Container(
-                height: kHomePageComingSoonMovieContainerHeight, //REVIEW magic numbers
+                height:
+                    kHomePageComingSoonMovieContainerHeight, //REVIEW magic numbers
                 child: ListFavoriteMoviesWidget(
-                  listMovieModel: authState is Authorized ? authState.favoritesList?.listMovieModel ?? [] : [],
+                  listMovieModel: authState.favoritesList?.listMovieModel ?? [],
                   padding: EdgeInsets.symmetric(horizontal: 20),
                 ),
               ),
@@ -175,5 +200,5 @@ Future<void> _refreshHomeScreen() async {
     },
   );
 
-  print('refresh');
+  debugPrint('refresh');
 }

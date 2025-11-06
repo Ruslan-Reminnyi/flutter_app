@@ -7,7 +7,8 @@ part of 'product_companies_model.dart';
 // **************************************************************************
 
 ProductionCompaniesModel _$ProductionCompaniesModelFromJson(
-    Map<String, dynamic> json) {
+  Map<String, dynamic> json,
+) {
   return ProductionCompaniesModel(
     logoPath: json['logo_path'] as String?,
     id: json['id'] as int?,

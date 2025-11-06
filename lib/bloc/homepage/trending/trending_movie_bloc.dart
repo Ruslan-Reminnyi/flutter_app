@@ -12,7 +12,8 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
 
   //REVIEW remove all fields with state from Bloc. They must be placed in state
 
-  TrendingMovieBloc() : super(TrendingMovieState(page: 0, listMovieModel: [], loading: true)) {
+  TrendingMovieBloc()
+    : super(TrendingMovieState(page: 0, listMovieModel: [], loading: true)) {
     on<LoadTrendingMoviesEvent>(_loadedTrendingMovies);
     on<LoadMoreTrendingMoviesEvent>(_loadedMoreTrendingMovies);
   }
@@ -25,7 +26,9 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     try {
       emit(state.copyWith(loading: true));
 
-      ListResponse listResponseTrending = await _api.getTrendingMovies((state.page ?? 1) + 1);
+      ListResponse listResponseTrending = await _api.getTrendingMovies(
+        (state.page ?? 1) + 1,
+      );
 
       emit(
         TrendingMovieState(
@@ -44,7 +47,9 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     Emitter<TrendingMovieState> emit,
   ) async {
     try {
-      ListResponse listResponseTrending = await _api.getTrendingMovies((state.page ?? 1) + 1);
+      ListResponse listResponseTrending = await _api.getTrendingMovies(
+        (state.page ?? 1) + 1,
+      );
 
       List<MovieModel>? listMovieModel = state.listMovieModel
         ?..addAll(listResponseTrending.movies ?? []);

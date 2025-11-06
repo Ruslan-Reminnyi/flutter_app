@@ -15,9 +15,11 @@ class DetailsHeader extends StatelessWidget {
   final int id;
   final MovieDetailsResponse movieDetailsResponse;
 
-  DetailsHeader(
-      {Key? key, required this.id, required this.movieDetailsResponse})
-      : super(key: key);
+  DetailsHeader({
+    super.key,
+    required this.id,
+    required this.movieDetailsResponse,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +33,9 @@ class DetailsHeader extends StatelessWidget {
           child: Column(
             children: [
               GeneralDetailsInfoWidget(
-                  movieDetailsResponse: movieDetailsResponse),
-              SizedBox(
-                height: 10,
+                movieDetailsResponse: movieDetailsResponse,
               ),
+              SizedBox(height: 10),
               Overview(movieDetailsResponse: movieDetailsResponse),
             ],
           ),
@@ -48,35 +49,31 @@ class Backdrop extends StatelessWidget {
   final int id;
   final MovieDetailsResponse movieDetailsResponse;
 
-  Backdrop({Key? key, required this.id, required this.movieDetailsResponse})
-      : super(key: key);
+  Backdrop({super.key, required this.id, required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
     if (movieDetailsResponse.backdropPath?.isEmpty == false) {
-      return Stack(children: [
-        Image.network(
-          //REVIEW should have all cases of image link construction as function not placed all over the place apply DRY principle
-          getImagePath(movieDetailsResponse.backdropPath),
-        ),
-        ImageGradient(),
-      ]);
+      return Stack(
+        children: [
+          Image.network(
+            //REVIEW should have all cases of image link construction as function not placed all over the place apply DRY principle
+            getImagePath(movieDetailsResponse.backdropPath),
+          ),
+          ImageGradient(),
+        ],
+      );
     } else {
       return Center(
         heightFactor: 12,
-        child: Text(
-          'no backdrop',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
+        child: Text('no backdrop', style: TextStyle(color: Colors.white)),
       );
     }
   }
 }
 
 class ImageGradient extends StatelessWidget {
-  ImageGradient({Key? key}) : super(key: key);
+  ImageGradient({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -87,10 +84,7 @@ class ImageGradient extends StatelessWidget {
       margin: EdgeInsets.only(top: 30),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Colors.transparent,
-            Colors.black,
-          ],
+          colors: [Colors.transparent, Colors.black],
           stops: [0.0, 1.0],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -102,8 +96,7 @@ class ImageGradient extends StatelessWidget {
 
 class Overview extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
-  const Overview({Key? key, required this.movieDetailsResponse})
-      : super(key: key);
+  const Overview({super.key, required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +104,8 @@ class Overview extends StatelessWidget {
       width: kOverviewWidth,
       height: 80,
       child: ShaderMask(
-        shaderCallback: (_) => kLinearGradient.createShader(
-          Rect.fromLTWH(0, 0, 0, 70),
-        ),
+        shaderCallback: (_) =>
+            kLinearGradient.createShader(Rect.fromLTWH(0, 0, 0, 70)),
         child: Text(
           //REVIEW3 view is too big
           movieDetailsResponse.overview ?? '',

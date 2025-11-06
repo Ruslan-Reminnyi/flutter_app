@@ -17,15 +17,17 @@ class Api {
   Dio dio = Dio();
 
   Future<ListResponse> getTrendingMovies(int pageNumber) async {
-    final response = await dio
-        .get('$url/trending/movie/day?api_key=$apiKey&page=$pageNumber');
+    final response = await dio.get(
+      '$url/trending/movie/day?api_key=$apiKey&page=$pageNumber',
+    );
 
     return ListResponse.fromJson(response.data);
   }
 
   Future<ListResponse> getUpcomingMovies(int pageNumber) async {
-    final response =
-        await dio.get('$url/movie/upcoming?api_key=$apiKey&page=$pageNumber');
+    final response = await dio.get(
+      '$url/movie/upcoming?api_key=$apiKey&page=$pageNumber',
+    );
 
     return ListResponse.fromJson(response.data);
   }
@@ -38,29 +40,33 @@ class Api {
 
   Future<MovieDetailsResponse> getDetailsOfMovies(int movieId) async {
     final response = await dio.get(
-        '$url/movie/$movieId?api_key=$apiKey&append_to_response=similar,credits,images');
+      '$url/movie/$movieId?api_key=$apiKey&append_to_response=similar,credits,images',
+    );
 
     return MovieDetailsResponse.fromJson(response.data);
   }
 
   Future<ListResponse> getSimilarMovies(int movieId, int page) async {
-    final response =
-        await dio.get('$url/movie/$movieId/similar?api_key=$apiKey&page=$page');
+    final response = await dio.get(
+      '$url/movie/$movieId/similar?api_key=$apiKey&page=$page',
+    );
 
     return ListResponse.fromJson(response.data);
   }
 
   Future<ListResponse> searchMovies(String query, int page) async {
     await Future.delayed(Duration(seconds: 5));
-    final response = await dio
-        .get('$url/search/movie?api_key=$apiKey&query=$query&page=$page');
+    final response = await dio.get(
+      '$url/search/movie?api_key=$apiKey&query=$query&page=$page',
+    );
 
     return ListResponse.fromJson(response.data);
   }
 
   Future<ApiToken> getRequestToken() async {
-    final response =
-        await dio.get('$url/authentication/token/new?api_key=$apiKey');
+    final response = await dio.get(
+      '$url/authentication/token/new?api_key=$apiKey',
+    );
 
     return ApiToken.fromJson(response.data);
   }
@@ -68,33 +74,41 @@ class Api {
   Future<SessionId> getSessionId(String token) async {
     ApiToken apiToken = ApiToken(token: token);
     final response = await dio.post(
-        '$url/authentication/session/new?api_key=$apiKey',
-        data: jsonEncode(apiToken));
+      '$url/authentication/session/new?api_key=$apiKey',
+      data: jsonEncode(apiToken),
+    );
 
     return SessionId.fromJson(response.data);
   }
 
   Future<AccountModel> getAccount(String sessionId) async {
-    final response =
-        await dio.get('$url/account?api_key=$apiKey&session_id=$sessionId');
+    final response = await dio.get(
+      '$url/account?api_key=$apiKey&session_id=$sessionId',
+    );
 
     return AccountModel.fromJson(response.data);
   }
 
   Future<ListResponse> getFavoriteMovies(
-      String sessionId, int pageNumber) async {
+    String sessionId,
+    int pageNumber,
+  ) async {
     final response = await dio.get(
-        '$url/account/{account_id}/favorite/movies?api_key=$apiKey&session_id=$sessionId&page=$pageNumber');
+      '$url/account/{account_id}/favorite/movies?api_key=$apiKey&session_id=$sessionId&page=$pageNumber',
+    );
 
     return ListResponse.fromJson(response.data);
   }
 
   Future<FavoriteResponse> markMovieAsFavorite(
-      String sessionId, FavoriteRequest request) async {
+    String sessionId,
+    FavoriteRequest request,
+  ) async {
     final response = await dio.post(
-        '$url/account/{account_id}/favorite?api_key=$apiKey&session_id=$sessionId',
-        data: jsonEncode(request),
-        options: Options(contentType: 'application/json;charset=utf-8'));
+      '$url/account/{account_id}/favorite?api_key=$apiKey&session_id=$sessionId',
+      data: jsonEncode(request),
+      options: Options(contentType: 'application/json;charset=utf-8'),
+    );
 
     return FavoriteResponse.fromJson(response.data);
   }

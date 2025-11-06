@@ -4,7 +4,7 @@ import 'package:flutter_app/utils.dart';
 class NetworkImageWidget extends StatelessWidget {
   final String? path;
 
-  const NetworkImageWidget({Key? key, this.path}) : super(key: key);
+  const NetworkImageWidget({super.key, this.path});
 
   @override
   Widget build(BuildContext context) {

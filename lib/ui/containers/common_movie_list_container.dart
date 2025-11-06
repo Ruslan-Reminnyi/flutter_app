@@ -15,10 +15,10 @@ class CommonMovieListWidget extends StatelessWidget {
   final bool isFavorite;
 
   CommonMovieListWidget({
-    Key? key,
+    super.key,
     required this.movieModel,
     required this.isFavorite,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,32 +40,24 @@ class CommonMovieListWidget extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(6.0),
-                        child: NetworkImageWidget(
-                          path: movieModel?.posterPath,
-                        )),
+                      borderRadius: BorderRadius.circular(6.0),
+                      child: NetworkImageWidget(path: movieModel?.posterPath),
+                    ),
                   ),
                   Container(
                     height: kMovieComingSoonTextContainerHeight,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 16,
-                        ),
+                        SizedBox(height: 16),
                         Expanded(
                           child: Text(
                             movieModel?.originalTitle ?? '',
                             maxLines: 2,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
+                            style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
                         ),
-                        SizedBox(
-                          height: 4,
-                        ),
+                        SizedBox(height: 4),
                         Expanded(child: Genres(genres: movieModel?.genres)),
                       ],
                     ),
@@ -88,19 +80,21 @@ class CommonMovieListWidget extends StatelessWidget {
 class Genres extends StatelessWidget {
   final List<int>? genres;
 
-  const Genres({Key? key, required this.genres}) : super(key: key);
+  const Genres({super.key, required this.genres});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GenresBloc, GenresState>(builder: (context, state) {
-      if (state.loading) {
-        return LoadingWidget();
-      }
-      return Text(
-        genresToList(genres, state.allApiGenres) ?? '',
-        style: TextStyle(color: Colors.grey, fontSize: 10),
-      );
-    });
+    return BlocBuilder<GenresBloc, GenresState>(
+      builder: (context, state) {
+        if (state.loading) {
+          return LoadingWidget();
+        }
+        return Text(
+          genresToList(genres, state.allApiGenres) ?? '',
+          style: TextStyle(color: Colors.grey, fontSize: 10),
+        );
+      },
+    );
   }
 }
 

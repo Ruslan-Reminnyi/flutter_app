@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/auth/auth_bloc.dart';
 import 'package:flutter_app/data/favorite_request.dart';
@@ -8,12 +10,12 @@ class Heart extends StatelessWidget {
   final EdgeInsets padding;
   bool isFavorite;
 
-  Heart(
-      {Key? key,
-      required this.id,
-      this.padding = EdgeInsets.zero,
-      this.isFavorite = false})
-      : super(key: key);
+  Heart({
+    super.key,
+    required this.id,
+    this.padding = EdgeInsets.zero,
+    this.isFavorite = false,
+  });
 
   Color _color = Colors.grey;
   Icon disabledIcon = Icon(Icons.favorite_border);
@@ -22,23 +24,24 @@ class Heart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
-      if (isFavorite) {
-        _color = Colors.red;
-        currentIcon = enabledIcon;
-      } else {
-        _color = Colors.grey;
-        currentIcon = disabledIcon;
-      }
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, authState) {
+        if (isFavorite) {
+          _color = Colors.red;
+          currentIcon = enabledIcon;
+        } else {
+          _color = Colors.grey;
+          currentIcon = disabledIcon;
+        }
 
-      final currentId = id;
-      if (authState is Authorized && currentId != null) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: padding,
-              child: IconButton(
+        final currentId = id;
+        if (authState is Authorized && currentId != null) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: padding,
+                child: IconButton(
                   icon: currentIcon,
                   color: _color,
                   onPressed: () {
@@ -51,15 +54,22 @@ class Heart extends StatelessWidget {
                         ? currentIcon = disabledIcon
                         : currentIcon = enabledIcon;
 
-                    BlocProvider.of<AuthBloc>(context).add(MarkAsFavoriteEvent(
+                    BlocProvider.of<AuthBloc>(context).add(
+                      MarkAsFavoriteEvent(
                         request: FavoriteRequest(
-                            mediaId: currentId, favorite: isFavorite)));
-                  }),
-            )
-          ],
-        );
-      }
-      return Row();
-    });
+                          mediaId: currentId,
+                          favorite: isFavorite,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        }
+        return Row();
+      },
+    );
   }
 }

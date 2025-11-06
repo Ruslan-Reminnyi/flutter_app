@@ -8,12 +8,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 const kSimilarMoviesContainerHeight = 308.0;
 
 class ListSimilarMoviesWidget extends StatelessWidget {
-  ListSimilarMoviesWidget(
-      {Key? key,
-      required this.id,
-      required this.listResponseSimilarMovies,
-      this.padding = EdgeInsets.zero})
-      : super(key: key);
+  ListSimilarMoviesWidget({
+    super.key,
+    required this.id,
+    required this.listResponseSimilarMovies,
+    this.padding = EdgeInsets.zero,
+  });
 
   final int id;
   final List<MovieModel>? listResponseSimilarMovies;
@@ -26,21 +26,18 @@ class ListSimilarMoviesWidget extends StatelessWidget {
       children: [
         Padding(
           padding: padding,
-          child: DetailsCategoryNameWidget(
-            category: 'Similar movies',
-          ),
+          child: DetailsCategoryNameWidget(category: 'Similar movies'),
         ),
-        SizedBox(
-          height: 4,
-        ),
+        SizedBox(height: 4),
         Container(
           height: kSimilarMoviesContainerHeight,
           child: MovieList(
             padding: padding,
             movies: listResponseSimilarMovies,
             loadMore: () {
-              BlocProvider.of<DetailsMovieBloc>(context)
-                  .add(LoadMoreDetailsPageEvent(id: id));
+              BlocProvider.of<DetailsMovieBloc>(
+                context,
+              ).add(LoadMoreDetailsPageEvent(id: id));
             },
           ),
         ),

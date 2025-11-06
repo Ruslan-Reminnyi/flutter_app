@@ -6,7 +6,7 @@ const kPhotoItemWidth = 80.0;
 class SearchItem extends StatelessWidget {
   final String? backdropsPath;
 
-  const SearchItem({Key? key, this.backdropsPath}) : super(key: key);
+  const SearchItem({super.key, this.backdropsPath});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,7 @@ class SearchItem extends StatelessWidget {
         padding: const EdgeInsets.only(right: 10.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(4.0),
-          child: NetworkImageWidget(
-            path: backdropsPath,
-          ),
+          child: NetworkImageWidget(path: backdropsPath),
         ),
       ),
     );

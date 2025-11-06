@@ -12,104 +12,110 @@ class MovieSearch extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {
-            query = '';
-          })
+        icon: Icon(Icons.close),
+        onPressed: () {
+          query = '';
+        },
+      ),
     ];
   }
 
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          close(context, '');
-        });
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, '');
+      },
+    );
   }
 
   @override
   Widget buildResults(BuildContext context) {
     BlocProvider.of<SearchBloc>(context).add(LoadSearchMovieEvent(query));
 
-    return BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
-      return Stack(
-        children: [
-          ListView.separated(
-            separatorBuilder: (context, index) => Divider(),
-            itemCount: state.listMovieModel?.length ?? 0,
-            controller: scrollController
-              ..addListener(() {
-                if (scrollController.position.pixels ==
-                    scrollController.position.maxScrollExtent) {
-                  BlocProvider.of<SearchBloc>(context)
-                      .add(LoadMoreSearchMovieEvent(query));
-                }
-              }),
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                title: Text(
-                  state.listMovieModel?[index].originalTitle ?? '',
-                ),
-                leading: SearchItem(
-                    backdropsPath: state.listMovieModel?[index].backdropPath),
-                onTap: () {
-                  close(context, '');
-
-                  final id = state.listMovieModel?[index].id;
-                  if (id != null) {
-                    Navigator.push(
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        return Stack(
+          children: [
+            ListView.separated(
+              separatorBuilder: (context, index) => Divider(),
+              itemCount: state.listMovieModel?.length ?? 0,
+              controller: scrollController
+                ..addListener(() {
+                  if (scrollController.position.pixels ==
+                      scrollController.position.maxScrollExtent) {
+                    BlocProvider.of<SearchBloc>(
                       context,
-                      MaterialPageRoute(builder: (ctx) {
-                        return DetailsScreen(
-                          id: id,
-                        );
-                      }),
-                    );
+                    ).add(LoadMoreSearchMovieEvent(query));
                   }
-                },
-              );
-            },
-          ),
-          state.loading ? LoadingWidget() : SizedBox(),
-        ],
-      );
-    });
+                }),
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(state.listMovieModel?[index].originalTitle ?? ''),
+                  leading: SearchItem(
+                    backdropsPath: state.listMovieModel?[index].backdropPath,
+                  ),
+                  onTap: () {
+                    close(context, '');
+
+                    final id = state.listMovieModel?[index].id;
+                    if (id != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) {
+                            return DetailsScreen(id: id);
+                          },
+                        ),
+                      );
+                    }
+                  },
+                );
+              },
+            ),
+            state.loading ? LoadingWidget() : SizedBox(),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     BlocProvider.of<SearchBloc>(context).add(LoadSearchMovieEvent(query));
 
-    return BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
-      if (state.loading) {
-        return LoadingWidget();
-      }
-      return ListView.separated(
-        separatorBuilder: (context, index) => Divider(),
-        itemCount: state.listMovieModel?.length ?? 0,
-        controller: scrollController
-          ..addListener(() {
-            if (scrollController.position.pixels ==
-                scrollController.position.maxScrollExtent) {
-              BlocProvider.of<SearchBloc>(context)
-                  .add(LoadMoreSearchMovieEvent(query));
-            }
-          }),
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(
-              state.listMovieModel?[index].originalTitle ?? '',
-            ),
-            leading: SearchItem(
-                backdropsPath: state.listMovieModel?[index].backdropPath),
-            onTap: () {
-              showResults(context);
-            },
-          );
-        },
-      );
-    });
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        if (state.loading) {
+          return LoadingWidget();
+        }
+        return ListView.separated(
+          separatorBuilder: (context, index) => Divider(),
+          itemCount: state.listMovieModel?.length ?? 0,
+          controller: scrollController
+            ..addListener(() {
+              if (scrollController.position.pixels ==
+                  scrollController.position.maxScrollExtent) {
+                BlocProvider.of<SearchBloc>(
+                  context,
+                ).add(LoadMoreSearchMovieEvent(query));
+              }
+            }),
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(state.listMovieModel?[index].originalTitle ?? ''),
+              leading: SearchItem(
+                backdropsPath: state.listMovieModel?[index].backdropPath,
+              ),
+              onTap: () {
+                showResults(context);
+              },
+            );
+          },
+        );
+      },
+    );
   }
 }
 
@@ -117,50 +123,52 @@ class SearchList extends StatelessWidget {
   final ScrollController scrollController = ScrollController();
   final String sessionId;
 
-  SearchList({Key? key, required this.sessionId}) : super(key: key);
+  SearchList({super.key, required this.sessionId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
-      if (state.loading) {
-        return LoadingWidget();
-      }
-      return ListView.separated(
-        separatorBuilder: (context, index) => Divider(),
-        itemCount: state.listMovieModel?.length ?? 0,
-        controller: scrollController
-          ..addListener(() {
-            if (scrollController.position.pixels ==
-                scrollController.position.maxScrollExtent) {
-              BlocProvider.of<SearchBloc>(context)
-                  .add(LoadMoreSearchMovieEvent(context.read().query));
-            }
-          }),
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(
-              state.listMovieModel?[index].originalTitle ?? '',
-            ),
-            leading: SearchItem(
-                backdropsPath: state.listMovieModel?[index].backdropPath),
-            onTap: () {
-              context.read().close(context, '');
-
-              final id = state.listMovieModel?[index].id;
-              if (id != null) {
-                Navigator.push(
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        if (state.loading) {
+          return LoadingWidget();
+        }
+        return ListView.separated(
+          separatorBuilder: (context, index) => Divider(),
+          itemCount: state.listMovieModel?.length ?? 0,
+          controller: scrollController
+            ..addListener(() {
+              if (scrollController.position.pixels ==
+                  scrollController.position.maxScrollExtent) {
+                BlocProvider.of<SearchBloc>(
                   context,
-                  MaterialPageRoute(builder: (ctx) {
-                    return DetailsScreen(
-                      id: id,
-                    );
-                  }),
-                );
+                ).add(LoadMoreSearchMovieEvent(context.read().query));
               }
-            },
-          );
-        },
-      );
-    });
+            }),
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(state.listMovieModel?[index].originalTitle ?? ''),
+              leading: SearchItem(
+                backdropsPath: state.listMovieModel?[index].backdropPath,
+              ),
+              onTap: () {
+                context.read().close(context, '');
+
+                final id = state.listMovieModel?[index].id;
+                if (id != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) {
+                        return DetailsScreen(id: id);
+                      },
+                    ),
+                  );
+                }
+              },
+            );
+          },
+        );
+      },
+    );
   }
 }

@@ -9,12 +9,7 @@ class CrewModel {
   final String? department;
   final String? job;
 
-  CrewModel({
-    this.id,
-    this.name,
-    this.department,
-    this.job,
-  });
+  CrewModel({this.id, this.name, this.department, this.job});
 
   factory CrewModel.fromJson(Map<String, dynamic> json) =>
       _$CrewModelFromJson(json);

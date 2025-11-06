@@ -29,7 +29,8 @@ MovieDetailsResponse _$MovieDetailsResponseFromJson(Map<String, dynamic> json) {
     runtime: json['runtime'] as int?,
     productionCompanies: (json['production_companies'] as List<dynamic>?)
         ?.map(
-            (e) => ProductionCompaniesModel.fromJson(e as Map<String, dynamic>))
+          (e) => ProductionCompaniesModel.fromJson(e as Map<String, dynamic>),
+        )
         .toList(),
     id: json['id'] as int?,
   );

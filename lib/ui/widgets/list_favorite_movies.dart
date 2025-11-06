@@ -5,9 +5,11 @@ import 'package:flutter_app/ui/widgets/movie_list_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListFavoriteMoviesWidget extends StatelessWidget {
-  ListFavoriteMoviesWidget(
-      {Key? key, required this.listMovieModel, this.padding = EdgeInsets.zero})
-      : super(key: key);
+  ListFavoriteMoviesWidget({
+    super.key,
+    required this.listMovieModel,
+    this.padding = EdgeInsets.zero,
+  });
 
   final List<MovieModel>? listMovieModel;
   final EdgeInsets padding;

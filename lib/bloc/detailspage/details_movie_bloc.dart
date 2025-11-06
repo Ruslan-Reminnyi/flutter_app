@@ -40,12 +40,15 @@ class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
     try {
       emit(state.copyWith(loading: true));
 
-      MovieDetailsResponse movieDetailsResponse = await _api.getDetailsOfMovies(movieEvent.id);
+      MovieDetailsResponse movieDetailsResponse = await _api.getDetailsOfMovies(
+        movieEvent.id,
+      );
 
       emit(
         DetailsMovieState(
           movieDetailsResponse: movieDetailsResponse,
-          currentPageOfSimilarMovies: movieDetailsResponse.listSimilarMovies?.page,
+          currentPageOfSimilarMovies:
+              movieDetailsResponse.listSimilarMovies?.page,
           listSimilarMovies: movieDetailsResponse.listSimilarMovies?.movies,
           loading: false,
         ),
@@ -60,7 +63,8 @@ class DetailsMovieBloc extends Bloc<DetailsMovieEvent, DetailsMovieState> {
     Emitter<DetailsMovieState> emit,
   ) async {
     try {
-      int? currentPageOfSimilarMovies = (state.currentPageOfSimilarMovies ?? 1) + 1;
+      int? currentPageOfSimilarMovies =
+          (state.currentPageOfSimilarMovies ?? 1) + 1;
 
       ListResponse? listSimilarMovies = await _api.getSimilarMovies(
         state.movieDetailsResponse.id ?? 1,

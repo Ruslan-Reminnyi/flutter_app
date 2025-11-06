@@ -6,9 +6,11 @@ import 'package:flutter_app/ui/widgets/list_photos_widget.dart';
 import 'package:flutter_app/ui/widgets/list_similar_movies_widget.dart';
 
 class DetailsStackWidget extends StatelessWidget {
-  DetailsStackWidget(
-      {Key? key, required this.id, required this.movieDetailsResponse})
-      : super(key: key);
+  DetailsStackWidget({
+    super.key,
+    required this.id,
+    required this.movieDetailsResponse,
+  });
 
   final int id;
   final MovieDetailsResponse movieDetailsResponse;
@@ -20,23 +22,17 @@ class DetailsStackWidget extends StatelessWidget {
         DetailsHeader(id: id, movieDetailsResponse: movieDetailsResponse),
         Column(
           children: [
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             ListPhotosWidget(
               photos: movieDetailsResponse.photoResponse,
               padding: EdgeInsets.symmetric(horizontal: 20),
             ),
-            SizedBox(
-              height: 14,
-            ),
+            SizedBox(height: 14),
             ListCreditsWidget(
               creditsResponse: movieDetailsResponse.creditsResponse,
               padding: EdgeInsets.symmetric(horizontal: 20),
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             ListSimilarMoviesWidget(
               id: id,
               listResponseSimilarMovies:

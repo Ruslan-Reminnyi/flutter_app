@@ -8,8 +8,10 @@ const kProductionCompanyLogoWidth = 72.0;
 
 class GeneralDetailsInfoWidget extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
-  const GeneralDetailsInfoWidget({Key? key, required this.movieDetailsResponse})
-      : super(key: key);
+  const GeneralDetailsInfoWidget({
+    super.key,
+    required this.movieDetailsResponse,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,24 +33,20 @@ class GeneralDetailsInfoWidget extends StatelessWidget {
 
 class PosterWidget extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
-  const PosterWidget({Key? key, required this.movieDetailsResponse})
-      : super(key: key);
+  const PosterWidget({super.key, required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(6.0),
-      child: NetworkImageWidget(
-        path: movieDetailsResponse.posterPath,
-      ),
+      child: NetworkImageWidget(path: movieDetailsResponse.posterPath),
     );
   }
 }
 
 class ProductionCompanyLogo extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
-  const ProductionCompanyLogo({Key? key, required this.movieDetailsResponse})
-      : super(key: key);
+  const ProductionCompanyLogo({super.key, required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +56,8 @@ class ProductionCompanyLogo extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(0.0, 60.0, 20.0, 0.0),
         child: movieDetailsResponse.productionCompanies?.isNotEmpty == true
             ? NetworkImageWidget(
-                path: movieDetailsResponse.productionCompanies?.first.logoPath)
+                path: movieDetailsResponse.productionCompanies?.first.logoPath,
+              )
             : NetworkImageWidget(path: null),
       ),
     );

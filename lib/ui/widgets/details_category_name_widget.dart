@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DetailsCategoryNameWidget extends StatelessWidget {
-  DetailsCategoryNameWidget({Key? key, this.category}) : super(key: key);
+  DetailsCategoryNameWidget({super.key, this.category});
 
   final String? category;
 

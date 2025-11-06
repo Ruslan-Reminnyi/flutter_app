@@ -10,8 +10,11 @@ class FavoriteRequest {
   final int mediaId;
   final bool favorite;
 
-  FavoriteRequest(
-      {this.mediaType = "movie", this.mediaId = 0, this.favorite = false});
+  FavoriteRequest({
+    this.mediaType = "movie",
+    this.mediaId = 0,
+    this.favorite = false,
+  });
 
   factory FavoriteRequest.fromJson(Map<String, dynamic> json) =>
       _$FavoriteRequestFromJson(json);

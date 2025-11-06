@@ -4,12 +4,12 @@ import 'package:flutter_app/ui/widgets/heart_widget.dart';
 import 'package:flutter_app/ui/widgets/network_image_widget.dart';
 
 class MovieTrendingHeaderWidget extends StatelessWidget {
-  MovieTrendingHeaderWidget(
-      {Key? key,
-      required this.movieModel,
-      required this.number,
-      required this.isFavorite})
-      : super(key: key);
+  MovieTrendingHeaderWidget({
+    super.key,
+    required this.movieModel,
+    required this.number,
+    required this.isFavorite,
+  });
 
   final int number;
   final MovieModel? movieModel;
@@ -26,24 +26,19 @@ class MovieTrendingHeaderWidget extends StatelessWidget {
               number < 10 ? '0$number' : '$number',
               style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
-            SizedBox(
-              height: 6,
-            ),
+            SizedBox(height: 6),
             Text(
               movieModel?.originalTitle != null
                   ? '${movieModel?.originalTitle}'
                   : '${movieModel?.originalTitle}',
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             Expanded(
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6.0),
-                  child: NetworkImageWidget(
-                    path: movieModel?.backdropPath,
-                  )),
+                borderRadius: BorderRadius.circular(6.0),
+                child: NetworkImageWidget(path: movieModel?.backdropPath),
+              ),
             ),
           ],
         ),

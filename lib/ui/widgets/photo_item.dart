@@ -6,7 +6,7 @@ const kPhotoItemWidth = 280.0;
 class PhotoItem extends StatelessWidget {
   final String? backdropsPath;
 
-  const PhotoItem({Key? key, this.backdropsPath}) : super(key: key);
+  const PhotoItem({super.key, this.backdropsPath});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,7 @@ class PhotoItem extends StatelessWidget {
         padding: const EdgeInsets.only(right: 10.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
-          child: NetworkImageWidget(
-            path: backdropsPath,
-          ),
+          child: NetworkImageWidget(path: backdropsPath),
         ),
       ),
     );

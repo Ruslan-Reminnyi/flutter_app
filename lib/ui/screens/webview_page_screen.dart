@@ -7,13 +7,15 @@ class WebViewPageScreen extends StatelessWidget {
   static const routeName = '/authentication';
   final String token;
 
-  const WebViewPageScreen({Key? key, this.token = ''}) : super(key: key);
+  const WebViewPageScreen({super.key, this.token = ''});
 
   @override
   Widget build(BuildContext context) {
     final webviewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse('https://www.themoviedb.org/authenticate/$token'));
+      ..loadRequest(
+        Uri.parse('https://www.themoviedb.org/authenticate/$token'),
+      );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -23,15 +25,14 @@ class WebViewPageScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              BlocProvider.of<AuthBloc>(context).add(GetSessionIdEvent());
-              Navigator.pop(context);
-            }),
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            BlocProvider.of<AuthBloc>(context).add(GetSessionIdEvent());
+            Navigator.pop(context);
+          },
+        ),
       ),
-      body: WebViewWidget(
-        controller: webviewController,
-      ),
+      body: WebViewWidget(controller: webviewController),
     );
   }
 }

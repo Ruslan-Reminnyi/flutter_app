@@ -6,9 +6,11 @@ import 'package:flutter_app/ui/widgets/details_category_name_widget.dart';
 const kCreditsContainerHeight = 80.0;
 
 class ListCreditsWidget extends StatelessWidget {
-  ListCreditsWidget(
-      {Key? key, this.padding = EdgeInsets.zero, required this.creditsResponse})
-      : super(key: key);
+  ListCreditsWidget({
+    super.key,
+    this.padding = EdgeInsets.zero,
+    required this.creditsResponse,
+  });
 
   final EdgeInsets padding;
   final CreditsResponse? creditsResponse;
@@ -20,9 +22,7 @@ class ListCreditsWidget extends StatelessWidget {
       children: [
         Padding(
           padding: padding,
-          child: DetailsCategoryNameWidget(
-            category: 'Cast',
-          ),
+          child: DetailsCategoryNameWidget(category: 'Cast'),
         ),
         SizedBox(
           height: 6, //REVIEW3 always use by default even values
@@ -36,9 +36,12 @@ class ListCreditsWidget extends StatelessWidget {
 class CreditsList extends StatelessWidget {
   final EdgeInsets padding;
   final CreditsResponse? creditsResponse;
-  const CreditsList(
-      {Key? key, this.padding = EdgeInsets.zero, required this.creditsResponse})
-      : super(key: key);
+
+  const CreditsList({
+    super.key,
+    this.padding = EdgeInsets.zero,
+    required this.creditsResponse,
+  });
 
   @override
   Widget build(BuildContext context) {

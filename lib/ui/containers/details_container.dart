@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DetailsContainer extends StatelessWidget {
   final int id;
 
-  DetailsContainer({Key? key, required this.id}) : super(key: key);
+  DetailsContainer({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -30,57 +30,56 @@ class DetailsContainer extends StatelessWidget {
             decoration: TextDecoration.none,
           ),
         ),
-        actions: [
-          LikeAction(id: id),
-        ],
+        actions: [LikeAction(id: id)],
       ),
-      body: SingleChildScrollView(child:
-          BlocBuilder<DetailsMovieBloc, DetailsMovieState>(
-              builder: (context, state) {
-        if (state.loading) {
-          return LoadingWidget();
-        }
-        return DetailsStackWidget(
-          id: id,
-          movieDetailsResponse: state.movieDetailsResponse,
-        );
-      })),
+      body: SingleChildScrollView(
+        child: BlocBuilder<DetailsMovieBloc, DetailsMovieState>(
+          builder: (context, state) {
+            if (state.loading) {
+              return LoadingWidget();
+            }
+            return DetailsStackWidget(
+              id: id,
+              movieDetailsResponse: state.movieDetailsResponse,
+            );
+          },
+        ),
+      ),
     );
   }
 }
 
 class LikeAction extends StatelessWidget {
   final int id;
-  const LikeAction({Key? key, required this.id}) : super(key: key);
+  const LikeAction({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
-      if (authState is Authorized) {
-        var favorite = authState.favoritesList?.listMovieModel?.firstWhere(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, authState) {
+        if (authState is Authorized) {
+          var favorite = authState.favoritesList?.listMovieModel?.firstWhere(
             (element) => element.id == id,
             orElse: () => MovieModel(
-                id: 0,
-                genres: [],
-                rating: 0,
-                backdropPath: '',
-                originalName: '',
-                originalTitle: '',
-                posterPath: ''));
+              id: 0,
+              genres: [],
+              rating: 0,
+              backdropPath: '',
+              originalName: '',
+              originalTitle: '',
+              posterPath: '',
+            ),
+          );
 
-        bool isFavorite =
-            favorite?.id != 0 && favorite?.id != null ? true : false;
+          bool isFavorite = favorite?.id != 0 && favorite?.id != null
+              ? true
+              : false;
 
-        return Heart(
-          id: id,
-          isFavorite: isFavorite,
-        );
-      } else {
-        return Heart(
-          id: id,
-          isFavorite: false,
-        );
-      }
-    });
+          return Heart(id: id, isFavorite: isFavorite);
+        } else {
+          return Heart(id: id, isFavorite: false);
+        }
+      },
+    );
   }
 }

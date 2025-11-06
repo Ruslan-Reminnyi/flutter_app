@@ -31,20 +31,21 @@ class MovieDetailsResponse {
   final List<ProductionCompaniesModel>? productionCompanies;
   final int? id;
 
-  MovieDetailsResponse(
-      {this.photoResponse,
-      this.creditsResponse,
-      this.listSimilarMovies,
-      this.rating,
-      this.genres,
-      this.originalTitle,
-      this.overview,
-      this.posterPath,
-      this.backdropPath,
-      this.tagline,
-      this.runtime,
-      this.productionCompanies,
-      this.id});
+  MovieDetailsResponse({
+    this.photoResponse,
+    this.creditsResponse,
+    this.listSimilarMovies,
+    this.rating,
+    this.genres,
+    this.originalTitle,
+    this.overview,
+    this.posterPath,
+    this.backdropPath,
+    this.tagline,
+    this.runtime,
+    this.productionCompanies,
+    this.id,
+  });
 
   factory MovieDetailsResponse.fromJson(Map<String, dynamic> json) =>
       _$MovieDetailsResponseFromJson(json);

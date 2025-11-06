@@ -21,7 +21,8 @@ class DetailsMovieState {
   }) {
     return DetailsMovieState(
       movieDetailsResponse: movieDetailsResponse ?? this.movieDetailsResponse,
-      currentPageOfSimilarMovies: currentPageOfSimilarMovies ?? this.currentPageOfSimilarMovies,
+      currentPageOfSimilarMovies:
+          currentPageOfSimilarMovies ?? this.currentPageOfSimilarMovies,
       listSimilarMovies: listSimilarMovies ?? this.listSimilarMovies,
       loading: loading ?? this.loading,
     );

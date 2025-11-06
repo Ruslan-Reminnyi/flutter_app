@@ -5,11 +5,11 @@ import 'package:flutter_app/data/movie_details_response.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DetailsInfoWidget extends StatelessWidget {
-  DetailsInfoWidget(
-      {Key? key,
-      required this.movieDetailsResponse,
-      required this.creditsResponse})
-      : super(key: key);
+  DetailsInfoWidget({
+    super.key,
+    required this.movieDetailsResponse,
+    required this.creditsResponse,
+  });
 
   final MovieDetailsResponse movieDetailsResponse;
   final CreditsResponse? creditsResponse;
@@ -22,44 +22,32 @@ class DetailsInfoWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             TitleMovie(movieDetailsResponse: movieDetailsResponse),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
                     StarsRating(movieDetailsResponse: movieDetailsResponse),
-                    SizedBox(
-                      width: 4,
-                    ),
+                    SizedBox(width: 4),
                     TextRating(movieDetailsResponse: movieDetailsResponse),
                   ],
                 ),
-                SizedBox(
-                  height: 4,
-                ),
+                SizedBox(height: 4),
                 Row(
                   children: [
                     Duration(movieDetailsResponse: movieDetailsResponse),
                     Genres(movieDetailsResponse: movieDetailsResponse),
                   ],
                 ),
-                SizedBox(
-                  height: 4,
-                ),
+                SizedBox(height: 4),
                 DirectorName(creditsResponse: creditsResponse),
-                SizedBox(
-                  height: 2,
-                ),
+                SizedBox(height: 2),
                 WriterName(creditsResponse: creditsResponse),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -69,8 +57,7 @@ class DetailsInfoWidget extends StatelessWidget {
 
 class TitleMovie extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
-  const TitleMovie({Key? key, required this.movieDetailsResponse})
-      : super(key: key);
+  const TitleMovie({super.key, required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -88,17 +75,13 @@ class TitleMovie extends StatelessWidget {
 class StarsRating extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
 
-  const StarsRating({Key? key, required this.movieDetailsResponse})
-      : super(key: key);
+  const StarsRating({super.key, required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
     return RatingBarIndicator(
       rating: movieDetailsResponse.rating ?? 0.0,
-      itemBuilder: (context, index) => Icon(
-        Icons.star,
-        color: Colors.amber,
-      ),
+      itemBuilder: (context, index) => Icon(Icons.star, color: Colors.amber),
       itemCount: 10,
       itemSize: 8.0,
       unratedColor: Colors.amber.withAlpha(50),
@@ -110,26 +93,26 @@ class StarsRating extends StatelessWidget {
 class TextRating extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
 
-  const TextRating({Key? key, required this.movieDetailsResponse})
-      : super(key: key);
+  const TextRating({super.key, required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
-    return Text("${movieDetailsResponse.rating}/10 IMDb",
-        style: TextStyle(
-          fontSize: 9,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-          decoration: TextDecoration.none,
-        ));
+    return Text(
+      "${movieDetailsResponse.rating}/10 IMDb",
+      style: TextStyle(
+        fontSize: 9,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+        decoration: TextDecoration.none,
+      ),
+    );
   }
 }
 
 class Duration extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
 
-  const Duration({Key? key, required this.movieDetailsResponse})
-      : super(key: key);
+  const Duration({super.key, required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +141,7 @@ class Duration extends StatelessWidget {
 class Genres extends StatelessWidget {
   final MovieDetailsResponse movieDetailsResponse;
 
-  const Genres({Key? key, required this.movieDetailsResponse})
-      : super(key: key);
+  const Genres({super.key, required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -184,8 +166,7 @@ class Genres extends StatelessWidget {
 class DirectorName extends StatelessWidget {
   final CreditsResponse? creditsResponse;
 
-  const DirectorName({Key? key, required this.creditsResponse})
-      : super(key: key);
+  const DirectorName({super.key, required this.creditsResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -201,8 +182,10 @@ class DirectorName extends StatelessWidget {
 
   String? getNameOfDirector(CreditsResponse? creditsResponse) {
     var name = creditsResponse?.crew
-        ?.firstWhere((element) => element.job == "Director",
-            orElse: () => CrewModel(name: ""))
+        ?.firstWhere(
+          (element) => element.job == "Director",
+          orElse: () => CrewModel(name: ""),
+        )
         .name;
     return "Director: $name";
   }
@@ -211,7 +194,7 @@ class DirectorName extends StatelessWidget {
 class WriterName extends StatelessWidget {
   final CreditsResponse? creditsResponse;
 
-  const WriterName({Key? key, required this.creditsResponse}) : super(key: key);
+  const WriterName({super.key, required this.creditsResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -227,8 +210,10 @@ class WriterName extends StatelessWidget {
 
   String? getNameOfWriter(CreditsResponse? creditsResponse) {
     var name = creditsResponse?.crew
-        ?.firstWhere((element) => element.department == "Writing",
-            orElse: () => CrewModel(name: ""))
+        ?.firstWhere(
+          (element) => element.department == "Writing",
+          orElse: () => CrewModel(name: ""),
+        )
         .name;
     return "Writer: $name";
   }

@@ -7,11 +7,9 @@ part of 'api_token.dart';
 // **************************************************************************
 
 ApiToken _$ApiTokenFromJson(Map<String, dynamic> json) {
-  return ApiToken(
-    token: json['request_token'] as String,
-  );
+  return ApiToken(token: json['request_token'] as String);
 }
 
 Map<String, dynamic> _$ApiTokenToJson(ApiToken instance) => <String, dynamic>{
-      'request_token': instance.token,
-    };
+  'request_token': instance.token,
+};

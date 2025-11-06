@@ -7,11 +7,9 @@ part of 'session_id.dart';
 // **************************************************************************
 
 SessionId _$SessionIdFromJson(Map<String, dynamic> json) {
-  return SessionId(
-    id: json['session_id'] as String?,
-  );
+  return SessionId(id: json['session_id'] as String?);
 }
 
 Map<String, dynamic> _$SessionIdToJson(SessionId instance) => <String, dynamic>{
-      'session_id': instance.id,
-    };
+  'session_id': instance.id,
+};

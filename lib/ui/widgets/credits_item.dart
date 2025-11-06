@@ -6,7 +6,7 @@ const kCreditsItemContainerWidth = 86.0;
 class CreditsItem extends StatelessWidget {
   final String? creditsPath;
 
-  const CreditsItem({Key? key, required this.creditsPath}) : super(key: key);
+  const CreditsItem({super.key, required this.creditsPath});
 
   @override
   Widget build(BuildContext context) {

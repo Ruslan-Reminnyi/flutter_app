@@ -11,36 +11,42 @@ class MovieContainer extends StatelessWidget {
   final bool isFavorite;
 
   MovieContainer({
-    Key? key,
+    super.key,
     required this.number,
     required this.movieModel,
     required this.isFavorite,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          final id = movieModel?.id;
-          if (id != null) {
-            Navigator.pushNamed(context, '/details', arguments: id);
-          }
-        },
-        child: Container(
-            width: kMovieContainerWidth,
-            margin: EdgeInsets.fromLTRB(0, 4, 10, 0),
-            child: Stack(children: [
-              MovieTrendingHeaderWidget(
+      onTap: () {
+        final id = movieModel?.id;
+        if (id != null) {
+          Navigator.pushNamed(context, '/details', arguments: id);
+        }
+      },
+      child: Container(
+        width: kMovieContainerWidth,
+        margin: EdgeInsets.fromLTRB(0, 4, 10, 0),
+        child: Stack(
+          children: [
+            MovieTrendingHeaderWidget(
+              movieModel: movieModel,
+              number: number,
+              isFavorite: isFavorite,
+            ),
+            Positioned(
+              bottom: 10,
+              left: 10,
+              child: MovieTrendingInfoWidget(
                 movieModel: movieModel,
-                number: number,
-                isFavorite: isFavorite,
+                indexOfCurrentMovie: number - 1,
               ),
-              Positioned(
-                bottom: 10,
-                left: 10,
-                child: MovieTrendingInfoWidget(
-                    movieModel: movieModel, indexOfCurrentMovie: number - 1),
-              ),
-            ])));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

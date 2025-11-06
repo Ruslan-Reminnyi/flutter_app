@@ -33,7 +33,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _getSessionId(GetSessionIdEvent event, Emitter<AuthState> emit) async {
+  Future<void> _getSessionId(
+    GetSessionIdEvent event,
+    Emitter<AuthState> emit,
+  ) async {
     final currentState = state;
     if (currentState is AuthRequestToken) {
       try {
@@ -55,11 +58,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _getFavoriteMovies(GetFavoriteMoviesEvent event, Emitter<AuthState> emit) async {
+  Future<void> _getFavoriteMovies(
+    GetFavoriteMoviesEvent event,
+    Emitter<AuthState> emit,
+  ) async {
     final currentState = state;
     if (currentState is Authorized) {
       try {
-        ListResponse listResponse = await _api.getFavoriteMovies(currentState.sessionId, 1);
+        ListResponse listResponse = await _api.getFavoriteMovies(
+          currentState.sessionId,
+          1,
+        );
 
         AccountModel account = await _api.getAccount(currentState.sessionId);
 
@@ -74,7 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             account: account,
           ),
         );
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
           emit(UnAuthorized());
         }
@@ -96,8 +105,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           currentPage,
         );
 
-        List<MovieModel>? currentList = currentState.favoritesList?.listMovieModel
-          ?..addAll(listResponse.movies ?? []);
+        List<MovieModel>? currentList =
+            currentState.favoritesList?.listMovieModel
+              ?..addAll(listResponse.movies ?? []);
 
         emit(
           currentState.copyWith(
@@ -110,7 +120,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             account: currentState.account,
           ),
         );
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
           emit(UnAuthorized());
         }
@@ -118,14 +128,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _markAsFavorite(MarkAsFavoriteEvent event, Emitter<AuthState> emit) async {
+  Future<void> _markAsFavorite(
+    MarkAsFavoriteEvent event,
+    Emitter<AuthState> emit,
+  ) async {
     final currentState = state;
     if (currentState is Authorized) {
       try {
         await _api.markMovieAsFavorite(currentState.sessionId, event.request);
 
         add(GetFavoriteMoviesEvent());
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
           emit(UnAuthorized());
         }

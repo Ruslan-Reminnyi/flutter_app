@@ -18,14 +18,15 @@ class MovieModel {
   final String? backdropPath;
   final int? id;
 
-  MovieModel(
-      {this.rating,
-      this.genres,
-      this.originalTitle,
-      this.originalName,
-      this.posterPath,
-      this.backdropPath,
-      this.id});
+  MovieModel({
+    this.rating,
+    this.genres,
+    this.originalTitle,
+    this.originalName,
+    this.posterPath,
+    this.backdropPath,
+    this.id,
+  });
 
   factory MovieModel.fromJson(Map<String, dynamic> json) =>
       _$MovieModelFromJson(json);

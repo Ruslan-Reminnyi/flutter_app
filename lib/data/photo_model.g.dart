@@ -7,8 +7,5 @@ part of 'photo_model.dart';
 // **************************************************************************
 
 PhotoModel _$PhotoModelFromJson(Map<String, dynamic> json) {
-  return PhotoModel(
-    id: json['id'] as int?,
-    path: json['file_path'] as String?,
-  );
+  return PhotoModel(id: json['id'] as int?, path: json['file_path'] as String?);
 }

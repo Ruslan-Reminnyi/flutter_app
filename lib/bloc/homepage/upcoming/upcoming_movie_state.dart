@@ -5,9 +5,17 @@ class UpcomingMovieState {
   final List<MovieModel>? listMovieModel;
   final bool loading;
 
-  UpcomingMovieState({required this.page, required this.listMovieModel, required this.loading});
+  UpcomingMovieState({
+    required this.page,
+    required this.listMovieModel,
+    required this.loading,
+  });
 
-  UpcomingMovieState copyWith({int? page, List<MovieModel>? listMovieModel, bool? loading}) {
+  UpcomingMovieState copyWith({
+    int? page,
+    List<MovieModel>? listMovieModel,
+    bool? loading,
+  }) {
     return UpcomingMovieState(
       page: page ?? this.page,
       listMovieModel: listMovieModel ?? this.listMovieModel,

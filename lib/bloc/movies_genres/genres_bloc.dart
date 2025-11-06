@@ -17,14 +17,19 @@ class GenresBloc extends Bloc<GenresEvent, GenresState> {
   }
 
   //REVIEW I don't see any yeilds. This function is Future by nature too
-  Future<void> _loadedGenresMovies(GenresEvent movieEvent, Emitter<GenresState> emit) async {
+  Future<void> _loadedGenresMovies(
+    GenresEvent movieEvent,
+    Emitter<GenresState> emit,
+  ) async {
     try {
       emit(state.copyWith(loading: true));
 
       //REVIEW fetch it only once
       ListGenresResponse listGenresResponse = await _api.getGenresOfMovies();
 
-      emit(GenresState(allApiGenres: listGenresResponse.genres, loading: false));
+      emit(
+        GenresState(allApiGenres: listGenresResponse.genres, loading: false),
+      );
     } catch (e) {
       emit(state.copyWith(loading: false));
     }

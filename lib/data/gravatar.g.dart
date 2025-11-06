@@ -7,7 +7,5 @@ part of 'gravatar.dart';
 // **************************************************************************
 
 Gravatar _$GravatarFromJson(Map<String, dynamic> json) {
-  return Gravatar(
-    hash: json['hash'] as String?,
-  );
+  return Gravatar(hash: json['hash'] as String?);
 }

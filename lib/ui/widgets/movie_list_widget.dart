@@ -10,18 +10,18 @@ class MovieList extends StatefulWidget {
 
   final Function loadMore;
 
-  const MovieList(
-      {Key? key,
-      required this.padding,
-      required this.movies,
-      required this.loadMore})
-      : super(key: key);
+  const MovieList({
+    super.key,
+    required this.padding,
+    required this.movies,
+    required this.loadMore,
+  });
 
   @override
-  _MovieListState createState() => _MovieListState();
+  MovieListState createState() => MovieListState();
 }
 
-class _MovieListState extends State<MovieList> {
+class MovieListState extends State<MovieList> {
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -43,39 +43,45 @@ class _MovieListState extends State<MovieList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
-      return ListView.builder(
-        padding: widget.padding,
-        scrollDirection: Axis.horizontal,
-        itemCount: widget.movies?.length,
-        controller: scrollController,
-        itemBuilder: (ctx, index) {
-          if (authState is Authorized) {
-            var favorite = authState.favoritesList?.listMovieModel?.firstWhere(
-                (element) => element.id == widget.movies?[index].id,
-                orElse: () => MovieModel(
-                    id: 0,
-                    genres: [],
-                    rating: 0,
-                    backdropPath: '',
-                    originalName: '',
-                    originalTitle: '',
-                    posterPath: ''));
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, authState) {
+        return ListView.builder(
+          padding: widget.padding,
+          scrollDirection: Axis.horizontal,
+          itemCount: widget.movies?.length,
+          controller: scrollController,
+          itemBuilder: (ctx, index) {
+            if (authState is Authorized) {
+              var favorite = authState.favoritesList?.listMovieModel
+                  ?.firstWhere(
+                    (element) => element.id == widget.movies?[index].id,
+                    orElse: () => MovieModel(
+                      id: 0,
+                      genres: [],
+                      rating: 0,
+                      backdropPath: '',
+                      originalName: '',
+                      originalTitle: '',
+                      posterPath: '',
+                    ),
+                  );
 
-            bool isFavorite =
-                favorite?.id != 0 && favorite?.id != null ? true : false;
+              bool isFavorite = favorite?.id != 0 && favorite?.id != null
+                  ? true
+                  : false;
 
+              return CommonMovieListWidget(
+                movieModel: widget.movies?[index],
+                isFavorite: isFavorite,
+              );
+            }
             return CommonMovieListWidget(
               movieModel: widget.movies?[index],
-              isFavorite: isFavorite,
+              isFavorite: false,
             );
-          }
-          return CommonMovieListWidget(
-            movieModel: widget.movies?[index],
-            isFavorite: false,
-          );
-        },
-      );
-    });
+          },
+        );
+      },
+    );
   }
 }
