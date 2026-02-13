@@ -11,8 +11,8 @@ These instructions will get you a copy of the project up and running on your loc
 ---
 
 ## Versioning
-* [Flutter](https://github.com/flutter/flutter.git) • 3.35.5 channel stable
-* Framework • revision adc90106255 • 2025-10-21
+* [Flutter](https://github.com/flutter/flutter.git) • 3.38.10 channel stable
+* Framework • revision c6f67dede3d • 2026-02-10
 * Tools • Dart 3.9.0
 
 ```
