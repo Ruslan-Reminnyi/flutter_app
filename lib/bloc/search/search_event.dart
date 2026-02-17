@@ -1,6 +1,6 @@
 part of 'search_bloc.dart';
 
-class SearchEvent {
+sealed class SearchEvent {
   String query;
 
   SearchEvent(this.query);

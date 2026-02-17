@@ -1,6 +1,6 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthEvent {}
+sealed class AuthEvent {}
 
 class GetTokenEvent extends AuthEvent {}
 

@@ -1,6 +1,6 @@
 part of 'details_movie_bloc.dart';
 
-class DetailsMovieEvent {
+sealed class DetailsMovieEvent {
   final int id;
 
   DetailsMovieEvent({required this.id});

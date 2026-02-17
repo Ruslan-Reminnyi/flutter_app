@@ -1,5 +1,5 @@
 part of 'genres_bloc.dart';
 
-class GenresEvent {}
+sealed class GenresEvent {}
 
 class LoadMovieGenresEvent extends GenresEvent {}

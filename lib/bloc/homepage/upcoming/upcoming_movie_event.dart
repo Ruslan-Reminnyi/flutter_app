@@ -1,6 +1,6 @@
 part of 'upcoming_movie_bloc.dart';
 
-abstract class UpcomingMovieEvent {}
+sealed class UpcomingMovieEvent {}
 
 class LoadUpcomingMoviesEvent extends UpcomingMovieEvent {}
 
